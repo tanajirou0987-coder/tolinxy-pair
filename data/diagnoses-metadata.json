@@ -1,0 +1,38 @@
+{
+  "diagnoses": [
+    {
+      "id": "compatibility-18",
+      "name": "クイック相性診断",
+      "description": "3分で分かる気軽な相性診断",
+      "category": "compatibility",
+      "path": "/diagnoses/compatibility-18",
+      "questions": 18,
+      "duration": "3分",
+      "type": "interactive",
+      "active": true,
+      "order": 1,
+      "metadata": {
+        "icon": "🎵",
+        "color": "#F39C12",
+        "subtitle": "その場で盛り上がる相性診断"
+      }
+    },
+    {
+      "id": "compatibility-54",
+      "name": "徹底相性診断",
+      "description": "MBTIレベルの精度で相性を診断",
+      "category": "compatibility",
+      "path": "/diagnoses/compatibility-54",
+      "questions": 54,
+      "duration": "7分",
+      "type": "detailed",
+      "active": true,
+      "order": 2,
+      "metadata": {
+        "icon": "🔍",
+        "color": "#2C3E50",
+        "subtitle": "科学的に測る相性診断"
+      }
+    }
+  ]
+}

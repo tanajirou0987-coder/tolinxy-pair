@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "axis": "communication",
+    "text": "初対面の人と2人きりになったとき、どうする？",
+    "options": [
+      { "label": "自分から積極的に話しかける", "score": 2 },
+      { "label": "少し話しかけてみる", "score": 1 },
+      { "label": "様子を見ながら", "score": 0 },
+      { "label": "相手が話すのを待つ", "score": -1 },
+      { "label": "基本的に聞き役", "score": -2 }
+    ]
+  },
+  {
+    "id": 2,
+    "axis": "communication",
+    "text": "グループで意見が分かれたとき、どうする？",
+    "options": [
+      { "label": "自分の意見を強く主張する", "score": 2 },
+      { "label": "自分の意見を伝える", "score": 1 },
+      { "label": "状況に応じて判断する", "score": 0 },
+      { "label": "他の人の意見を聞く", "score": -1 },
+      { "label": "みんなの意見に合わせる", "score": -2 }
+    ]
+  },
+  {
+    "id": 3,
+    "axis": "communication",
+    "text": "知らない人から話しかけられたとき、どう感じる？",
+    "options": [
+      { "label": "とても嬉しい、積極的に話す", "score": 2 },
+      { "label": "嬉しい、話してみる", "score": 1 },
+      { "label": "普通、対応する", "score": 0 },
+      { "label": "少し戸惑う", "score": -1 },
+      { "label": "苦手、避けたい", "score": -2 }
+    ]
+  },
+  {
+    "id": 4,
+    "axis": "communication",
+    "text": "会話中、相手の話を聞くときの姿勢は？",
+    "options": [
+      { "label": "積極的に質問や相槌を入れる", "score": 2 },
+      { "label": "適度に反応する", "score": 1 },
+      { "label": "普通に聞く", "score": 0 },
+      { "label": "静かに聞く", "score": -1 },
+      { "label": "聞き役に徹する", "score": -2 }
+    ]
+  },
+  {
+    "id": 5,
+    "axis": "communication",
+    "text": "新しい環境に入ったとき、どう行動する？",
+    "options": [
+      { "label": "積極的に周りに話しかける", "score": 2 },
+      { "label": "何人かに話しかけてみる", "score": 1 },
+      { "label": "自然に馴染む", "score": 0 },
+      { "label": "話しかけられるのを待つ", "score": -1 },
+      { "label": "一人で過ごす", "score": -2 }
+    ]
+  },
+  {
+    "id": 6,
+    "axis": "communication",
+    "text": "自分の気持ちを伝えるとき、どうする？",
+    "options": [
+      { "label": "ストレートに伝える", "score": 2 },
+      { "label": "わかりやすく伝える", "score": 1 },
+      { "label": "状況に応じて変える", "score": 0 },
+      { "label": "遠回しに伝える", "score": -1 },
+      { "label": "伝えずに察してもらう", "score": -2 }
+    ]
+  },
+  {
+    "id": 7,
+    "axis": "decision",
+    "text": "重要な決断をするとき、どう判断する？",
+    "options": [
+      { "label": "データや事実を重視する", "score": 2 },
+      { "label": "論理的に考える", "score": 1 },
+      { "label": "バランスを取る", "score": 0 },
+      { "label": "直感や感情を大切にする", "score": -1 },
+      { "label": "感情や気持ちを最優先する", "score": -2 }
+    ]
+  },
+  {
+    "id": 8,
+    "axis": "decision",
+    "text": "買い物で迷ったとき、どうする？",
+    "options": [
+      { "label": "比較検討して決める", "score": 2 },
+      { "label": "情報を集めて判断する", "score": 1 },
+      { "label": "その時々で変わる", "score": 0 },
+      { "label": "好きなものを選ぶ", "score": -1 },
+      { "label": "気分で決める", "score": -2 }
+    ]
+  },
+  {
+    "id": 9,
+    "axis": "decision",
+    "text": "仕事や勉強で選択肢があるとき、どう選ぶ？",
+    "options": [
+      { "label": "効率や結果を重視する", "score": 2 },
+      { "label": "合理的に判断する", "score": 1 },
+      { "label": "ケースバイケース", "score": 0 },
+      { "label": "やりがいや楽しさを重視する", "score": -1 },
+      { "label": "気持ちや興味を優先する", "score": -2 }
+    ]
+  },
+  {
+    "id": 10,
+    "axis": "decision",
+    "text": "人間関係で判断に迷ったとき、どうする？",
+    "options": [
+      { "label": "ルールや常識に従う", "score": 2 },
+      { "label": "筋を通す", "score": 1 },
+      { "label": "状況を見て判断する", "score": 0 },
+      { "label": "相手の気持ちを考える", "score": -1 },
+      { "label": "相手の気持ちを最優先する", "score": -2 }
+    ]
+  },
+  {
+    "id": 11,
+    "axis": "decision",
+    "text": "計画を立てるとき、どうする？",
+    "options": [
+      { "label": "詳細に計画を立てる", "score": 2 },
+      { "label": "大まかな計画を立てる", "score": 1 },
+      { "label": "適度に計画する", "score": 0 },
+      { "label": "気分で決める", "score": -1 },
+      { "label": "その場の流れに任せる", "score": -2 }
+    ]
+  },
+  {
+    "id": 12,
+    "axis": "decision",
+    "text": "意見が対立したとき、どう解決する？",
+    "options": [
+      { "label": "論理的に説得する", "score": 2 },
+      { "label": "根拠を示して説明する", "score": 1 },
+      { "label": "話し合って解決する", "score": 0 },
+      { "label": "相手の気持ちに寄り添う", "score": -1 },
+      { "label": "相手の気持ちを尊重する", "score": -2 }
+    ]
+  },
+  {
+    "id": 13,
+    "axis": "relationship",
+    "text": "カップルや友達関係で、どう行動する？",
+    "options": [
+      { "label": "主導権を握る", "score": 2 },
+      { "label": "リードする", "score": 1 },
+      { "label": "対等な関係", "score": 0 },
+      { "label": "相手に合わせる", "score": -1 },
+      { "label": "相手に任せる", "score": -2 }
+    ]
+  },
+  {
+    "id": 14,
+    "axis": "relationship",
+    "text": "デートや遊びの計画を立てるとき、どうする？",
+    "options": [
+      { "label": "自分が決める", "score": 2 },
+      { "label": "提案して決める", "score": 1 },
+      { "label": "一緒に決める", "score": 0 },
+      { "label": "相手の希望を聞く", "score": -1 },
+      { "label": "相手に任せる", "score": -2 }
+    ]
+  },
+  {
+    "id": 15,
+    "axis": "relationship",
+    "text": "相手が困っているとき、どうする？",
+    "options": [
+      { "label": "積極的に助ける", "score": 2 },
+      { "label": "手助けする", "score": 1 },
+      { "label": "必要に応じて助ける", "score": 0 },
+      { "label": "見守る", "score": -1 },
+      { "label": "相手のペースに合わせる", "score": -2 }
+    ]
+  },
+  {
+    "id": 16,
+    "axis": "relationship",
+    "text": "意見が違うとき、どうする？",
+    "options": [
+      { "label": "自分の意見を通す", "score": 2 },
+      { "label": "説得してみる", "score": 1 },
+      { "label": "話し合う", "score": 0 },
+      { "label": "相手の意見を尊重する", "score": -1 },
+      { "label": "相手に合わせる", "score": -2 }
+    ]
+  },
+  {
+    "id": 17,
+    "axis": "relationship",
+    "text": "関係性で責任を取るとき、どうする？",
+    "options": [
+      { "label": "自分が責任を取る", "score": 2 },
+      { "label": "率先して行動する", "score": 1 },
+      { "label": "分担する", "score": 0 },
+      { "label": "相手と相談する", "score": -1 },
+      { "label": "相手に任せる", "score": -2 }
+    ]
+  },
+  {
+    "id": 18,
+    "axis": "relationship",
+    "text": "相手との距離感はどう保つ？",
+    "options": [
+      { "label": "積極的に近づく", "score": 2 },
+      { "label": "適度に近づく", "score": 1 },
+      { "label": "自然な距離感", "score": 0 },
+      { "label": "相手のペースに合わせる", "score": -1 },
+      { "label": "相手から近づいてくるのを待つ", "score": -2 }
+    ]
+  }
+]

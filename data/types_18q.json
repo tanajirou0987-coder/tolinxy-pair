@@ -1,0 +1,112 @@
+{
+  "score1_10_score2_-8_score3_5": {
+    "type": "melody",
+    "name": "メロディタイプ",
+    "icon": "🎹",
+    "description": "明るく華やか、場を盛り上げる",
+    "traits": {
+      "communication": "積極型",
+      "decision": "感情型",
+      "relationship": "リード型"
+    }
+  },
+  "score1_-6_score2_8_score3_-4": {
+    "type": "harmony",
+    "name": "ハーモニータイプ",
+    "icon": "🎼",
+    "description": "優しく穏やか、調和を大切にする",
+    "traits": {
+      "communication": "受容型",
+      "decision": "論理型",
+      "relationship": "寄り添い型"
+    }
+  },
+  "score1_4_score2_6_score3_2": {
+    "type": "rhythm",
+    "name": "リズムタイプ",
+    "icon": "🥁",
+    "description": "テンポよく行動、効率を重視",
+    "traits": {
+      "communication": "積極型",
+      "decision": "論理型",
+      "relationship": "リード型"
+    }
+  },
+  "score1_-8_score2_-6_score3_-10": {
+    "type": "silence",
+    "name": "サイレンスタイプ",
+    "icon": "🔇",
+    "description": "静かで控えめ、観察力が高い",
+    "traits": {
+      "communication": "受容型",
+      "decision": "感情型",
+      "relationship": "寄り添い型"
+    }
+  },
+  "score1_2_score2_-2_score3_0": {
+    "type": "balance",
+    "name": "バランスタイプ",
+    "icon": "⚖️",
+    "description": "バランス感覚に優れ、柔軟に対応",
+    "traits": {
+      "communication": "バランス型",
+      "decision": "ハイブリッド型",
+      "relationship": "対等型"
+    }
+  },
+  "score1_8_score2_4_score3_8": {
+    "type": "solo",
+    "name": "ソロタイプ",
+    "icon": "🎤",
+    "description": "独立心が強く、自分のペースを大切にする",
+    "traits": {
+      "communication": "積極型",
+      "decision": "論理型",
+      "relationship": "リード型"
+    }
+  },
+  "score1_-4_score2_2_score3_-6": {
+    "type": "duet",
+    "name": "デュエットタイプ",
+    "icon": "🎭",
+    "description": "協調性が高く、相手を大切にする",
+    "traits": {
+      "communication": "受容型",
+      "decision": "ハイブリッド型",
+      "relationship": "寄り添い型"
+    }
+  },
+  "score1_6_score2_-4_score3_4": {
+    "type": "crescendo",
+    "name": "クレッシェンドタイプ",
+    "icon": "📈",
+    "description": "成長意欲が高く、前向き",
+    "traits": {
+      "communication": "積極型",
+      "decision": "感情型",
+      "relationship": "リード型"
+    }
+  },
+  "score1_0_score2_0_score3_0": {
+    "type": "neutral",
+    "name": "ニュートラルタイプ",
+    "icon": "🎯",
+    "description": "中庸を好み、状況に応じて柔軟に対応",
+    "traits": {
+      "communication": "バランス型",
+      "decision": "ハイブリッド型",
+      "relationship": "対等型"
+    }
+  },
+  "score1_-2_score2_10_score3_-2": {
+    "type": "analyst",
+    "name": "アナリストタイプ",
+    "icon": "🔬",
+    "description": "分析的で論理的、データを重視",
+    "traits": {
+      "communication": "受容型",
+      "decision": "論理型",
+      "relationship": "対等型"
+    }
+  }
+}
