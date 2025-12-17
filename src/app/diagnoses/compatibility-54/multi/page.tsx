@@ -196,73 +196,75 @@ export default function Compatibility54MultiPage() {
               </div>
 
               {/* QRコード共有 */}
-              <div className="grid gap-6 md:grid-cols-2">
-                {/* あなた用QRコード */}
-                <motion.div
-                  className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#00f5ff]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(0,245,255,0.3)]"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <h3 className="text-lg font-black text-white mb-4 text-center">あなた用QRコード</h3>
-                  <div className="flex flex-col items-center mb-4">
-                    <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
-                      <QRCodeCanvas
-                        value={userLink}
-                        size={240}
-                        bgColor="#ffffff"
-                        fgColor="#18181b"
-                        level="M"
-                      />
-                    </div>
-                    <p className="text-xs text-white/70 mb-2">スマホでスキャンして開始</p>
-                    <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
-                      <p className="break-words text-xs text-white/90 font-medium text-center">{userLink}</p>
-                    </div>
-                  </div>
-                  <motion.button
-                    onClick={() => handleCopy(userLink, "user")}
-                    className="w-full rounded-[30px] border-4 border-white bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-6 py-4 text-lg font-black text-white shadow-[0_0_40px_rgba(0,245,255,0.5)] transition-all transform hover:scale-105"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+              {userLink && partnerLink && (
+                <div className="grid gap-6 md:grid-cols-2">
+                  {/* あなた用QRコード */}
+                  <motion.div
+                    className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#00f5ff]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(0,245,255,0.3)]"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
                   >
-                    {copiedLink === "user" ? "コピーしました！" : "URLをコピー"}
-                  </motion.button>
-                </motion.div>
+                    <h3 className="text-lg font-black text-white mb-4 text-center">あなた用QRコード</h3>
+                    <div className="flex flex-col items-center mb-4">
+                      <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
+                        <QRCodeCanvas
+                          value={userLink}
+                          size={240}
+                          bgColor="#ffffff"
+                          fgColor="#18181b"
+                          level="M"
+                        />
+                      </div>
+                      <p className="text-xs text-white/70 mb-2">スマホでスキャンして開始</p>
+                      <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
+                        <p className="break-words text-xs text-white/90 font-medium text-center">{userLink}</p>
+                      </div>
+                    </div>
+                    <motion.button
+                      onClick={() => handleCopy(userLink, "user")}
+                      className="w-full rounded-[30px] border-4 border-white bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-6 py-4 text-lg font-black text-white shadow-[0_0_40px_rgba(0,245,255,0.5)] transition-all transform hover:scale-105"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {copiedLink === "user" ? "コピーしました！" : "URLをコピー"}
+                    </motion.button>
+                  </motion.div>
 
-                {/* パートナー用QRコード */}
-                <motion.div
-                  className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#ff006e]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(255,0,110,0.3)]"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <h3 className="text-lg font-black text-white mb-4 text-center">パートナー用QRコード</h3>
-                  <div className="flex flex-col items-center mb-4">
-                    <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
-                      <QRCodeCanvas
-                        value={partnerLink}
-                        size={240}
-                        bgColor="#ffffff"
-                        fgColor="#18181b"
-                        level="M"
-                      />
-                    </div>
-                    <p className="text-xs text-white/70 mb-2">スマホでスキャンして参加</p>
-                    <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
-                      <p className="break-words text-xs text-white/90 font-medium text-center">{partnerLink}</p>
-                    </div>
-                  </div>
-                  <motion.button
-                    onClick={() => handleCopy(partnerLink, "partner")}
-                    className="w-full rounded-[30px] border-4 border-white bg-gradient-to-r from-[#ff006e] to-[#8338ec] px-6 py-4 text-lg font-black text-white shadow-[0_0_40px_rgba(255,0,110,0.5)] transition-all transform hover:scale-105"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  {/* パートナー用QRコード */}
+                  <motion.div
+                    className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#ff006e]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(255,0,110,0.3)]"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
                   >
-                    {copiedLink === "partner" ? "コピーしました！" : "URLをコピー"}
-                  </motion.button>
-                </motion.div>
-              </div>
+                    <h3 className="text-lg font-black text-white mb-4 text-center">パートナー用QRコード</h3>
+                    <div className="flex flex-col items-center mb-4">
+                      <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
+                        <QRCodeCanvas
+                          value={partnerLink}
+                          size={240}
+                          bgColor="#ffffff"
+                          fgColor="#18181b"
+                          level="M"
+                        />
+                      </div>
+                      <p className="text-xs text-white/70 mb-2">スマホでスキャンして参加</p>
+                      <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
+                        <p className="break-words text-xs text-white/90 font-medium text-center">{partnerLink}</p>
+                      </div>
+                    </div>
+                    <motion.button
+                      onClick={() => handleCopy(partnerLink, "partner")}
+                      className="w-full rounded-[30px] border-4 border-white bg-gradient-to-r from-[#ff006e] to-[#8338ec] px-6 py-4 text-lg font-black text-white shadow-[0_0_40px_rgba(255,0,110,0.5)] transition-all transform hover:scale-105"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {copiedLink === "partner" ? "コピーしました！" : "URLをコピー"}
+                    </motion.button>
+                  </motion.div>
+                </div>
+              )}
 
               {/* 注意事項 */}
               <div className="rounded-[30px] border-4 border-dashed border-white/30 bg-white/5 p-6 backdrop-blur-xl">
