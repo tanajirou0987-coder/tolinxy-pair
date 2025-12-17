@@ -7,57 +7,23 @@ import type { Question, Answer, Score } from "@/lib/types";
 import { calculateScores, getPersonalityType } from "@/lib/calculate";
 import type { ParticipantRole, SessionResponsePayload } from "@/lib/session-store";
 import { copyToClipboard } from "@/lib/clipboard";
+import { useSessionAssignment } from "@/hooks/useSessionAssignment";
+import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
 
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
 
 function Compatibility54QuestionsContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const sessionId = searchParams.get("sessionId");
-  const participant = searchParams.get("role");
-  const isValidParticipant = participant === "user" || participant === "partner";
+  const participant = searchParams.get("role") as ParticipantRole | null;
 
-  // セッションIDがあるが役割が指定されていない場合、自動的に役割を割り当て
-  useEffect(() => {
-    if (sessionId && !isValidParticipant) {
-      console.log(`[QuestionsContent] 役割割り当て開始: sessionId=${sessionId}`);
-      const assignRole = async () => {
-        try {
-          console.log(`[QuestionsContent] API呼び出し: /api/sessions/${sessionId}/assign-role`);
-          const response = await fetch(`/api/sessions/${sessionId}/assign-role`, {
-            method: "POST",
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error(`[QuestionsContent] APIエラー:`, response.status, errorData);
-            throw new Error(errorData.error || "役割の割り当てに失敗しました");
-          }
-          
-          const data = await response.json();
-          console.log(`[QuestionsContent] APIレスポンス:`, data);
-          
-          if (data.role) {
-            // 役割が割り当てられたら、その役割でリダイレクト
-            const redirectUrl = `/diagnoses/compatibility-54/questions?sessionId=${sessionId}&role=${data.role}`;
-            console.log(`[QuestionsContent] リダイレクト: ${redirectUrl}`);
-            router.replace(redirectUrl);
-          } else {
-            // 満員の場合はエラーページへ
-            console.log(`[QuestionsContent] セッションが満員`);
-            router.replace(`/diagnoses/compatibility-54/multi?error=full`);
-          }
-        } catch (err) {
-          console.error("[QuestionsContent] 役割割り当てエラー:", err);
-          router.replace(`/diagnoses/compatibility-54/multi?error=assign`);
-        }
-      };
-      assignRole();
-    }
-  }, [sessionId, isValidParticipant, router]);
+  const { isAssigning, isValidParticipant } = useSessionAssignment({
+    sessionId,
+    participant,
+  });
 
-  if (sessionId && isValidParticipant) {
+  if (sessionId && isValidParticipant && participant) {
     return (
       <MultiDeviceQuestions
         sessionId={sessionId}
@@ -67,10 +33,11 @@ function Compatibility54QuestionsContent() {
   }
 
   // 役割割り当て中の表示
-  if (sessionId && !isValidParticipant) {
+  if (sessionId && isAssigning) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
+        <BackgroundEffect />
+        <div className="text-center relative z-10">
           <p className="text-white text-lg font-black mb-2">参加中...</p>
           <p className="text-white/70 text-sm">役割を割り当てています</p>
         </div>
@@ -190,12 +157,7 @@ function SingleDeviceQuestions() {
 
   return (
     <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      {/* 背景エフェクト - 軽量化 */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a0033] to-[#000033]" />
-        <div className="absolute top-0 left-1/4 h-[400px] w-[400px] rounded-full bg-[#ff006e] opacity-10 blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 h-[300px] w-[300px] rounded-full bg-[#00f5ff] opacity-10 blur-[100px]" />
-      </div>
+      <BackgroundEffect />
 
       <div className="relative mx-auto w-full max-w-3xl space-y-10">
         <div className="text-center">
@@ -426,12 +388,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
   return (
     <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      {/* 背景エフェクト - 軽量化 */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a0033] to-[#000033]" />
-        <div className="absolute top-0 left-1/4 h-[400px] w-[400px] rounded-full bg-[#00f5ff] opacity-10 blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 h-[300px] w-[300px] rounded-full bg-[#8338ec] opacity-10 blur-[100px]" />
-      </div>
+      <BackgroundEffect />
 
       <div className="relative mx-auto w-full max-w-3xl space-y-10">
         <div className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#00f5ff]/20 via-[#8338ec]/20 to-[#ff006e]/20 p-6">

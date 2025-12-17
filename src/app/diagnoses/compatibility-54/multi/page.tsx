@@ -5,17 +5,13 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { copyToClipboard } from "@/lib/clipboard";
 import { QRCodeCanvas } from "qrcode.react";
-
-interface SessionInfo {
-  sessionId: string;
-  expiresAt: number;
-}
+import { useSession } from "@/hooks/useSession";
+import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
+import { GradientButton } from "@/components/diagnoses/GradientButton";
 
 export default function Compatibility54MultiPage() {
   const router = useRouter();
-  const [session, setSession] = useState<SessionInfo | null>(null);
-  const [isCreating, setIsCreating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { session, isCreating, error, createSession } = useSession();
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -24,29 +20,6 @@ export default function Compatibility54MultiPage() {
     if (!session || !origin) return "";
     return `${origin}/diagnoses/compatibility-54/questions?sessionId=${session.sessionId}`;
   }, [origin, session]);
-
-  const handleCreateSession = useCallback(async () => {
-    try {
-      setIsCreating(true);
-      setError(null);
-      const response = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ diagnosisType: "compatibility-54" }),
-      });
-
-      if (!response.ok) {
-        throw new Error("セッションの作成に失敗しました");
-      }
-
-      const data = await response.json();
-      setSession({ sessionId: data.sessionId, expiresAt: data.expiresAt });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "セッションの作成に失敗しました");
-    } finally {
-      setIsCreating(false);
-    }
-  }, []);
 
   const handleCopy = useCallback(async (text: string) => {
     if (!text) return;
@@ -61,12 +34,7 @@ export default function Compatibility54MultiPage() {
 
   return (
     <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      {/* 背景エフェクト */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a0033] to-[#000033]" />
-        <div className="absolute top-0 left-1/4 h-[600px] w-[600px] rounded-full bg-[#00f5ff] opacity-20 blur-[200px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] rounded-full bg-[#8338ec] opacity-20 blur-[200px] animate-pulse" style={{ animationDelay: "1s" }} />
-      </div>
+      <BackgroundEffect />
 
       <div className="relative mx-auto w-full max-w-4xl">
         <motion.main
@@ -147,23 +115,21 @@ export default function Compatibility54MultiPage() {
                   セッションIDは12時間保持されます。途中で落ちても同じURLから再開できます。
                 </p>
                 <div className="flex flex-col gap-4 sm:flex-row">
-                  <motion.button
-                    onClick={handleCreateSession}
+                  <GradientButton
+                    onClick={createSession}
                     disabled={isCreating}
-                    className="flex-1 rounded-[40px] border-4 border-white bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-8 py-6 text-xl font-black text-white shadow-[0_0_60px_rgba(0,245,255,0.6)] transition-all transform hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
-                    whileHover={{ scale: isCreating ? 1 : 1.05 }}
-                    whileTap={{ scale: isCreating ? 1 : 0.95 }}
+                    variant="primary"
+                    className="flex-1 text-xl py-6"
                   >
                     {isCreating ? "セッションを準備中..." : "セッションを作成"}
-                  </motion.button>
-                  <motion.button
+                  </GradientButton>
+                  <GradientButton
                     onClick={() => router.push("/diagnoses/compatibility-54")}
-                    className="flex-1 rounded-[40px] border-4 border-white/20 bg-white/5 px-8 py-6 text-lg font-black text-white hover:bg-white/10 transition-all"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    variant="secondary"
+                    className="flex-1 py-6"
                   >
                     徹底診断トップへ戻る
-                  </motion.button>
+                  </GradientButton>
                 </div>
                 {error && (
                   <p className="mt-4 text-center text-sm font-black text-white bg-red-500/20 border-2 border-red-500/50 rounded-[30px] px-4 py-3">
@@ -218,31 +184,28 @@ export default function Compatibility54MultiPage() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <motion.button
+                    <GradientButton
                       onClick={() => router.push(`${joinLink}&role=user`)}
-                      className="rounded-[30px] border-4 border-white bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-6 py-4 text-base font-black text-white shadow-[0_0_40px_rgba(0,245,255,0.5)] transition-all transform hover:scale-105"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      variant="user"
+                      className="text-base"
                     >
                       テスト: あなた
-                    </motion.button>
-                    <motion.button
+                    </GradientButton>
+                    <GradientButton
                       onClick={() => router.push(`${joinLink}&role=partner`)}
-                      className="rounded-[30px] border-4 border-white bg-gradient-to-r from-[#ff006e] to-[#8338ec] px-6 py-4 text-base font-black text-white shadow-[0_0_40px_rgba(255,0,110,0.5)] transition-all transform hover:scale-105"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      variant="partner"
+                      className="text-base"
                     >
                       テスト: パートナー
-                    </motion.button>
+                    </GradientButton>
                   </div>
-                  <motion.button
+                  <GradientButton
                     onClick={() => handleCopy(joinLink)}
-                    className="w-full rounded-[30px] border-4 border-white bg-gradient-to-r from-[#00f5ff] via-[#8338ec] to-[#ff006e] px-6 py-4 text-lg font-black text-white shadow-[0_0_40px_rgba(0,245,255,0.5)] transition-all transform hover:scale-105"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    variant="primary"
+                    className="w-full bg-gradient-to-r from-[#00f5ff] via-[#8338ec] to-[#ff006e]"
                   >
                     {copiedLink === "join" ? "コピーしました！" : "URLをコピー"}
-                  </motion.button>
+                  </GradientButton>
                 </motion.div>
               )}
 
