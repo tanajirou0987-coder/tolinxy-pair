@@ -388,41 +388,63 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
   return (
     <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-primary/15 via-transparent to-transparent" />
-      <div className="pointer-events-none absolute -left-10 top-20 h-64 w-64 rounded-full bg-[#7ff6f225] blur-[150px]" />
-      <div className="pointer-events-none absolute right-0 bottom-10 h-72 w-72 rounded-full bg-[#9a8cff20] blur-[170px]" />
+      {/* 背景エフェクト */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a0033] to-[#000033]" />
+        <div className="absolute top-0 left-1/4 h-[600px] w-[600px] rounded-full bg-[#00f5ff] opacity-20 blur-[200px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] rounded-full bg-[#8338ec] opacity-20 blur-[200px] animate-pulse" style={{ animationDelay: "1s" }} />
+      </div>
+
       <div className="relative mx-auto w-full max-w-3xl space-y-10">
-        <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-6 text-white shadow-[0_25px_80px_rgba(0,0,0,0.45)]">
-          <div className="flex flex-col gap-2 text-center sm:flex-row sm:items-center sm:justify-between">
-            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2">
-              <span className="text-sm font-semibold">{participant === "user" ? "あなた" : "パートナー"}</span>
-              <span className="text-xs text-muted-foreground">セッションID {sessionId}</span>
+        <motion.div
+          className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#00f5ff]/20 via-[#8338ec]/20 to-[#ff006e]/20 p-6 backdrop-blur-2xl shadow-[0_0_60px_rgba(0,245,255,0.4)]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div className="inline-flex items-center justify-center gap-3 rounded-full border-4 border-white/30 bg-gradient-to-r from-[#00f5ff]/30 to-[#8338ec]/30 px-6 py-3 backdrop-blur-xl">
+              <span className="text-lg font-black text-white">{participant === "user" ? "あなた" : "パートナー"}</span>
+              <span className="text-xs font-black text-white/70 bg-white/20 px-3 py-1 rounded-full">セッションID {sessionId.slice(0, 8)}...</span>
             </div>
-            <button
+            <motion.button
               onClick={handleCopyShareLink}
-              className="text-sm font-semibold text-accent underline-offset-4 hover:underline"
+              className="rounded-full border-2 border-white/30 bg-white/10 px-4 py-2 text-sm font-black text-white hover:bg-white/20 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               相手用URLをコピー
-            </button>
+            </motion.button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white">
-              <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">your progress</p>
-              <p className="mt-1 text-2xl font-semibold">{Math.round(progress)}%</p>
-              <p className="text-xs text-muted-foreground">{answeredCount} / {TOTAL_QUESTIONS}</p>
+            <div className="rounded-[30px] border-4 border-white/20 bg-gradient-to-br from-[#00f5ff]/20 to-white/5 p-6 backdrop-blur-xl">
+              <p className="text-xs font-black uppercase tracking-[0.4em] text-white/60 mb-2">あなたの進捗</p>
+              <p className="text-4xl font-black bg-gradient-to-r from-[#00f5ff] to-[#8338ec] bg-clip-text text-transparent mb-1">{Math.round(progress)}%</p>
+              <p className="text-sm text-white/70">{answeredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full border-2 border-white/20 bg-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-[#00f5ff] to-[#8338ec] transition-all duration-500" style={{ width: `${progress}%` }}></div>
+              </div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white">
-              <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">partner progress</p>
-              <p className="mt-1 text-2xl font-semibold">{Math.round(partnerProgress)}%</p>
-              <p className="text-xs text-muted-foreground">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
-              <p className="mt-1 text-xs text-accent">
+            <div className="rounded-[30px] border-4 border-white/20 bg-gradient-to-br from-[#ff006e]/20 to-white/5 p-6 backdrop-blur-xl">
+              <p className="text-xs font-black uppercase tracking-[0.4em] text-white/60 mb-2">パートナーの進捗</p>
+              <p className="text-4xl font-black bg-gradient-to-r from-[#ff006e] to-[#8338ec] bg-clip-text text-transparent mb-1">{Math.round(partnerProgress)}%</p>
+              <p className="text-sm text-white/70">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full border-2 border-white/20 bg-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-[#ff006e] to-[#8338ec] transition-all duration-500" style={{ width: `${partnerProgress}%` }}></div>
+              </div>
+              <p className="mt-2 text-xs font-black text-white/80">
                 {sessionData?.participants[partnerRole].completed ? "回答完了" : "回答中"}
               </p>
             </div>
           </div>
-          {error && <p className="text-sm text-[#ff8fab]">{error}</p>}
-          {syncing && <p className="text-xs text-muted-foreground">同期中...</p>}
-        </div>
+          {error && (
+            <p className="mt-4 text-center text-sm font-black text-white bg-red-500/20 border-2 border-red-500/50 rounded-[30px] px-4 py-3">
+              {error}
+            </p>
+          )}
+          {syncing && (
+            <p className="mt-4 text-center text-xs font-black text-white/60">同期中...</p>
+          )}
+        </motion.div>
 
         <div className="space-y-6 pb-16">
           {questions.map((question, index) => {
@@ -430,31 +452,37 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
             const isAnswered = currentAnswer !== null;
 
             return (
-              <div
+              <motion.div
                 key={question.id}
-                className={`rounded-3xl border bg-white/5 p-6 text-white shadow-[0_25px_80px_rgba(0,0,0,0.45)] transition-all duration-200 ${
-                  isAnswered ? "border-primary/50" : "border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className={`rounded-[40px] border-4 p-6 text-white shadow-[0_0_60px_rgba(0,0,0,0.3)] transition-all duration-200 ${
+                  isAnswered 
+                    ? "border-white/40 bg-gradient-to-br from-[#00f5ff]/30 to-[#8338ec]/30 backdrop-blur-xl shadow-[0_0_60px_rgba(0,245,255,0.4)]" 
+                    : "border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl"
                 }`}
               >
                 <div className="mb-4 flex items-start justify-between gap-3">
-                  <h2 className="serif-heading text-xl font-semibold sm:text-2xl">
+                  <h2 className="text-2xl font-black sm:text-3xl leading-tight">
                     {question.text}
                   </h2>
-                  <span className="ml-4 flex-shrink-0 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-muted-foreground">
-                    質問 {index + 1}
+                  <span className="ml-4 flex-shrink-0 rounded-full border-2 border-white/30 bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-4 py-2 text-xs font-black text-white">
+                    Q{index + 1}
                   </span>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {question.options.map((option, optionIndex) => {
                     const isSelected = currentAnswer === option.score;
                     return (
                       <button
                         key={optionIndex}
                         onClick={() => handleAnswer(question.id, option.score)}
-                        className={`w-full rounded-2xl border px-4 py-3 text-left text-sm font-medium transition-all duration-200 ${
+                        className={`w-full rounded-[30px] border-4 px-6 py-4 text-left text-base font-black transition-all duration-200 transform hover:scale-[1.02] ${
                           isSelected
-                            ? "border-transparent bg-gradient-to-r from-primary to-[#7ff6f2] text-background shadow-lg"
-                            : "border-white/10 bg-white/5 text-white hover:border-primary/50 hover:bg-primary/15"
+                            ? "border-white/50 bg-gradient-to-r from-[#00f5ff] to-[#8338ec] text-white shadow-[0_0_40px_rgba(0,245,255,0.6)]"
+                            : "border-white/20 bg-white/5 text-white hover:border-white/40 hover:bg-white/10"
                         }`}
                       >
                         {option.label}
@@ -462,28 +490,35 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
                     );
                   })}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-3xl border border-white/10 bg-white/5 p-6 text-center text-white shadow-[0_25px_80px_rgba(0,0,0,0.45)]">
-          <p className="text-sm text-muted-foreground">相性診断（54問） / セッション同期モード</p>
+        <motion.div
+          className="mt-12 space-y-4 rounded-[40px] border-4 border-white/30 bg-gradient-to-r from-[#00f5ff]/30 to-[#8338ec]/30 p-8 text-center backdrop-blur-2xl shadow-[0_0_60px_rgba(0,245,255,0.4)]"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-sm font-black uppercase tracking-wider text-white/60 mb-4">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
-            <button
+            <motion.button
               onClick={handleComplete}
               disabled={isSubmittingComplete}
-              className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-primary to-[#7ff6f2] px-6 py-3 text-sm font-semibold text-background shadow-[0_18px_45px_rgba(127,246,242,0.3)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center rounded-full border-4 border-white bg-gradient-to-r from-[#00f5ff] to-[#8338ec] px-8 py-5 text-lg font-black text-white shadow-[0_0_60px_rgba(0,245,255,0.6)] transition-all transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
+              whileHover={{ scale: isSubmittingComplete ? 1 : 1.05 }}
+              whileTap={{ scale: isSubmittingComplete ? 1 : 0.95 }}
             >
               {isSubmittingComplete ? "送信中..." : "あなたの回答を確定する"}
-            </button>
+            </motion.button>
           ) : (
-            <p className="text-sm text-muted-foreground">すべて回答すると自動で相手と同期されます。</p>
+            <p className="text-sm font-bold text-white/70">すべて回答すると自動で相手と同期されます。</p>
           )}
           {sessionData?.participants[participant].completed && !sessionData.readyForResult && (
-            <p className="text-xs text-muted-foreground">パートナーの回答を待っています...</p>
+            <p className="text-sm font-black text-white/80 mt-4">パートナーの回答を待っています...</p>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
