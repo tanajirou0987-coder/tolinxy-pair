@@ -146,16 +146,12 @@ function SingleDeviceQuestions() {
       </div>
 
       <div className="relative mx-auto w-full max-w-3xl space-y-10">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        <div className="text-center">
           <div className="inline-flex items-center gap-3 rounded-full border-4 border-white/30 bg-gradient-to-r from-[#ff006e]/30 to-[#8338ec]/30 px-6 py-3 text-white">
             <span className="text-lg font-black">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
             <span className="text-sm font-black bg-white/20 px-3 py-1 rounded-full">{step === "user" ? "ステップ 1/2" : "ステップ 2/2"}</span>
           </div>
-        </motion.div>
+        </div>
 
         <div className="sticky top-0 z-20 -mx-4 border-b-4 border-white/30 bg-gradient-to-r from-[#8338ec]/40 to-[#ff006e]/40 px-4 py-6">
           <div className="mb-3 flex items-center justify-between text-lg text-white">
