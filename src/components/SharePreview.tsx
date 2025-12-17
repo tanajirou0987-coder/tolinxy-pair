@@ -122,7 +122,7 @@ export default function SharePreview({
   const displayPercentile = roundedPercentile;
   const percentileDisplay = `上位${displayPercentile}%`;
   const rankInfo = getCompatibilityRank(displayPercentile);
-  const rankImagePath = getRankImagePath(displayPercentile);
+  const rankImagePath = getRankImagePath(rankInfo.rank);
 
   const handleDownloadImage = async () => {
     if (!downloadCardRef.current) return;

@@ -53,3 +53,4 @@ export function useSessionAssignment({
 
   return { isAssigning, isValidParticipant };
 }
+

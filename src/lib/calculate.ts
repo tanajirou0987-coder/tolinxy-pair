@@ -155,7 +155,7 @@ function generateTypeNameAndDescription(
   ];
 
   const name = `${communication}×${decision}×${relationship}`;
-  const icon = "";
+  const icon = "🎵";
   const description = buildTypeDescription({
     communication,
     decision,
@@ -386,72 +386,54 @@ export function calculatePercentileRank(score: number): number {
  */
 export interface CompatibilityRank {
   rank: string; // SS, S, A, B, C, D, E, F, G
-  tier: string; // ランク帯名（運命の相手、恋人同然、など）
+  rankName: string; // ベストリア, リンクス, etc.
+  tier: string; // SSランク, Sランク, etc.
 }
 
 export function getCompatibilityRank(percentile: number): CompatibilityRank {
   if (percentile <= 1) {
-    return { rank: "SS", tier: "運命の相手" };
+    return { rank: "SS", rankName: "ベストリア", tier: "SSランク" };
   }
   if (percentile <= 10) {
-    return { rank: "S", tier: "恋人同然" };
+    return { rank: "S", rankName: "リンクス", tier: "Sランク" };
   }
   if (percentile <= 20) {
-    return { rank: "A", tier: "友達以上恋人未満" };
+    return { rank: "A", rankName: "グットン", tier: "Aランク" };
   }
   if (percentile <= 30) {
-    return { rank: "B", tier: "気の合う友達" };
+    return { rank: "B", rankName: "ライトム", tier: "Bランク" };
   }
   if (percentile <= 40) {
-    return { rank: "C", tier: "良い知り合い" };
+    return { rank: "C", rankName: "フリカ", tier: "Cランク" };
   }
   if (percentile <= 50) {
-    return { rank: "D", tier: "ふつうの関係" };
-  }
-  if (percentile <= 60) {
-    return { rank: "E", tier: "ちょいズレ" };
+    return { rank: "D", rankName: "ラフネ", tier: "Dランク" };
   }
   if (percentile <= 70) {
-    return { rank: "E", tier: "合わないかも" };
+    return { rank: "E", rankName: "ミスタル", tier: "Eランク" };
   }
-  if (percentile <= 80) {
-    return { rank: "F", tier: "ちょい無理" };
+  if (percentile <= 85) {
+    return { rank: "F", rankName: "バグシー", tier: "Fランク" };
   }
-  return { rank: "G", tier: "赤の他人" };
+  return { rank: "G", rankName: "ゼロナ", tier: "Gランク" };
 }
 
 /**
- * ランク帯に対応する画像パスを取得（降順: SS=10, G=1）
+ * ランクに応じた画像パスを返す
  */
-export function getRankImagePath(percentile: number): string {
-  if (percentile <= 1) {
-    return "/rank-images/10.png"; // SS - 運命の相手
-  }
-  if (percentile <= 10) {
-    return "/rank-images/9.png"; // S - 恋人同然
-  }
-  if (percentile <= 20) {
-    return "/rank-images/8.png"; // A - 友達以上恋人未満
-  }
-  if (percentile <= 30) {
-    return "/rank-images/7.png"; // B - 気の合う友達
-  }
-  if (percentile <= 40) {
-    return "/rank-images/6.png"; // C - 良い知り合い
-  }
-  if (percentile <= 50) {
-    return "/rank-images/5.png"; // D - ふつうの関係
-  }
-  if (percentile <= 60) {
-    return "/rank-images/4.png"; // E - ちょいズレ
-  }
-  if (percentile <= 70) {
-    return "/rank-images/3.png"; // E - 合わないかも
-  }
-  if (percentile <= 80) {
-    return "/rank-images/2.png"; // F - ちょい無理
-  }
-  return "/rank-images/1.png"; // G - 赤の他人
+export function getRankImagePath(rank: string): string {
+  const rankImages: Record<string, string> = {
+    SS: "/rank-images/bestria.jpg",
+    S: "/rank-images/lynx.jpg",
+    A: "/rank-images/goodton.jpg",
+    B: "/rank-images/lightm.jpg",
+    C: "/rank-images/frica.jpg",
+    D: "/rank-images/rafne.jpg",
+    E: "/rank-images/mistal.jpg",
+    F: "/rank-images/buggy.jpg",
+    G: "/rank-images/zerona.jpg",
+  };
+  return rankImages[rank] || rankImages.G;
 }
 
 /**
@@ -485,10 +467,10 @@ export function generateShareMessage(score: number, userNickname: string, partne
   
   if (isGoodCompatibility) {
     // 上位の場合は自慢できる感じで
-    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}） バランス良好な結果でした。`;
+    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、めっちゃ相性いいかも！`;
   } else {
     // 下位の場合は「危険かも」みたいな感じで
-    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}） 課題を話し合ってアップデートしていこう。`;
+    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、危険かも...？でも愛があれば大丈夫！`;
   }
 }
 

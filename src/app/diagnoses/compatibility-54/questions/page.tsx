@@ -9,7 +9,7 @@ import type { ParticipantRole, SessionResponsePayload } from "@/lib/session-stor
 import { copyToClipboard } from "@/lib/clipboard";
 import { useSessionAssignment } from "@/hooks/useSessionAssignment";
 import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
-import { QuestionCard } from "@/components/diagnoses/QuestionCard";
+import { LazyQuestionCard } from "@/components/diagnoses/LazyQuestionCard";
 
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
@@ -225,9 +225,11 @@ function SingleDeviceQuestions() {
           {questions.map((question, index) => {
             const currentAnswer = getAnswerForQuestion(question.id);
             const isAnswered = currentAnswer !== null;
+            // 最初の5問と回答済みの質問は優先的にレンダリング
+            const priority = index < 5 || isAnswered;
 
             return (
-              <QuestionCard
+              <LazyQuestionCard
                 key={`${step}-${question.id}`}
                 question={question}
                 index={index}
@@ -235,6 +237,7 @@ function SingleDeviceQuestions() {
                 isAnswered={isAnswered}
                 onAnswer={handleAnswer}
                 step={step}
+                priority={priority}
               />
             );
           })}
@@ -465,9 +468,11 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           {questions.map((question, index) => {
             const currentAnswer = getAnswerForQuestion(question.id);
             const isAnswered = currentAnswer !== null;
+            // 最初の5問と回答済みの質問は優先的にレンダリング
+            const priority = index < 5 || isAnswered;
 
             return (
-              <QuestionCard
+              <LazyQuestionCard
                 key={question.id}
                 question={question}
                 index={index}
@@ -475,6 +480,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
                 isAnswered={isAnswered}
                 onAnswer={handleAnswer}
                 step={participant === "user" ? "user" : "partner"}
+                priority={priority}
               />
             );
           })}

@@ -216,7 +216,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   <div className="mb-4 flex items-center justify-center">
                     <div className="relative w-full h-48">
                       <Image
-                        src={getRankImagePath(percentile)}
+                        src={getRankImagePath(rank.rank)}
                         alt={rank.tier}
                         fill
                         className="object-contain"
