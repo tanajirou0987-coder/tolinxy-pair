@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { copyToClipboard } from "@/lib/clipboard";
+import { QRCodeCanvas } from "qrcode.react";
 
 interface SessionInfo {
   sessionId: string;
@@ -106,15 +107,15 @@ export default function Compatibility54MultiPage() {
                   <div className="space-y-3 text-sm text-white/80">
                     <div className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-[#00f5ff] to-[#8338ec] text-white font-black text-xs flex items-center justify-center">1</span>
-                      <p>セッションを作成してURLをコピー</p>
+                      <p>セッションを作成してQRコードを表示</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-[#00f5ff] to-[#8338ec] text-white font-black text-xs flex items-center justify-center">2</span>
-                      <p>片方は「あなた」で回答開始</p>
+                      <p>片方は「あなた用QRコード」をスキャンして開始</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-[#00f5ff] to-[#8338ec] text-white font-black text-xs flex items-center justify-center">3</span>
-                      <p>相手は共有リンクから「パートナー」で参加</p>
+                      <p>相手は「パートナー用QRコード」をスキャンして参加</p>
                     </div>
                     <div className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-[#00f5ff] to-[#8338ec] text-white font-black text-xs flex items-center justify-center">4</span>
@@ -194,18 +195,30 @@ export default function Compatibility54MultiPage() {
                 </div>
               </div>
 
-              {/* リンク共有 */}
+              {/* QRコード共有 */}
               <div className="grid gap-6 md:grid-cols-2">
-                {/* あなた用URL */}
+                {/* あなた用QRコード */}
                 <motion.div
                   className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#00f5ff]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(0,245,255,0.3)]"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <h3 className="text-lg font-black text-white mb-4 text-center">あなた用URL</h3>
-                  <div className="rounded-[30px] border-2 border-white/20 bg-black/20 p-4 mb-4">
-                    <p className="break-words text-sm text-white/90 font-medium">{userLink}</p>
+                  <h3 className="text-lg font-black text-white mb-4 text-center">あなた用QRコード</h3>
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
+                      <QRCodeCanvas
+                        value={userLink}
+                        size={240}
+                        bgColor="#ffffff"
+                        fgColor="#18181b"
+                        level="M"
+                      />
+                    </div>
+                    <p className="text-xs text-white/70 mb-2">スマホでスキャンして開始</p>
+                    <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
+                      <p className="break-words text-xs text-white/90 font-medium text-center">{userLink}</p>
+                    </div>
                   </div>
                   <motion.button
                     onClick={() => handleCopy(userLink, "user")}
@@ -213,20 +226,32 @@ export default function Compatibility54MultiPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {copiedLink === "user" ? "コピーしました！" : "コピーする"}
+                    {copiedLink === "user" ? "コピーしました！" : "URLをコピー"}
                   </motion.button>
                 </motion.div>
 
-                {/* パートナー用URL */}
+                {/* パートナー用QRコード */}
                 <motion.div
                   className="rounded-[40px] border-4 border-white/30 bg-gradient-to-br from-[#ff006e]/20 to-[#8338ec]/20 p-6 backdrop-blur-xl shadow-[0_0_60px_rgba(255,0,110,0.3)]"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h3 className="text-lg font-black text-white mb-4 text-center">パートナー用URL</h3>
-                  <div className="rounded-[30px] border-2 border-white/20 bg-black/20 p-4 mb-4">
-                    <p className="break-words text-sm text-white/90 font-medium">{partnerLink}</p>
+                  <h3 className="text-lg font-black text-white mb-4 text-center">パートナー用QRコード</h3>
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="rounded-[30px] border-4 border-white/30 bg-white p-4 mb-4">
+                      <QRCodeCanvas
+                        value={partnerLink}
+                        size={240}
+                        bgColor="#ffffff"
+                        fgColor="#18181b"
+                        level="M"
+                      />
+                    </div>
+                    <p className="text-xs text-white/70 mb-2">スマホでスキャンして参加</p>
+                    <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-3 w-full">
+                      <p className="break-words text-xs text-white/90 font-medium text-center">{partnerLink}</p>
+                    </div>
                   </div>
                   <motion.button
                     onClick={() => handleCopy(partnerLink, "partner")}
@@ -234,7 +259,7 @@ export default function Compatibility54MultiPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {copiedLink === "partner" ? "コピーしました！" : "コピーする"}
+                    {copiedLink === "partner" ? "コピーしました！" : "URLをコピー"}
                   </motion.button>
                 </motion.div>
               </div>
@@ -242,9 +267,12 @@ export default function Compatibility54MultiPage() {
               {/* 注意事項 */}
               <div className="rounded-[30px] border-4 border-dashed border-white/30 bg-white/5 p-6 backdrop-blur-xl">
                 <p className="text-sm font-black text-white mb-2">重要</p>
-                <p className="text-sm text-white/80 leading-relaxed">
-                  それぞれのURLを正しく使い分けてください。「あなた」と「パートナー」で異なるURLを使用します。
+                <p className="text-sm text-white/80 leading-relaxed mb-3">
+                  それぞれのQRコードを正しく使い分けてください。「あなた」と「パートナー」で異なるQRコードを使用します。
                   両方の回答が完了すると、自動的に結果ページへリダイレクトされます。
+                </p>
+                <p className="text-xs text-white/60">
+                  💡 QRコードが読み取れない場合は、URLをコピーして共有することもできます。
                 </p>
               </div>
             </motion.div>
