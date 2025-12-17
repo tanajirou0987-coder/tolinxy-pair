@@ -425,33 +425,33 @@ export function getCompatibilityRank(percentile: number): CompatibilityRank {
  */
 export function getRankImagePath(percentile: number): string {
   if (percentile <= 1) {
-    return "/rank-images/10.jpg"; // SS - 運命の相手
+    return "/rank-images/10.png"; // SS - 運命の相手
   }
   if (percentile <= 10) {
-    return "/rank-images/9.jpg"; // S - 恋人同然
+    return "/rank-images/9.png"; // S - 恋人同然
   }
   if (percentile <= 20) {
-    return "/rank-images/8.jpg"; // A - 友達以上恋人未満
+    return "/rank-images/8.png"; // A - 友達以上恋人未満
   }
   if (percentile <= 30) {
-    return "/rank-images/7.jpg"; // B - 気の合う友達
+    return "/rank-images/7.png"; // B - 気の合う友達
   }
   if (percentile <= 40) {
-    return "/rank-images/6.jpg"; // C - 良い知り合い
+    return "/rank-images/6.png"; // C - 良い知り合い
   }
   if (percentile <= 50) {
-    return "/rank-images/5.jpg"; // D - ふつうの関係
+    return "/rank-images/5.png"; // D - ふつうの関係
   }
   if (percentile <= 60) {
-    return "/rank-images/4.jpg"; // E - ちょいズレ
+    return "/rank-images/4.png"; // E - ちょいズレ
   }
   if (percentile <= 70) {
-    return "/rank-images/3.jpg"; // E - 合わないかも
+    return "/rank-images/3.png"; // E - 合わないかも
   }
   if (percentile <= 80) {
-    return "/rank-images/2.jpg"; // F - ちょい無理
+    return "/rank-images/2.png"; // F - ちょい無理
   }
-  return "/rank-images/1.jpg"; // G - 赤の他人
+  return "/rank-images/1.png"; // G - 赤の他人
 }
 
 /**
