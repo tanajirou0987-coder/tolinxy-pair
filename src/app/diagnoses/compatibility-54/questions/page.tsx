@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import questionsData from "../../../../../data/diagnoses/compatibility-54/questions.json";
 import type { Question, Answer, Score } from "@/lib/types";
@@ -11,7 +11,7 @@ import { copyToClipboard } from "@/lib/clipboard";
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
 
-export default function Compatibility54QuestionsPage() {
+function Compatibility54QuestionsContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("sessionId");
   const participant = searchParams.get("role");
@@ -27,6 +27,18 @@ export default function Compatibility54QuestionsPage() {
   }
 
   return <SingleDeviceQuestions />;
+}
+
+export default function Compatibility54QuestionsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-white">読み込み中...</p>
+      </div>
+    }>
+      <Compatibility54QuestionsContent />
+    </Suspense>
+  );
 }
 
 function SingleDeviceQuestions() {

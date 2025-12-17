@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { PersonalityType, Compatibility, CompatibilityRank, DetailedCompatibilityAnalysis } from '@/lib/types';
+import { PersonalityType, Compatibility } from '@/lib/types';
+import { CompatibilityRank } from '@/lib/calculate';
+import type { DetailedCompatibilityAnalysis } from '@/lib/compatibility-analysis';
 import { ShareButton } from './ShareButton';
 import { ChevronDown } from 'lucide-react';
 
@@ -60,8 +62,11 @@ const TypeProfile: React.FC<{ type: PersonalityType, isUser?: boolean }> = ({ ty
     <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">
         {isUser ? "あなた" : "パートナー"}
     </div>
-    {/* Removed type.icon rendering as per user's request */}
-    <img src={type.image} alt={type.name} width={90} height={90} className="rounded-full border-2 border-white/10 shadow-lg" />
+    {type.icon && (
+      <div className="flex items-center justify-center w-[90px] h-[90px] rounded-full border-2 border-white/10 shadow-lg bg-white/5 text-4xl">
+        {type.icon}
+      </div>
+    )}
     <div className="text-center">
         <h3 className="text-xl font-semibold text-white">{type.name}</h3>
     </div>

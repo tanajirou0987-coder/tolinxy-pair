@@ -1008,18 +1008,7 @@ function generateImprovementTips(
 
 /**
  * 会話のきっかけを生成
-
-/**
- * 会話のきっかけを生成
  */
-type AxisKey =
-  | "valuesAlignment"
-  | "emotionalExpression"
-  | "communicationStyle"
-  | "stressResponse"
-  | "lifestyleRhythm"
-  | "loveExpression";
-
 const axisQuestionTemplates: Record<
   AxisKey,
   {

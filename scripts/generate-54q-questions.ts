@@ -15,10 +15,16 @@ const questions18 = JSON.parse(
 );
 
 // 54問の質問データを生成
+interface Option {
+  label: string;
+  score: number;
+}
+
 interface Question {
   id: number;
   text: string;
   axis: string;
+  options: Option[];
 }
 
 const questions54: Question[] = [];
