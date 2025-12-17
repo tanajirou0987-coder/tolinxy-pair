@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
   // Vercelデプロイ用の設定
   output: undefined, // Vercelが自動的に最適化
   // 必要に応じて環境変数の設定など
+  
+  // パフォーマンス最適化
+  experimental: {
+    optimizePackageImports: ['recharts'],
+  },
+  
+  // Turbopack設定（Next.js 16ではTurbopackがデフォルト）
+  turbopack: {},
 };
 
 export default nextConfig;

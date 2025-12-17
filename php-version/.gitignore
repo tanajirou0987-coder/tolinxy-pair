@@ -1,0 +1,24 @@
+# ログファイル
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
+
+# 設定ファイル（本番環境で編集）
+config/database.php
+
+# 一時ファイル
+*.tmp
+*.bak
+*~
+
+# OS固有ファイル
+.DS_Store
+Thumbs.db
+
+
+
+
+
+
+
+

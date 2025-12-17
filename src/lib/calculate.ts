@@ -1,8 +1,20 @@
-import type { Answer, PersonalityType, Compatibility, PersonalityTypeCode, Traits } from "./types";
+import type { Answer, PersonalityType, Compatibility, Traits } from "./types";
 import types18QData from "../../data/diagnoses/compatibility-18/types.json";
 import compatibility18Data from "../../data/diagnoses/compatibility-18/compatibility.json";
 import types54QData from "../../data/diagnoses/compatibility-54/types.json";
 import compatibility54Data from "../../data/diagnoses/compatibility-54/compatibility.json";
+import { buildTypeDescription } from "./type-descriptions";
+
+const customCompatibilityOverrides: Record<
+  string,
+  { message?: string; detail?: string }
+> = {
+  ["バランス型_ハイブリッド型_対等型|バランス型_ハイブリッド型_対等型"]: {
+    message: "波長ピッタリのユニゾンカップル",
+    detail:
+      "お互いが“ちょうどいい”温度感で生きているから、予定を決めてもどちらかが我慢している空気になりにくい組み合わせ。同じ場面でギアチェンジできるので、週末の予定も「せーの」で決まる安定感が魅力です。ただし平和すぎて新鮮味が薄れがちなので、毎週交代で“今週の決め役”を宣言し、気になるスポットやマイブームを必ず1つ持ち寄ると、ふたりの世界に新しい刺激を足し続けられます。",
+  },
+};
 
 // スコア計算結果の型
 export interface Scores {
@@ -136,53 +148,21 @@ function generateTypeCodeFromTraits(traits: {
 function generateTypeNameAndDescription(
   typeCode: string
 ): { name: string; icon: string; description: string } {
-  // タイプコードから特性を抽出
-  const [communication, decision, relationship] = typeCode.split("_");
+  const [communication, decision, relationship] = typeCode.split("_") as [
+    Traits["communication"],
+    Traits["decision"],
+    Traits["relationship"]
+  ];
 
-  // タイプ名を生成
   const name = `${communication}×${decision}×${relationship}`;
-
-  // 説明文を生成
-  let description = "";
-  if (communication === "積極型") {
-    description += "明るく積極的で、";
-  } else if (communication === "受容型") {
-    description += "穏やかで控えめ、";
-  } else {
-    description += "バランス感覚に優れ、";
-  }
-
-  if (decision === "論理型") {
-    description += "論理的に判断し、";
-  } else if (decision === "感情型") {
-    description += "感情を大切にし、";
-  } else {
-    description += "柔軟に判断し、";
-  }
-
-  if (relationship === "リード型") {
-    description += "リーダーシップを発揮する";
-  } else if (relationship === "寄り添い型") {
-    description += "相手に寄り添う";
-  } else {
-    description += "対等な関係を築く";
-  }
-
-  // アイコンは特性の組み合わせから決定（簡易版）
-  const icon = "🎵"; // デフォルトアイコン
+  const icon = "";
+  const description = buildTypeDescription({
+    communication,
+    decision,
+    relationship,
+  });
 
   return { name, icon, description };
-}
-
-/**
- * スコアからタイプコードを生成（後方互換性のため残す）
- * @param axis1 communication軸のスコア
- * @param axis2 decision軸のスコア
- * @param axis3 relationship軸のスコア
- * @returns タイプコード（例: "score1_3_score2_2_score3_1"）
- */
-function generateTypeKey(axis1: number, axis2: number, axis3: number): string {
-  return `score1_${axis1}_score2_${axis2}_score3_${axis3}`;
 }
 
 
@@ -332,11 +312,150 @@ export function calculateCompatibilityScore(
   );
 
   // 総合スコア = 0.3 × 軸1 + 0.4 × 軸2 + 0.3 × 軸3
-  const totalScore = Math.round(
-    axis1Score * 0.3 + axis2Score * 0.4 + axis3Score * 0.3
-  );
+  const rawScore = axis1Score * 0.3 + axis2Score * 0.4 + axis3Score * 0.3;
+  
+  // 1%〜100%に正規化（元の範囲: 46〜100）
+  const minRawScore = 46; // 最低スコア
+  const maxRawScore = 100; // 最高スコア
+  const rawRange = maxRawScore - minRawScore; // 54
+  
+  // 正規化: ((score - min) / range) × 99 + 1
+  const normalizedScore = Math.round(((rawScore - minRawScore) / rawRange) * 99 + 1);
+  
+  // 1〜100の範囲に制限
+  return Math.max(1, Math.min(100, normalizedScore));
+}
 
-  return totalScore;
+/**
+ * スコアから上位何%かを計算（729通りの組み合わせから）
+ * 分布データに基づいて計算
+ */
+export function calculatePercentileRank(score: number): number {
+  // 各スコア範囲の分布（729通り中）
+  // より正確な計算のため、スコア範囲ごとの累積分布を使用
+  const distribution: Record<string, number> = {
+    "91-100": 12,  // 1.65%
+    "81-90": 76,   // 10.43%
+    "71-80": 67,   // 9.19%
+    "61-70": 128,  // 17.56%
+    "51-60": 184,  // 25.24%
+    "41-50": 100,  // 13.72%
+    "31-40": 34,   // 4.66%
+    "21-30": 80,   // 10.97%
+    "11-20": 40,   // 5.49%
+    "1-10": 8,     // 1.10%
+  };
+  
+  const total = 729;
+  
+  // そのスコアより高いスコアの組み合わせ数を計算
+  let countAbove = 0;
+  
+  if (score >= 91) {
+    // 91点以上は最高なので、自分自身を含めない
+    countAbove = 0;
+  } else if (score >= 81) {
+    countAbove = distribution["91-100"];
+  } else if (score >= 71) {
+    countAbove = distribution["91-100"] + distribution["81-90"];
+  } else if (score >= 61) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"];
+  } else if (score >= 51) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"];
+  } else if (score >= 41) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"] + distribution["51-60"];
+  } else if (score >= 31) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"] + distribution["51-60"] + distribution["41-50"];
+  } else if (score >= 21) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"] + distribution["51-60"] + distribution["41-50"] + distribution["31-40"];
+  } else if (score >= 11) {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"] + distribution["51-60"] + distribution["41-50"] + distribution["31-40"] + distribution["21-30"];
+  } else {
+    countAbove = distribution["91-100"] + distribution["81-90"] + distribution["71-80"] + distribution["61-70"] + distribution["51-60"] + distribution["41-50"] + distribution["31-40"] + distribution["21-30"] + distribution["11-20"];
+  }
+  
+  // 上位%を計算（より正確にするため、そのスコア範囲内での位置も考慮）
+  const percentile = (countAbove / total) * 100;
+  
+  // 小数点以下を四捨五入して整数で返す
+  return Math.round(percentile);
+}
+
+/**
+ * パーセンタイルからランクを決定
+ */
+export interface CompatibilityRank {
+  rank: string; // SS, S, A, B, C, D, E, F, G
+  tier: string; // ランク帯名（運命の相手、恋人同然、など）
+}
+
+export function getCompatibilityRank(percentile: number): CompatibilityRank {
+  if (percentile <= 1) {
+    return { rank: "SS", tier: "運命の相手" };
+  }
+  if (percentile <= 10) {
+    return { rank: "S", tier: "恋人同然" };
+  }
+  if (percentile <= 20) {
+    return { rank: "A", tier: "友達以上恋人未満" };
+  }
+  if (percentile <= 30) {
+    return { rank: "B", tier: "気の合う友達" };
+  }
+  if (percentile <= 40) {
+    return { rank: "C", tier: "良い知り合い" };
+  }
+  if (percentile <= 50) {
+    return { rank: "D", tier: "ふつうの関係" };
+  }
+  if (percentile <= 60) {
+    return { rank: "E", tier: "ちょいズレ" };
+  }
+  if (percentile <= 70) {
+    return { rank: "E", tier: "合わないかも" };
+  }
+  if (percentile <= 80) {
+    return { rank: "F", tier: "ちょい無理" };
+  }
+  return { rank: "G", tier: "赤の他人" };
+}
+
+/**
+ * 上位%からメッセージを生成
+ * percentileは「上位何%か」を表す（例：70は「上位70%」=「下位30%」を意味する）
+ */
+function generatePercentileMessage(percentile: number): string {
+  if (percentile <= 1) return "上位1%に入るほどの";
+  if (percentile <= 3) return "上位3%に入るほどの";
+  if (percentile <= 5) return "上位5%に入るほどの";
+  if (percentile <= 10) return "上位10%に入るほどの";
+  if (percentile <= 20) return "上位20%に入るほどの";
+  if (percentile <= 30) return "上位30%に入るほどの";
+  if (percentile <= 50) return "上位50%に入るほどの";
+  // percentileが50より大きい場合も、そのまま「上位X%」として表示
+  if (percentile <= 70) return `上位${percentile}%の`;
+  if (percentile <= 80) return `上位${percentile}%の`;
+  if (percentile <= 90) return `上位${percentile}%の`;
+  return `上位${percentile}%の`;
+}
+
+/**
+ * シェア用のメッセージを生成（下位の場合はユーモアを込める）
+ */
+export function generateShareMessage(score: number, userNickname: string, partnerNickname: string): string {
+  const percentileInfo = generateCompatibilityMessageWithPercentile(score);
+  const percentileDisplay = percentileInfo.percentileText;
+  
+  // パーセンテージが50%以下（良い相性）かどうかでメッセージを変える
+  const isGoodCompatibility = percentileInfo.percentile <= 50;
+  
+  if (isGoodCompatibility) {
+    // 上位の場合は自慢できる感じで
+    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}） バランス良好な結果でした。`;
+  } else {
+    // 下位の場合は「危険かも」みたいな感じで
+    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}） 課題を話し合ってアップデートしていこう。`;
+  }
 }
 
 /**
@@ -352,33 +471,140 @@ function generateCompatibilityMessage(score: number): string {
 }
 
 /**
+ * 相性メッセージと上位%を含めたメッセージを生成
+ */
+export function generateCompatibilityMessageWithPercentile(score: number): { message: string; percentile: number; percentileText: string } {
+  const percentile = calculatePercentileRank(score);
+  const roundedPercentile = Math.round(percentile);
+  // percentileは「上位何%か」を表す（例：70は「上位70%」=「下位30%」を意味する）
+  // 表示では常に「上位X%」として表示するので、percentileの値そのままを使用
+  const displayPercentile = roundedPercentile;
+  const percentileText = generatePercentileMessage(displayPercentile);
+  const baseMessage = generateCompatibilityMessage(score);
+  
+  return {
+    message: `${percentileText}相性の良さ。${baseMessage}`,
+    percentile: displayPercentile, // 表示用のパーセンテージを返す
+    percentileText: `上位${displayPercentile}%`,
+  };
+}
+
+/**
  * 相性の詳細説明を生成
  */
-function generateCompatibilityDetail(
-  type1: PersonalityType,
-  type2: PersonalityType,
-  score: number
-): string {
-  const traits1 = type1.traits;
-  const traits2 = type2.traits;
+function describeCommunicationPair(type1: PersonalityType, type2: PersonalityType): string {
+  const trait1 = type1.traits.communication;
+  const trait2 = type2.traits.communication;
+  const pairKey = [trait1, trait2].sort().join("|");
 
-  let detail = `${type1.name}と${type2.name}の組み合わせ。`;
+  const active = trait1 === "積極型" ? type1 : trait2 === "積極型" ? type2 : null;
+  const calm = trait1 === "受容型" ? type1 : trait2 === "受容型" ? type2 : null;
 
-  // コミュニケーション軸
-  if (traits1.communication !== traits2.communication) {
-    detail += `コミュニケーションスタイルは異なりますが、お互いを補完し合える関係です。`;
-  } else {
-    detail += `コミュニケーションスタイルが似ているため、理解しやすい関係です。`;
+  switch (pairKey) {
+    case "積極型|積極型":
+      return "どちらもテンション高めに会話を仕掛けるタイプなので、話題が途切れずイベントもスピーディーに決まります。";
+    case "受容型|受容型":
+      return "2人とも聞き上手なので、穏やかなムードで本音を引き出し合えるペース。静かな場所ほど信頼が深まります。";
+    case "バランス型|バランス型":
+      return "お互いが空気を読んで盛り上げ役と聞き役を自然に切り替えられるため、会話リズムが心地よく噛み合います。";
+    case "積極型|受容型": {
+      const leader = active!;
+      const listener = calm!;
+      return `${leader.name}がテンポよく話題を投げ、${listener.name}が柔らかく受け止める相互補完ペア。盛り上げと安心感のバランスが優秀です。`;
+    }
+    case "積極型|バランス型": {
+      const leader = trait1 === "積極型" ? type1 : type2;
+      const moderator = leader === type1 ? type2 : type1;
+      return `${leader.name}の勢いに対して${moderator.name}が空気を整えるので、グループでもサシでもテンション調節がしやすい組み合わせです。`;
+    }
+    case "受容型|バランス型": {
+      const steady = trait1 === "バランス型" ? type1 : type2;
+      const gentle = steady === type1 ? type2 : type1;
+      return `${steady.name}が会話を拾い、${gentle.name}が丁寧に相槌を返すため、ゆっくり深掘りする対話が得意です。`;
+    }
+    default:
+      return "それぞれのテンポを尊重し合えば、心地いい会話ペースを作れます。";
   }
+}
 
-  // 意思決定軸
-  if (traits1.decision === traits2.decision) {
-    detail += `意思決定の方法も似ているため、スムーズに物事を進められます。`;
-  } else {
-    detail += `意思決定の方法が異なるため、時には意見が分かれることもありますが、多様な視点を得られます。`;
+function describeDecisionPair(type1: PersonalityType, type2: PersonalityType): string {
+  const trait1 = type1.traits.decision;
+  const trait2 = type2.traits.decision;
+  const pairKey = [trait1, trait2].sort().join("|");
+  const logic = trait1 === "論理型" ? type1 : trait2 === "論理型" ? type2 : null;
+  const emotion = trait1 === "感情型" ? type1 : trait2 === "感情型" ? type2 : null;
+  const hybrid = trait1 === "ハイブリッド型" ? type1 : trait2 === "ハイブリッド型" ? type2 : null;
+
+  switch (pairKey) {
+    case "ハイブリッド型|ハイブリッド型":
+      return "どちらも頭と心のスイッチを素早く切り替えられるので、議題が変わってもすぐに最適解へ辿り着けます。";
+    case "感情型|感情型":
+      return "感じたことを素直に言葉にできる2人なので、デートや予定決めもフィーリング優先で楽しく組み立てられます。";
+    case "論理型|論理型":
+      return "どちらもデータや根拠を大事にするため、ToDo管理や将来設計を一緒に進めやすい安定感があります。";
+    case "ハイブリッド型|論理型": {
+      const planner = logic!;
+      const bridge = hybrid!;
+      return `${planner.name}の合理性に対し、${bridge.name}が気持ちの温度を翻訳してくれるので、冷静さと柔らかさの両立が叶います。`;
+    }
+    case "ハイブリッド型|感情型": {
+      const feeler = emotion!;
+      const bridge = hybrid!;
+      return `${feeler.name}の直感を${bridge.name}が言語化して整理してくれるため、勢いあるアイデアも現実的なプランに落とし込めます。`;
+    }
+    case "感情型|論理型": {
+      const planner = logic!;
+      const feeler = emotion!;
+      return `${planner.name}が筋道を示し、${feeler.name}が温度感を共有する組み合わせ。最初は視点がズレても、お互いの強みを持ち寄れば意思決定が厚みを増します。`;
+    }
+    default:
+      return "物事の決め方は異なりますが、順番や役割を決めて話すと、それぞれの良さを活かせます。";
   }
+}
 
-  return detail;
+function describeRelationshipPair(type1: PersonalityType, type2: PersonalityType): string {
+  const trait1 = type1.traits.relationship;
+  const trait2 = type2.traits.relationship;
+  const pairKey = [trait1, trait2].sort().join("|");
+  const lead = trait1 === "リード型" ? type1 : trait2 === "リード型" ? type2 : null;
+  const care = trait1 === "寄り添い型" ? type1 : trait2 === "寄り添い型" ? type2 : null;
+
+  switch (pairKey) {
+    case "対等型|対等型":
+      return "何でも一緒に決めたい同士なので、家事も遊びも半分ずつ担当しながらフェアに楽しめます。";
+    case "リード型|リード型":
+      return "どちらも舵を取りたくなるため、週替わりで“指揮者”を決めると程よい主導権バランスが保てます。";
+    case "寄り添い型|寄り添い型":
+      return "相手の心地よさを最優先にする同士なので、優しい空気が漂いますが、遠慮しすぎず希望も言葉にすると◎";
+    case "リード型|寄り添い型": {
+      const captain = lead!;
+      const supporter = care!;
+      return `${captain.name}が方向性を決め、${supporter.name}がフォローする黄金リズム。役割が自然に分かれるので、日常もイベントも準備がスムーズです。`;
+    }
+    case "リード型|対等型": {
+      const captain = lead!;
+      const teammate = captain === type1 ? type2 : type1;
+      return `${captain.name}が全体を引っ張り、${teammate.name}が具体策や代替案を一緒に考えるスタイル。話し合いで役割を調整すると強いチームになります。`;
+    }
+    case "対等型|寄り添い型": {
+      const teammate = trait1 === "対等型" ? type1 : type2;
+      const supporter = teammate === type1 ? type2 : type1;
+      return `${teammate.name}が「一緒にやろう」を提案し、${supporter.name}が細やかにケアするので、安心しながら新しいチャレンジに踏み出せます。`;
+    }
+    default:
+      return "状況ごとにリード役とサポート役を言葉で決めると、役割分担がなめらかになります。";
+  }
+}
+
+function generateCompatibilityDetail(type1: PersonalityType, type2: PersonalityType): string {
+  const detailParts = [
+    `${type1.name}と${type2.name}の組み合わせ。`,
+    describeCommunicationPair(type1, type2),
+    describeDecisionPair(type1, type2),
+    describeRelationshipPair(type1, type2),
+  ];
+
+  return detailParts.join("");
 }
 
 /**
@@ -413,10 +639,12 @@ export function getCompatibilityFromTypes(
   const key1 = `${type1.type}_${type2.type}`;
   const key2 = `${type2.type}_${type1.type}`;
   const existingData = compatData[key1] || compatData[key2];
+  const customKey = [type1.type, type2.type].sort().join("|");
+  const customOverride = customCompatibilityOverrides[customKey];
 
   // 既存のメッセージがあれば使用、なければ生成
-  const message = existingData?.message || generateCompatibilityMessage(totalScore);
-  const detail = existingData?.detail || generateCompatibilityDetail(type1, type2, totalScore);
+  const message = customOverride?.message || existingData?.message || generateCompatibilityMessage(totalScore);
+  const detail = customOverride?.detail || existingData?.detail || generateCompatibilityDetail(type1, type2);
   const advice = existingData
     ? { user: existingData.adviceUser, partner: existingData.advicePartner }
     : generateAdvice(type1, type2);

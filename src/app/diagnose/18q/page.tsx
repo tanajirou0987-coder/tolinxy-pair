@@ -89,28 +89,30 @@ export default function Diagnose18QPage() {
 
   if (!currentQuestion) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-[#2C3E50]">読み込み中...</p>
+      <div className="pairly-legacy flex min-h-screen items-center justify-center bg-[#fefcf8]">
+        <p className="text-[#2f2722]">読み込み中...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl">
+    <div className="pairly-legacy relative min-h-screen overflow-hidden bg-[#fefcf8] px-4 py-10 sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-4 top-12 h-32 rounded-3xl border border-white/70 bg-white/70 shadow-[0_25px_70px_rgba(187,106,147,0.14)] backdrop-blur" />
+      <div className="pointer-events-none absolute left-[-20px] top-16 h-48 w-48 rounded-full bg-[#ffe0ef]/70 blur-[130px]" />
+      <div className="pointer-events-none absolute right-[-10px] top-6 h-44 w-44 rounded-full bg-[#c3f5ea]/70 blur-[130px]" />
+
+      <div className="relative mx-auto w-full max-w-3xl space-y-8">
         {/* プログレスバー */}
-        <div className="mb-8">
-          <div className="mb-2 flex items-center justify-between text-sm text-[#2C3E50]">
+        <div className="rounded-3xl border border-[#f3dbe8] bg-white/95 px-5 py-4 shadow-[0_20px_60px_rgba(187,106,147,0.12)]">
+          <div className="flex items-center justify-between text-sm text-[#2f2722]">
             <span className="font-semibold">
               質問 {currentQuestionIndex + 1} / {TOTAL_QUESTIONS}
             </span>
-            <span className="text-[#2C3E50]/60">
-              {Math.round(progress)}%
-            </span>
+            <span className="text-[#8c857a]">{Math.round(progress)}%</span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[#2C3E50]/10">
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[#f0e7db]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#F39C12] to-[#E67E22] transition-all duration-500 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-[#d9b49c] via-[#e7d8c8] to-[#c3d4ce]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -118,33 +120,43 @@ export default function Diagnose18QPage() {
 
         {/* 質問カード */}
         <div
-          className={`mb-8 transition-opacity duration-300 ${
+          className={`rounded-[32px] border border-[#f3dbe8] bg-white/95 p-6 shadow-[0_25px_70px_rgba(187,106,147,0.12)] transition-opacity duration-300 sm:p-8 ${
             isAnimating ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="rounded-lg border-2 border-[#2C3E50]/20 bg-white p-6 shadow-lg sm:p-8">
-            <h2 className="mb-6 text-xl font-semibold text-[#2C3E50] sm:text-2xl">
-              {currentQuestion.text}
-            </h2>
-
-            {/* 選択肢 */}
-            <div className="space-y-3">
-              {currentQuestion.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(option.score)}
-                  className="w-full rounded-lg border-2 border-[#2C3E50]/20 bg-white px-6 py-4 text-left text-[#2C3E50] transition-all duration-200 hover:border-[#F39C12] hover:bg-[#F39C12]/5 hover:shadow-md active:scale-95"
-                >
-                  <span className="font-medium">{option.label}</span>
-                </button>
-              ))}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-[#c06286]">balance board</p>
+              <h2 className="serif-heading mt-2 text-2xl font-semibold text-[#2f2722] sm:text-3xl">
+                {currentQuestion.text}
+              </h2>
             </div>
+            <span className="flex-shrink-0 rounded-full border border-[#f5dcec] bg-[#fff0f6] px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#c06286]">
+              Q{currentQuestionIndex + 1}
+            </span>
+          </div>
+
+          {/* 選択肢 */}
+          <div className="mt-6 space-y-3">
+            {currentQuestion.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswer(option.score)}
+                className="w-full rounded-2xl border border-[#ede3d8] bg-white/90 px-5 py-4 text-left text-sm font-semibold text-[#2f2722] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#d9b49c] hover:bg-[#f9f4ef] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d9b49c]"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-dashed border-[#f3dbe8] bg-[#fff1f7] px-4 py-3 text-xs text-[#b04d77]">
+            回答ごとに2人の気分メモがたまっていくので、あとで見返しても思い出しやすい設計です。
           </div>
         </div>
 
         {/* フッター */}
-        <p className="text-center text-sm text-[#2C3E50]/60">
-          エンタメ診断（18問・約3分）
+        <p className="text-center text-xs uppercase tracking-[0.35em] text-[#c06286]">
+          entertainment mode / 18 questions
         </p>
       </div>
     </div>

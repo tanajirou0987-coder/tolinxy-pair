@@ -40,9 +40,17 @@ const types18 = JSON.parse(readFileSync(types18Path, "utf-8"));
 const types54 = JSON.parse(readFileSync(types54Path, "utf-8"));
 
 // 各プロファイルをtypes.jsonに統合
+interface ProfileData {
+  personality?: string;
+  romanceTendency?: string;
+  dailyActions?: string;
+  innerMotivation?: string;
+  futureVision?: string;
+}
+
 for (const [code, profileData] of Object.entries(profiles)) {
   const typeCode = convertTypeCode(code);
-  const profile = profileData as any;
+  const profile = profileData as ProfileData;
   
   if (types18[typeCode]) {
     types18[typeCode] = {

@@ -15,7 +15,13 @@ const questions18 = JSON.parse(
 );
 
 // 54問の質問データを生成
-const questions54: any[] = [];
+interface Question {
+  id: number;
+  text: string;
+  axis: string;
+}
+
+const questions54: Question[] = [];
 
 // 各軸ごとに18問ずつ生成
 const axes = ["communication", "decision", "relationship"] as const;
@@ -23,7 +29,7 @@ let questionId = 1;
 
 for (const axis of axes) {
   // 各軸の6問を3回繰り返して18問にする
-  const axisQuestions = questions18.filter((q: any) => q.axis === axis);
+  const axisQuestions = questions18.filter((q: Question) => q.axis === axis);
   
   for (let i = 0; i < 3; i++) {
     for (const question of axisQuestions) {

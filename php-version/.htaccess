@@ -1,0 +1,41 @@
+# Apache設定ファイル（Xserver用）
+
+# PHPのバージョン指定（Xserverの設定に合わせて変更）
+# AddHandler php8.2 .php
+
+# エラーページの設定
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# ディレクトリインデックスの無効化
+Options -Indexes
+
+# セキュリティヘッダー
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# キャッシュ設定
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Gzip圧縮
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+
+
+
+
+
+
+

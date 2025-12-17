@@ -73,9 +73,9 @@ function generateMessage(score: number): string {
 }
 
 // 詳細説明を生成
-function generateDetail(type1: string, type2: string, score: number): string {
-  const [comm1, dec1, rel1] = type1.split("_");
-  const [comm2, dec2, rel2] = type2.split("_");
+function generateDetail(type1: string, type2: string): string {
+  const [comm1, dec1] = type1.split("_");
+  const [comm2, dec2] = type2.split("_");
 
   let detail = `${type1}と${type2}の組み合わせ。`;
 
@@ -103,9 +103,17 @@ function generateAdvice(type1: string, type2: string): { user: string; partner: 
 }
 
 // 729パターンを生成
+interface CompatibilityData {
+  total: number;
+  message: string;
+  detail: string;
+  adviceUser: string;
+  advicePartner: string;
+}
+
 function generateCompatibilityData() {
   const types = generateAllTypes();
-  const compatibility: Record<string, any> = {};
+  const compatibility: Record<string, CompatibilityData> = {};
 
   for (const type1 of types) {
     for (const type2 of types) {
@@ -116,7 +124,7 @@ function generateCompatibilityData() {
       compatibility[key] = {
         total: score,
         message: generateMessage(score),
-        detail: generateDetail(type1, type2, score),
+        detail: generateDetail(type1, type2),
         adviceUser: advice.user,
         advicePartner: advice.partner,
       };
@@ -134,6 +142,4 @@ writeFileSync(outputPath, JSON.stringify(compatibilityData, null, 2), "utf-8");
 
 console.log(`✅ 729パターンの相性データを生成しました: ${outputPath}`);
 console.log(`   総パターン数: ${Object.keys(compatibilityData).length}`);
-
-
 

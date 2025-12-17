@@ -76,8 +76,20 @@ function generateIcon(typeCode: string): string {
 }
 
 // 27タイプを生成
+interface TypeData {
+  type: string;
+  name: string;
+  icon: string;
+  description: string;
+  traits: {
+    communication: string;
+    decision: string;
+    relationship: string;
+  };
+}
+
 function generateAllTypes() {
-  const types: Record<string, any> = {};
+  const types: Record<string, TypeData> = {};
 
   for (const comm of communicationTraits) {
     for (const dec of decisionTraits) {

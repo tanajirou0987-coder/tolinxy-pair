@@ -30,7 +30,16 @@ function Compatibility18QuestionContent() {
       return;
     }
 
-    // セッションストレージから回答を読み込む
+    if (step === 1) {
+      // 新しい診断は毎回空の状態からスタート
+      sessionStorage.removeItem(STORAGE_KEY);
+      // setAnswersはマウント時に一度だけ呼ぶため、ルールを無効化
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAnswers([]);
+      return;
+    }
+
+    // 進行中の診断のみセッションストレージから回答を復元
     const savedAnswers = sessionStorage.getItem(STORAGE_KEY);
     if (savedAnswers) {
       try {
@@ -39,6 +48,8 @@ function Compatibility18QuestionContent() {
       } catch (error) {
         console.error("Failed to parse saved answers:", error);
       }
+    } else {
+      setAnswers([]);
     }
   }, [step, router]);
 
@@ -115,62 +126,77 @@ function Compatibility18QuestionContent() {
 
   if (!currentQuestion || isNaN(step) || step < 1 || step > TOTAL_QUESTIONS) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-[#2C3E50]">読み込み中...</p>
+      <div className="flex min-h-screen items-center justify-center text-foreground">
+        <p>読み込み中...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl">
-        {/* プログレスバー */}
-        <div className="mb-8">
-          <div className="mb-2 flex items-center justify-between text-sm text-[#2C3E50]">
-            <span className="font-semibold">
+    <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-primary/15 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute -left-6 top-24 h-64 w-64 rounded-full bg-[#7ff6f225] blur-[150px]" />
+      <div className="pointer-events-none absolute right-0 bottom-10 h-72 w-72 rounded-full bg-[#9a8cff20] blur-[160px]" />
+
+      <div className="relative mx-auto w-full max-w-3xl space-y-8">
+        <div className="text-center">
+          <span className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-5 py-2 text-xs uppercase tracking-[0.35em] text-muted-foreground">
+            <span className="text-[0.75rem] font-semibold text-white">quick scan</span>
+            <span>
+              {step}/{TOTAL_QUESTIONS}
+            </span>
+          </span>
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 shadow-[0_25px_80px_rgba(0,0,0,0.45)]">
+          <div className="flex items-center justify-between text-sm text-white">
+            <div className="font-semibold">
               質問 {step} / {TOTAL_QUESTIONS}
-            </span>
-            <span className="text-[#2C3E50]/60">
-              {Math.round(progress)}%
-            </span>
+            </div>
+            <div className="text-muted-foreground">{Math.round(progress)}%</div>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[#2C3E50]/10">
+          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#F39C12] to-[#E67E22] transition-all duration-500 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-primary via-[#7ff6f2] to-[#9a8cff]"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
-        {/* 質問カード */}
         <div
-          className={`mb-8 transition-opacity duration-300 ${
+          className={`rounded-[32px] border border-white/10 bg-white/5 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.5)] transition-opacity duration-300 sm:p-8 ${
             isAnimating ? "opacity-0" : "opacity-100"
           }`}
         >
-          <div className="rounded-lg border-2 border-[#2C3E50]/20 bg-white p-6 shadow-lg sm:p-8">
-            <h2 className="mb-6 text-xl font-semibold text-[#2C3E50] sm:text-2xl">
-              {currentQuestion.text}
-            </h2>
-
-            {/* 選択肢 */}
-            <div className="space-y-3">
-              {currentQuestion.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(option.score)}
-                  className="w-full rounded-lg border-2 border-[#2C3E50]/20 bg-white px-6 py-4 text-left text-[#2C3E50] transition-all duration-200 hover:border-[#F39C12] hover:bg-[#F39C12]/5 hover:shadow-md active:scale-95"
-                >
-                  <span className="font-medium">{option.label}</span>
-                </button>
-              ))}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-accent">balance board</p>
+              <h2 className="serif-heading mt-2 text-2xl font-semibold text-white sm:text-3xl">{currentQuestion.text}</h2>
             </div>
+            <span className="flex-shrink-0 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+              Q{step}
+            </span>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            {currentQuestion.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswer(option.score)}
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-dashed border-white/15 bg-white/[0.08] px-4 py-3 text-xs text-muted-foreground">
+            サクッと終わるエンタメ診断。音色カードのようなUIで集中を途切れさせません。
           </div>
         </div>
 
-        {/* フッター */}
-        <p className="text-center text-sm text-[#2C3E50]/60">
-          エンタメ診断（18問・約3分）
+        <p className="text-center text-xs uppercase tracking-[0.35em] text-muted-foreground">
+          entertainment mode / 18 questions
         </p>
       </div>
     </div>
@@ -181,8 +207,8 @@ export default function Compatibility18QuestionPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <p className="text-[#2C3E50]">読み込み中...</p>
+        <div className="flex min-h-screen items-center justify-center text-foreground">
+          <p>読み込み中...</p>
         </div>
       }
     >
@@ -190,4 +216,3 @@ export default function Compatibility18QuestionPage() {
     </Suspense>
   );
 }
-
