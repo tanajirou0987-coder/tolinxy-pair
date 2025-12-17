@@ -21,24 +21,35 @@ function Compatibility54QuestionsContent() {
   // セッションIDがあるが役割が指定されていない場合、自動的に役割を割り当て
   useEffect(() => {
     if (sessionId && !isValidParticipant) {
+      console.log(`[QuestionsContent] 役割割り当て開始: sessionId=${sessionId}`);
       const assignRole = async () => {
         try {
+          console.log(`[QuestionsContent] API呼び出し: /api/sessions/${sessionId}/assign-role`);
           const response = await fetch(`/api/sessions/${sessionId}/assign-role`, {
             method: "POST",
           });
+          
           if (!response.ok) {
-            throw new Error("役割の割り当てに失敗しました");
+            const errorData = await response.json().catch(() => ({}));
+            console.error(`[QuestionsContent] APIエラー:`, response.status, errorData);
+            throw new Error(errorData.error || "役割の割り当てに失敗しました");
           }
+          
           const data = await response.json();
+          console.log(`[QuestionsContent] APIレスポンス:`, data);
+          
           if (data.role) {
             // 役割が割り当てられたら、その役割でリダイレクト
-            router.replace(`/diagnoses/compatibility-54/questions?sessionId=${sessionId}&role=${data.role}`);
+            const redirectUrl = `/diagnoses/compatibility-54/questions?sessionId=${sessionId}&role=${data.role}`;
+            console.log(`[QuestionsContent] リダイレクト: ${redirectUrl}`);
+            router.replace(redirectUrl);
           } else {
             // 満員の場合はエラーページへ
+            console.log(`[QuestionsContent] セッションが満員`);
             router.replace(`/diagnoses/compatibility-54/multi?error=full`);
           }
         } catch (err) {
-          console.error("役割割り当てエラー:", err);
+          console.error("[QuestionsContent] 役割割り当てエラー:", err);
           router.replace(`/diagnoses/compatibility-54/multi?error=assign`);
         }
       };

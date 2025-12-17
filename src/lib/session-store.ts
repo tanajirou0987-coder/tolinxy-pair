@@ -118,30 +118,38 @@ export function setParticipantCompletion(
  */
 export function assignParticipantRole(sessionId: string): ParticipantRole | null {
   const session = getSession(sessionId);
-  if (!session) return null;
+  if (!session) {
+    console.log(`[assignParticipantRole] セッションが見つかりません: ${sessionId}`);
+    return null;
+  }
 
   const userState = session.participants.user;
   const partnerState = session.participants.partner;
+  const now = Date.now();
 
   // 両方とも初期状態（createdAtと同じupdatedAt）なら、userを割り当て
   if (userState.updatedAt === session.createdAt && partnerState.updatedAt === session.createdAt) {
-    userState.updatedAt = Date.now();
+    userState.updatedAt = now;
+    console.log(`[assignParticipantRole] userを割り当て: ${sessionId}`);
     return "user";
   }
 
-  // userが既に参加している場合、partnerを割り当て
+  // userが既に参加している場合（updatedAtがcreatedAtより大きい）、partnerを割り当て
   if (userState.updatedAt > session.createdAt && partnerState.updatedAt === session.createdAt) {
-    partnerState.updatedAt = Date.now();
+    partnerState.updatedAt = now;
+    console.log(`[assignParticipantRole] partnerを割り当て: ${sessionId}`);
     return "partner";
   }
 
   // partnerが既に参加している場合、userを割り当て
   if (partnerState.updatedAt > session.createdAt && userState.updatedAt === session.createdAt) {
-    userState.updatedAt = Date.now();
+    userState.updatedAt = now;
+    console.log(`[assignParticipantRole] userを割り当て（partner既参加）: ${sessionId}`);
     return "user";
   }
 
   // 両方とも既に参加している場合はnullを返す（満員）
+  console.log(`[assignParticipantRole] セッションが満員: ${sessionId}`);
   return null;
 }
 
