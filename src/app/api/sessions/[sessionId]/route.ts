@@ -10,16 +10,18 @@ import type { Score } from "@/lib/types";
 
 const REQUIRED_ANSWERS = 54;
 
-export async function GET(_: Request, { params }: { params: { sessionId: string } }) {
-  const session = getSession(params.sessionId);
+export async function GET(_: Request, { params }: { params: Promise<{ sessionId: string }> }) {
+  const { sessionId } = await params;
+  const session = getSession(sessionId);
   if (!session) {
     return NextResponse.json({ error: "セッションが見つかりません。" }, { status: 404 });
   }
   return NextResponse.json(buildSessionResponse(session));
 }
 
-export async function PATCH(request: Request, { params }: { params: { sessionId: string } }) {
-  const session = getSession(params.sessionId);
+export async function PATCH(request: Request, { params }: { params: Promise<{ sessionId: string }> }) {
+  const { sessionId } = await params;
+  const session = getSession(sessionId);
   if (!session) {
     return NextResponse.json({ error: "セッションが見つかりません。" }, { status: 404 });
   }
