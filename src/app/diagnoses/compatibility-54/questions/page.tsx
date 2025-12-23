@@ -196,27 +196,26 @@ function SingleDeviceQuestions() {
   }, [answersMap]);
 
   return (
-    <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <BackgroundEffect />
-
-      <div className="relative mx-auto w-full max-w-3xl space-y-10">
+    <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+      {/* スマホ用レイアウト */}
+      <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-3 py-1 text-white">
-            <span className="text-sm font-black">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
-            <span className="text-[10px] font-black bg-white/15 px-1.5 py-0.5 rounded-full">{step === "user" ? "1/2" : "2/2"}</span>
+          <div className="inline-flex items-center gap-1.5 rounded-[16px] border border-black bg-[#e2bef1] px-3 py-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
+            <span className="text-[10px] font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-1.5 py-0.5 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "1/2" : "2/2"}</span>
           </div>
         </div>
 
-        <div className="sticky top-0 z-20 -mx-4 border-b border-white/15 bg-white/5 px-4 py-2 backdrop-blur-sm">
-          <div className="mb-1.5 flex items-center justify-between text-sm text-white">
-            <span className="font-black text-xs">
+        <div className="sticky top-0 z-20 -mx-4 border-b border-black bg-white px-4 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <div className="mb-1.5 flex items-center justify-between text-sm">
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-xs text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
               {answeredCount} / {TOTAL_QUESTIONS}
             </span>
-            <span className="font-black text-lg text-[#ff006e]">{Math.round(progress)}%</span>
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-lg text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full border border-white/15 bg-white/5">
+          <div className="h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
             <div
-              className="h-full rounded-full bg-[#ff006e] transition-all duration-200"
+              className="h-full rounded-full bg-[#e2bef1] transition-all duration-200"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -245,38 +244,120 @@ function SingleDeviceQuestions() {
         </div>
 
         <div className="mt-12 space-y-4 text-center">
-          <p className="text-sm font-black uppercase tracking-wider text-white/60">徹底診断（54問・約7分）</p>
+          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
           {step === "user" ? (
             userAnswers.length === TOTAL_QUESTIONS ? (
-              <div className="space-y-3 rounded-2xl border-2 border-white/20 bg-white/10 p-6">
-                <p className="text-base font-black text-white">
+              <div className="space-y-3 rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                   自分の回答がそろいました！<br />
                   内容に間違いがないか確認してからパートナーに渡してください。
                 </p>
                 <button
                   onClick={handleConfirmStep}
                   disabled={isTransitioningStep}
-                  className="inline-flex w-full items-center justify-center rounded-xl border-2 border-white bg-white px-6 py-3 text-base font-black text-black disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
                 >
                   パートナーの回答に進む →
                 </button>
               </div>
             ) : (
-              <p className="text-xs font-bold text-white/60">すべて回答するとパートナーにバトンタッチできます</p>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答するとパートナーにバトンタッチできます</p>
             )
           ) : partnerAnswers.length === TOTAL_QUESTIONS ? (
-            <div className="space-y-3 rounded-2xl border-2 border-white/20 bg-white/10 p-6">
-              <p className="text-base font-black text-white">2人分の回答がそろいました！<br />診断結果を作成します</p>
+            <div className="space-y-3 rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">2人分の回答がそろいました！<br />診断結果を作成します</p>
               <button
                 onClick={handleConfirmStep}
                 disabled={isCalculating}
-                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-white bg-[#00f5ff] px-6 py-3 text-base font-black text-white disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
               >
                 結果を表示
               </button>
             </div>
           ) : (
-            <p className="text-xs font-bold text-white/60">パートナーの回答をすべて埋めてから結果へ進めます</p>
+            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答をすべて埋めてから結果へ進めます</p>
+          )}
+        </div>
+      </div>
+
+      {/* PC用レイアウト */}
+      <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
+            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-3 py-1 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "1/2" : "2/2"}</span>
+          </div>
+        </div>
+
+        <div className="sticky top-0 z-20 border-b border-black bg-white px-8 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <div className="mb-3 flex items-center justify-between text-lg">
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              {answeredCount} / {TOTAL_QUESTIONS}
+            </span>
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
+          </div>
+          <div className="h-5 w-full overflow-hidden rounded-full border border-black bg-white">
+            <div
+              className="h-full rounded-full bg-[#e2bef1] transition-all duration-200"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4 pb-8">
+          {questions.map((question, index) => {
+            const currentAnswer = getAnswerForQuestion(question.id);
+            const isAnswered = currentAnswer !== null;
+            const priority = index < 5 || isAnswered;
+
+            return (
+              <LazyQuestionCard
+                key={`${step}-${question.id}`}
+                question={question}
+                index={index}
+                currentAnswer={currentAnswer}
+                isAnswered={isAnswered}
+                onAnswer={handleAnswer}
+                step={step}
+                priority={priority}
+              />
+            );
+          })}
+        </div>
+
+        <div className="mt-12 space-y-4 text-center">
+          <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
+          {step === "user" ? (
+            userAnswers.length === TOTAL_QUESTIONS ? (
+              <div className="space-y-4 rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                  自分の回答がそろいました！<br />
+                  内容に間違いがないか確認してからパートナーに渡してください。
+                </p>
+                <button
+                  onClick={handleConfirmStep}
+                  disabled={isTransitioningStep}
+                  className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+                >
+                  パートナーの回答に進む →
+                </button>
+              </div>
+            ) : (
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答するとパートナーにバトンタッチできます</p>
+            )
+          ) : partnerAnswers.length === TOTAL_QUESTIONS ? (
+            <div className="space-y-4 rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">2人分の回答がそろいました！<br />診断結果を作成します</p>
+              <button
+                onClick={handleConfirmStep}
+                disabled={isCalculating}
+                className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+              >
+                結果を表示
+              </button>
+            </div>
+          ) : (
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答をすべて埋めてから結果へ進めます</p>
           )}
         </div>
       </div>
@@ -417,51 +498,50 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
   };
 
   return (
-    <div className="relative min-h-screen px-4 py-12 sm:px-6 lg:px-8">
-      <BackgroundEffect />
-
-      <div className="relative mx-auto w-full max-w-3xl space-y-10">
-        <div className="rounded-2xl border-2 border-white/20 bg-white/5 p-4">
-          <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-center sm:justify-between mb-4">
-            <div className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/20 bg-white/10 px-4 py-2">
-              <span className="text-sm font-black text-white">{participant === "user" ? "あなた" : "パートナー"}</span>
-              <span className="text-xs font-black text-white/60 bg-white/10 px-2 py-0.5 rounded-full">ID {sessionId.slice(0, 6)}</span>
+    <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+      {/* スマホ用レイアウト */}
+      <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
+        <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <div className="flex flex-col gap-3 text-center mb-4">
+            <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-4 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
+              <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-2 py-0.5 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ID {sessionId.slice(0, 6)}</span>
             </div>
             <button
               onClick={handleCopyShareLink}
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-black text-white hover:bg-white/20"
+              className="rounded-[16px] border border-black bg-white px-3 py-1.5 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
             >
               URLコピー
             </button>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border-2 border-white/10 bg-white/5 p-4">
-              <p className="text-xs font-black text-white/60 mb-1">あなたの進捗</p>
-              <p className="text-2xl font-black text-[#00f5ff] mb-1">{Math.round(progress)}%</p>
-              <p className="text-xs text-white/70">{answeredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-white/10 bg-white/5">
-                <div className="h-full rounded-full bg-[#00f5ff] transition-all duration-200" style={{ width: `${progress}%` }}></div>
+          <div className="grid gap-3 grid-cols-2">
+            <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたの進捗</p>
+              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</p>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
+                <div className="h-full rounded-full bg-[#e2bef1] transition-all duration-200" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
-            <div className="rounded-xl border-2 border-white/10 bg-white/5 p-4">
-              <p className="text-xs font-black text-white/60 mb-1">パートナーの進捗</p>
-              <p className="text-2xl font-black text-[#ff006e] mb-1">{Math.round(partnerProgress)}%</p>
-              <p className="text-xs text-white/70">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-white/10 bg-white/5">
-                <div className="h-full rounded-full bg-[#ff006e] transition-all duration-200" style={{ width: `${partnerProgress}%` }}></div>
+            <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの進捗</p>
+              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(partnerProgress)}%</p>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
+                <div className="h-full rounded-full bg-[#f97b83] transition-all duration-200" style={{ width: `${partnerProgress}%` }}></div>
               </div>
-              <p className="mt-1 text-xs font-black text-white/70">
+              <p className="mt-1 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                 {sessionData?.participants[partnerRole].completed ? "完了" : "回答中"}
               </p>
             </div>
           </div>
           {error && (
-            <p className="mt-3 text-center text-xs font-black text-white bg-red-500/20 border border-red-500/30 rounded-xl px-3 py-2">
+            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black bg-red-100 border border-red-300 rounded-[16px] px-3 py-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
               {error}
             </p>
           )}
           {syncing && (
-            <p className="mt-3 text-center text-xs font-black text-white/50">同期中...</p>
+            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/50 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">同期中...</p>
           )}
         </div>
 
@@ -487,21 +567,107 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[40px] border-4 border-white/30 bg-gradient-to-r from-[#00f5ff]/30 to-[#8338ec]/30 p-8 text-center">
-          <p className="text-xs font-black text-white/50 mb-3">相性診断（54問） / セッション同期モード</p>
+        <div className="mt-12 space-y-4 rounded-[16px] border border-black bg-[#e2bef1] p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
               onClick={handleComplete}
               disabled={isSubmittingComplete}
-              className="inline-flex w-full items-center justify-center rounded-xl border-2 border-white bg-[#00f5ff] px-6 py-3 text-base font-black text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
             >
               {isSubmittingComplete ? "送信中..." : "回答を確定する"}
             </button>
           ) : (
-            <p className="text-xs font-bold text-white/60">すべて回答すると自動で相手と同期されます。</p>
+            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答すると自動で相手と同期されます。</p>
           )}
           {sessionData?.participants[participant].completed && !sessionData.readyForResult && (
-            <p className="text-xs font-black text-white/70 mt-2">パートナーの回答を待っています...</p>
+            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mt-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答を待っています...</p>
+          )}
+        </div>
+      </div>
+
+      {/* PC用レイアウト */}
+      <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+        <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <div className="flex flex-row items-center justify-between mb-6">
+            <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
+              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-3 py-1 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ID {sessionId.slice(0, 6)}</span>
+            </div>
+            <button
+              onClick={handleCopyShareLink}
+              className="rounded-[16px] border border-black bg-white px-4 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+            >
+              URLコピー
+            </button>
+          </div>
+          <div className="grid gap-4 grid-cols-2">
+            <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたの進捗</p>
+              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</p>
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-3 w-full overflow-hidden rounded-full border border-black bg-white">
+                <div className="h-full rounded-full bg-[#e2bef1] transition-all duration-200" style={{ width: `${progress}%` }}></div>
+              </div>
+            </div>
+            <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの進捗</p>
+              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(partnerProgress)}%</p>
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-3 w-full overflow-hidden rounded-full border border-black bg-white">
+                <div className="h-full rounded-full bg-[#f97b83] transition-all duration-200" style={{ width: `${partnerProgress}%` }}></div>
+              </div>
+              <p className="mt-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                {sessionData?.participants[partnerRole].completed ? "完了" : "回答中"}
+              </p>
+            </div>
+          </div>
+          {error && (
+            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black bg-red-100 border border-red-300 rounded-[16px] px-4 py-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              {error}
+            </p>
+          )}
+          {syncing && (
+            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/50 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">同期中...</p>
+          )}
+        </div>
+
+        <div className="space-y-4 pb-8">
+          {questions.map((question, index) => {
+            const currentAnswer = getAnswerForQuestion(question.id);
+            const isAnswered = currentAnswer !== null;
+            const priority = index < 5 || isAnswered;
+
+            return (
+              <LazyQuestionCard
+                key={question.id}
+                question={question}
+                index={index}
+                currentAnswer={currentAnswer}
+                isAnswered={isAnswered}
+                onAnswer={handleAnswer}
+                step={participant === "user" ? "user" : "partner"}
+                priority={priority}
+              />
+            );
+          })}
+        </div>
+
+        <div className="mt-12 space-y-4 rounded-[16px] border border-black bg-[#e2bef1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
+          {answers.length === TOTAL_QUESTIONS ? (
+            <button
+              onClick={handleComplete}
+              disabled={isSubmittingComplete}
+              className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-white px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+            >
+              {isSubmittingComplete ? "送信中..." : "回答を確定する"}
+            </button>
+          ) : (
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答すると自動で相手と同期されます。</p>
+          )}
+          {sessionData?.participants[participant].completed && !sessionData.readyForResult && (
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mt-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答を待っています...</p>
           )}
         </div>
       </div>

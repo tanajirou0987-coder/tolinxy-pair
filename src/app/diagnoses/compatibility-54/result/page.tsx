@@ -95,7 +95,7 @@ function ResultContent() {
         <Button
           type="button"
           onClick={() => router.push("/")}
-          className="pointer-events-auto rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
         >
           トップに戻る
         </Button>

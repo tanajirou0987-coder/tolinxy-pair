@@ -21,25 +21,25 @@ export const QuestionCard = memo(function QuestionCard({
   return (
     <div
       key={`${step}-${question.id}`}
-      className={`rounded-xl border p-3 text-white ${
+      className={`rounded-[16px] border border-black p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] ${
         isAnswered 
-          ? "border-white/25 bg-[#ff006e]/15" 
-          : "border-white/8 bg-white/3"
+          ? "bg-[#e2bef1]" 
+          : "bg-white"
       }`}
     >
-      <div className="mb-2 flex items-start justify-between gap-2">
-        <h2 className="text-base font-black leading-snug flex-1">
+      <div className="mb-3 flex items-start justify-between gap-2">
+        <h2 className="text-base md:text-lg font-['Coming_Soon:Regular',sans-serif] font-normal leading-snug flex-1 text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
           {question.text}
         </h2>
-        <span className="ml-1 flex-shrink-0 rounded border border-white/15 bg-white/8 px-2 py-0.5 text-[10px] font-black text-white">
+        <span className="ml-1 flex-shrink-0 rounded-[16px] border border-black bg-white px-2 py-1 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
           {index + 1}
         </span>
       </div>
 
       {/* MBTIスタイルの5つの丸選択 */}
-      <div className="mt-3">
+      <div className="mt-4">
         {/* ラベル */}
-        <div className="mb-2 flex items-center justify-between text-[10px] font-black text-white/60">
+        <div className="mb-3 flex items-center justify-between text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
           <span>当てはまる</span>
           <span>当てはまらない</span>
         </div>
@@ -63,14 +63,14 @@ export const QuestionCard = memo(function QuestionCard({
                   aria-label={`選択肢 score: ${option.score}`}
                 >
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 flex items-center justify-center transition-all ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-black flex items-center justify-center transition-all shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] ${
                       isSelected
-                        ? "border-[#ff006e] bg-[#ff006e] shadow-lg shadow-[#ff006e]/50"
-                        : "border-white/30 bg-white/5 active:border-white/50 active:bg-white/10"
+                        ? "bg-[#e2bef1]"
+                        : "bg-white active:bg-gray-100"
                     }`}
                   >
                     {isSelected && (
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white" />
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full bg-black" />
                     )}
                   </div>
                 </button>
@@ -81,6 +81,7 @@ export const QuestionCard = memo(function QuestionCard({
     </div>
   );
 });
+
 
 
 

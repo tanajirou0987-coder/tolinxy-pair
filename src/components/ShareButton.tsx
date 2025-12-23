@@ -22,9 +22,9 @@ export const ShareButton: React.FC<ShareButtonProps> = ({ shareUrl, darkTheme = 
     }
   };
 
-  const baseClasses = "rounded-full px-8 py-3 text-base font-semibold transition";
-  const darkThemeClasses = "border border-white/20 text-white hover:border-primary hover:text-primary";
-  const lightThemeClasses = "bg-indigo-600 text-white hover:bg-indigo-700";
+  const baseClasses = "rounded-[16px] px-6 py-3 text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal transition shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]";
+  const darkThemeClasses = "border border-white/20 bg-white/10 text-white hover:border-white/40 hover:bg-white/20";
+  const lightThemeClasses = "border border-black bg-white text-black hover:bg-gray-100";
 
   return (
     <Button 
