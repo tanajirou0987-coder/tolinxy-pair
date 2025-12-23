@@ -110,3 +110,7 @@ for (const axis of axes) {
 const questions54Path = join(process.cwd(), "data/diagnoses/compatibility-54/questions.json");
 writeFileSync(questions54Path, JSON.stringify(questions54, null, 2), "utf-8");
 console.log(`✅ 54問の質問データをMBTIスタイルに変換しました`);
+
+
+
+

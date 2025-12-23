@@ -26,6 +26,11 @@ export function useSession() {
 
       const data = await response.json();
       setSession({ sessionId: data.sessionId, expiresAt: data.expiresAt });
+      
+      // セッション作成者のsessionIdをlocalStorageに保存
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`session_creator_${data.sessionId}`, "true");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "セッションの作成に失敗しました");
     } finally {
@@ -35,4 +40,8 @@ export function useSession() {
 
   return { session, isCreating, error, createSession };
 }
+
+
+
+
 

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前は説明していたことを「まぁええか」と思った瞬間</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.9;
+            color: #2c2c2c;
+            padding: 0;
+        }
+
+        /* 記事コンテナ */
+        .article-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            background: #ffffff;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* タイトル */
+        .article-title {
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+            font-feature-settings: "palt";
+        }
+
+        @media (min-width: 768px) {
+            .article-title {
+                font-size: 2.25rem;
+            }
+        }
+
+        /* イントロ部分 */
+        .article-intro {
+            font-size: 1.0625rem;
+            line-height: 2;
+            color: #4a4a4a;
+            margin-bottom: 48px;
+            padding-left: 0;
+            border-left: none;
+            font-weight: 300;
+        }
+
+        /* 区切り線 */
+        .divider {
+            border: none;
+            border-top: 1px solid #e8e8e8;
+            margin: 48px 0;
+            width: 60px;
+        }
+
+        /* 見出し */
+        .article-container h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 56px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            letter-spacing: -0.01em;
+            font-feature-settings: "palt";
+        }
+
+        .article-container h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2a2a2a;
+            letter-spacing: -0.01em;
+        }
+
+        /* 段落 */
+        .article-container p {
+            font-size: 1rem;
+            line-height: 2;
+            margin-bottom: 24px;
+            color: #3a3a3a;
+            font-weight: 300;
+        }
+
+        /* リスト */
+        .article-container ul,
+        .article-container ol {
+            margin-bottom: 32px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .article-container li {
+            font-size: 1rem;
+            line-height: 2;
+            margin-bottom: 16px;
+            color: #3a3a3a;
+            padding-left: 24px;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .article-container ul li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #999;
+            font-weight: 300;
+        }
+
+        /* 強調 */
+        .article-container strong {
+            font-weight: 500;
+            color: #1a1a1a;
+            background: transparent;
+            padding: 2px 4px;
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+
+        /* イタリック */
+        .article-container em {
+            font-style: italic;
+            color: #555;
+        }
+
+        /* 引用風のボックス */
+        .quote-box {
+            padding: 32px 0;
+            margin: 40px 0;
+            border-left: 2px solid #d0d0d0;
+            padding-left: 32px;
+            font-size: 1.0625rem;
+            line-height: 2;
+            color: #4a4a4a;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* まとめセクション */
+        .summary-section {
+            margin-top: 64px;
+            padding-top: 48px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .summary-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #666;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .summary-content {
+            font-size: 1rem;
+            line-height: 2;
+            color: #3a3a3a;
+            font-weight: 300;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 767px) {
+            .article-container {
+                padding: 40px 20px;
+            }
+            
+            .article-title {
+                font-size: 1.75rem;
+            }
+            
+            .article-container h2 {
+                font-size: 1.375rem;
+                margin-top: 48px;
+            }
+            
+            .article-container h3 {
+                font-size: 1.125rem;
+            }
+            
+            .article-intro {
+                font-size: 1rem;
+            }
+            
+            .quote-box {
+                padding-left: 24px;
+                font-size: 1rem;
+            }
+        }
+
+        /* 読みやすさ向上 */
+        .article-container a {
+            color: #666;
+            text-decoration: underline;
+            text-decoration-color: #ccc;
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+
+        .article-container a:hover {
+            color: #333;
+            text-decoration-color: #999;
+        }
+
+        /* スペーシング調整 */
+        .article-container > *:first-child {
+            margin-top: 0;
+        }
+
+        .article-container > *:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 小さな装飾 */
+        .decorative-line {
+            width: 40px;
+            height: 1px;
+            background: #d0d0d0;
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="article-container">
+    <h1 class="article-title">前は説明していたことを「まぁええか」と思った瞬間</h1>
+
+    <div class="article-intro">
+        関係が変わるとき、多くの場合、大きな出来事は起きていません。喧嘩をしたわけでもない。嫌いになったわけでもない。決定的な一言があったわけでもない。ただ、<strong>前は説明していたことを「まぁええか」と思った</strong>。その判断があっただけです。
+    </div>
+
+    <hr class="divider">
+
+    <h2>「まぁええか」は、距離を取る宣言ではない</h2>
+
+    <p>この「まぁええか」は、距離を取ろうとする意思表示ではありません。むしろ、多くの場合は逆です。</p>
+
+    <ul>
+        <li>今は言わなくても大丈夫だと思った</li>
+        <li>説明するほどのことじゃないと感じた</li>
+        <li>関係が安定している証拠だと思った</li>
+    </ul>
+
+    <p>つまりこれは、関係を信頼しているからこそ出てくる判断です。</p>
+
+    <hr class="divider">
+
+    <h2>説明をやめた瞬間に起きていること</h2>
+
+    <p>説明をやめたからといって、感情や違和感が消えたわけではありません。それらは、「共有されないもの」として関係の外に置かれます。</p>
+
+    <ul>
+        <li>誤解されるかもしれない感覚</li>
+        <li>以前なら伝えていた小さな引っかかり</li>
+        <li>言葉にすると面倒になりそうな気持ち</li>
+    </ul>
+
+    <p>これらが、問題ではないものとして処理されていきます。この時点では、関係が悪くなったという実感はほとんどありません。</p>
+
+    <hr class="divider">
+
+    <h2>「説明しなくてもいい関係」になったという感覚</h2>
+
+    <p>「まぁええか」と思った瞬間、関係はひとつの段階を越えています。それは、<strong>説明しなくても成立する関係</strong>に入った、という感覚です。</p>
+
+    <p>この感覚は楽です。言葉を選ばなくていい。誤解を気にしなくていい。波風を立てなくていい。</p>
+
+    <p>ただし同時に、関係の中で更新される情報は減っていきます。</p>
+
+    <hr class="divider">
+
+    <h2>問題が起きないから、問題として認識されない</h2>
+
+    <p>説明をやめた直後、何かが壊れることはほとんどありません。関係は普通に続きます。むしろ、前より穏やかに感じることさえあります。</p>
+
+    <p>だからこそ、この変化は見逃されやすい。説明しなくなったこと自体が、問題として扱われることはほぼないからです。</p>
+
+    <hr class="divider">
+
+    <h2>「まぁええか」が続いた先で起きやすいこと</h2>
+
+    <p>この判断が何度も重なると、次のような状態が生まれやすくなります。</p>
+
+    <ul>
+        <li>何を共有していないのか分からなくなる</li>
+        <li>自分の中だけで処理する感覚が増える</li>
+        <li>関係は続いているのに、手応えが薄くなる</li>
+    </ul>
+
+    <p>これは、関係が壊れている状態ではありません。ただ、<strong>説明という選択肢が関係から少しずつ消えている状態</strong>です。</p>
+
+    <hr class="divider">
+
+    <h2>説明をやめること自体が悪いわけではない</h2>
+
+    <p>ここで重要なのは、説明をやめたことを否定しないことです。すべてを言葉にする関係は、それはそれで負担になります。</p>
+
+    <p>問題になるのは、「説明してもいい関係だと思えるかどうか」その感覚が残っているかどうかです。</p>
+
+    <div class="summary-section">
+        <div class="summary-title">まとめに代えて</div>
+        <div class="summary-content">
+            前は説明していたことを「まぁええか」と思った瞬間、関係は終わりに向かっているわけではありません。ただ、関係の使い方が変わっただけです。説明しなくても続く関係になったのか。それとも、説明できなくなった関係になったのか。その違いは、あとから振り返ったときに、静かに見えてくるものかもしれません。
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+

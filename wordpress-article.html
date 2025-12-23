@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相性が良い関係ほど、静かに疲れていくことがある</title>
+    <style>
+/* 記事コンテナ */
+.pairly-article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    line-height: 1.8;
+    color: #333333;
+    background: #ffffff;
+}
+
+/* タイトル */
+.pairly-article-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+    border-bottom: 3px solid #ff006e;
+    padding-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-article-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* イントロ */
+.pairly-article-intro {
+    font-size: 1.125rem;
+    line-height: 1.9;
+    color: #555555;
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #8338ec;
+    border-radius: 4px;
+}
+
+/* 見出し */
+.pairly-article-container h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-top: 48px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.pairly-article-container h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: #2a2a2a;
+}
+
+.pairly-article-container h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #3a3a3a;
+}
+
+/* 段落 */
+.pairly-article-container p {
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* リスト */
+.pairly-article-container ul,
+.pairly-article-container ol {
+    margin-bottom: 24px;
+    padding-left: 24px;
+}
+
+.pairly-article-container li {
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 12px;
+    color: #333333;
+}
+
+.pairly-article-container ul li {
+    list-style-type: disc;
+}
+
+.pairly-article-container ol li {
+    list-style-type: decimal;
+}
+
+/* 強調 */
+.pairly-article-container strong {
+    font-weight: 700;
+    color: #1a1a1a;
+    background: linear-gradient(transparent 60%, rgba(255, 0, 110, 0.2) 60%);
+}
+
+/* 区切り線 */
+.pairly-article-divider {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 40px 0;
+}
+
+/* ボックス（重要ポイント） */
+.pairly-article-box {
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 8px;
+    border-left: 4px solid #ff006e;
+    background: #f8f9fa;
+}
+
+.pairly-article-box-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1a1a1a;
+}
+
+.pairly-article-box-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333333;
+}
+
+/* まとめボックス */
+.pairly-article-summary {
+    padding: 32px;
+    margin: 48px 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.pairly-article-summary-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.pairly-article-summary-content {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: #333333;
+}
+
+/* モバイル対応 */
+@media (max-width: 767px) {
+    .pairly-article-container {
+        padding: 24px 16px;
+    }
+    
+    .pairly-article-title {
+        font-size: 1.75rem;
+    }
+    
+    .pairly-article-container h2 {
+        font-size: 1.5rem;
+    }
+    
+    .pairly-article-container h3 {
+        font-size: 1.25rem;
+    }
+    
+    .pairly-article-intro {
+        font-size: 1rem;
+        padding: 16px;
+    }
+    
+    .pairly-article-box {
+        padding: 20px;
+    }
+    
+    .pairly-article-summary {
+        padding: 24px;
+    }
+}
+
+/* 読みやすさ向上 */
+.pairly-article-container a {
+    color: #8338ec;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.pairly-article-container a:hover {
+    color: #ff006e;
+}
+
+/* スペーシング調整 */
+.pairly-article-container > *:first-child {
+    margin-top: 0;
+}
+
+.pairly-article-container > *:last-child {
+    margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="pairly-article-container">
+    <h1 class="pairly-article-title">相性が良い関係ほど、静かに疲れていくことがある</h1>
+
+    <div class="pairly-article-intro">
+        人間関係において「相性が良い」という言葉は、多くの場合、安心や期待と結びついて使われます。価値観が近い、会話が合う、一緒にいて自然。そうした要素が揃っている関係は、一般的に「理想的」とされがちです。しかし現実には、<strong>相性が良いと感じている関係ほど、説明しにくい疲れが蓄積していく</strong>というケースも少なくありません。本記事では、その理由を感情論ではなく、人間関係の構造として整理します。
+    </div>
+
+    <hr class="pairly-article-divider">
+
+    <h2>「分かり合えている」という前提が生む負荷</h2>
+
+    <p>相性が良い関係では、「この人は分かってくれるはずだ」という前提が無意識に生まれます。この前提は、安心感を与える一方で、次のような状態を引き起こすことがあります。</p>
+
+    <ul>
+        <li>説明を省略する</li>
+        <li>違和感を言語化せずに飲み込む</li>
+        <li>小さなズレを修正しないまま進む</li>
+    </ul>
+
+    <p>結果として、<strong>理解されているはずなのに、理解されていない感覚</strong>が静かに積み重なっていきます。</p>
+
+    <div class="pairly-article-box">
+        <div class="pairly-article-box-title">重要なポイント</div>
+        <div class="pairly-article-box-content">
+            「分かり合えている」という前提が、かえってコミュニケーションの省略を生み、すれ違いを蓄積させることがあります。相性が良い関係ほど、この前提が強くなりやすい点に注意が必要です。
+        </div>
+    </div>
+
+    <hr class="pairly-article-divider">
+
+    <h2>相性が良い＝調整が不要、ではない</h2>
+
+    <p>関係性における疲労は、衝突の多さだけで決まるものではありません。むしろ、衝突が少ない関係ほど、調整が見えにくい形で行われていることがあります。</p>
+
+    <ul>
+        <li>空気を読む</li>
+        <li>相手に合わせる</li>
+        <li>自分の基準を微調整し続ける</li>
+    </ul>
+
+    <p>これらは一つひとつは小さな行為ですが、長期的には負荷として蓄積します。相性が良い関係ほど、この調整が「当たり前」になりやすい点には注意が必要です。</p>
+
+    <hr class="pairly-article-divider">
+
+    <h2>疲れは関係の失敗を意味しない</h2>
+
+    <p>重要なのは、疲れを感じること自体が、関係の失敗を示すわけではないという点です。疲れは、関係性の中で何らかのバランスが変化しているサインでもあります。</p>
+
+    <ul>
+        <li>役割が固定されすぎていないか</li>
+        <li>期待が一方に偏っていないか</li>
+        <li>話し合う余地が残っているか</li>
+    </ul>
+
+    <p>こうした視点を持つことで、疲れは「終わりの兆候」ではなく、<strong>見直しのきっかけ</strong>として扱うことができます。</p>
+
+    <hr class="pairly-article-divider">
+
+    <h2>相性よりも「更新できる関係かどうか」</h2>
+
+    <p>人間関係において重要なのは、相性そのものよりも、関係を更新できる余地があるかどうかです。どれだけ相性が良くても、関係が固定された状態では、変化に対応できなくなります。</p>
+
+    <p>一方で、違いがあっても調整や対話が可能な関係は、時間とともに安定していくことがあります。</p>
+
+    <div class="pairly-article-box">
+        <div class="pairly-article-box-title">重要なポイント</div>
+        <div class="pairly-article-box-content">
+            相性の良し悪しと、関係に感じる負担は別の軸で考えることが大切です。疲れを感じたときは、相性そのものではなく、関係性の構造（期待の置き方、距離感、役割分担など）を見直すことで、調整の余地が見えてきます。
+        </div>
+    </div>
+
+    <hr class="pairly-article-divider">
+
+    <div class="pairly-article-summary">
+        <div class="pairly-article-summary-title">まとめ</div>
+        <div class="pairly-article-summary-content">
+            相性が良いと感じる関係の中で疲れを覚えたとき、それは必ずしも否定的な兆候ではありません。関係性が変化していることに気づくための、静かなサインである場合もあります。相性という言葉に安心しすぎず、関係を見直す視点を持つことが、長期的な人間関係において重要です。
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

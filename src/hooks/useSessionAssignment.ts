@@ -22,6 +22,19 @@ export function useSessionAssignment({
     setIsAssigning(true);
     const assignRole = async () => {
       try {
+        // セッション作成者の場合は自動で「user」ロールを割り当て
+        if (typeof window !== "undefined") {
+          const isCreator = localStorage.getItem(`session_creator_${sessionId}`) === "true";
+          if (isCreator) {
+            router.replace(
+              `/diagnoses/compatibility-54/questions?sessionId=${sessionId}&role=user`
+            );
+            setIsAssigning(false);
+            return;
+          }
+        }
+
+        // セッション作成者でない場合は、APIで自動割り当て
         const response = await fetch(`/api/sessions/${sessionId}/assign-role`, {
           method: "POST",
         });
@@ -53,4 +66,8 @@ export function useSessionAssignment({
 
   return { isAssigning, isValidParticipant };
 }
+
+
+
+
 

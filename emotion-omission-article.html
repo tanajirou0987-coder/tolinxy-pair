@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>関係が壊れる前に起きる「感情の省略」について</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.9;
+            color: #2c2c2c;
+            padding: 0;
+        }
+
+        /* 記事コンテナ */
+        .article-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            background: #ffffff;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* タイトル */
+        .article-title {
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: #1a1a1a;
+            letter-spacing: -0.02em;
+            font-feature-settings: "palt";
+        }
+
+        @media (min-width: 768px) {
+            .article-title {
+                font-size: 2.25rem;
+            }
+        }
+
+        /* イントロ部分 */
+        .article-intro {
+            font-size: 1.0625rem;
+            line-height: 2;
+            color: #4a4a4a;
+            margin-bottom: 48px;
+            padding-left: 0;
+            border-left: none;
+            font-weight: 300;
+        }
+
+        /* 区切り線 */
+        .divider {
+            border: none;
+            border-top: 1px solid #e8e8e8;
+            margin: 48px 0;
+            width: 60px;
+        }
+
+        /* 見出し */
+        .article-container h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 56px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            letter-spacing: -0.01em;
+            font-feature-settings: "palt";
+        }
+
+        .article-container h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2a2a2a;
+            letter-spacing: -0.01em;
+        }
+
+        /* 段落 */
+        .article-container p {
+            font-size: 1rem;
+            line-height: 2;
+            margin-bottom: 24px;
+            color: #3a3a3a;
+            font-weight: 300;
+        }
+
+        /* リスト */
+        .article-container ul,
+        .article-container ol {
+            margin-bottom: 32px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .article-container li {
+            font-size: 1rem;
+            line-height: 2;
+            margin-bottom: 16px;
+            color: #3a3a3a;
+            padding-left: 24px;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .article-container ul li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: #999;
+            font-weight: 300;
+        }
+
+        /* 強調 */
+        .article-container strong {
+            font-weight: 500;
+            color: #1a1a1a;
+            background: transparent;
+            padding: 2px 4px;
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+
+        /* イタリック */
+        .article-container em {
+            font-style: italic;
+            color: #555;
+        }
+
+        /* 引用風のボックス */
+        .quote-box {
+            padding: 32px 0;
+            margin: 40px 0;
+            border-left: 2px solid #d0d0d0;
+            padding-left: 32px;
+            font-size: 1.0625rem;
+            line-height: 2;
+            color: #4a4a4a;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* まとめセクション */
+        .summary-section {
+            margin-top: 64px;
+            padding-top: 48px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .summary-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #666;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .summary-content {
+            font-size: 1rem;
+            line-height: 2;
+            color: #3a3a3a;
+            font-weight: 300;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 767px) {
+            .article-container {
+                padding: 40px 20px;
+            }
+            
+            .article-title {
+                font-size: 1.75rem;
+            }
+            
+            .article-container h2 {
+                font-size: 1.375rem;
+                margin-top: 48px;
+            }
+            
+            .article-container h3 {
+                font-size: 1.125rem;
+            }
+            
+            .article-intro {
+                font-size: 1rem;
+            }
+            
+            .quote-box {
+                padding-left: 24px;
+                font-size: 1rem;
+            }
+        }
+
+        /* 読みやすさ向上 */
+        .article-container a {
+            color: #666;
+            text-decoration: underline;
+            text-decoration-color: #ccc;
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+
+        .article-container a:hover {
+            color: #333;
+            text-decoration-color: #999;
+        }
+
+        /* スペーシング調整 */
+        .article-container > *:first-child {
+            margin-top: 0;
+        }
+
+        .article-container > *:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 小さな装飾 */
+        .decorative-line {
+            width: 40px;
+            height: 1px;
+            background: #d0d0d0;
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="article-container">
+    <h1 class="article-title">関係が壊れる前に起きる「感情の省略」について</h1>
+
+    <div class="article-intro">
+        人間関係が終わるとき、多くの人は「何が原因だったのか」を探そうとします。大きな喧嘩や裏切り、決定的な出来事があったのではないか。そうした分かりやすい理由を想像しがちです。けれど実際には、関係が壊れる前に起きていることは、もっと静かです。それは、<strong>感情が説明されなくなること</strong>です。
+    </div>
+
+    <hr class="divider">
+
+    <h2>言葉にしなくなる瞬間は、突然ではない</h2>
+
+    <p>最初から何も話さなくなる関係はほとんどありません。少し前までは話していたことを、「今さら言うほどでもない」と感じるようになる。その小さな判断が、何度も積み重なっていきます。</p>
+
+    <ul>
+        <li>今日は機嫌が悪い理由</li>
+        <li>少し引っかかった一言</li>
+        <li>以前なら共有していた違和感</li>
+    </ul>
+
+    <p>それらが、問題ではないものとして処理されていく。この段階では、関係が悪くなったという自覚はほとんどありません。むしろ「落ち着いた関係」だと感じることさえあります。</p>
+
+    <hr class="divider">
+
+    <h2>感情を省略すると、関係は静かに固定される</h2>
+
+    <p>感情が説明されなくなると、関係は安定したように見えます。波風が立たない。衝突も減る。相手に合わせることも苦ではない。</p>
+
+    <p>しかし同時に、関係の中で更新される情報が減っていきます。相手が今どう感じているのか。自分が何に引っかかっているのか。それらが共有されないまま、過去の理解だけが使い回されるようになります。</p>
+
+    <hr class="divider">
+
+    <h2>「察しているつもり」が距離をつくる</h2>
+
+    <p>感情を省略する理由の多くは、優しさです。</p>
+
+    <ul>
+        <li>気を遣わせたくない</li>
+        <li>面倒な話をしたくない</li>
+        <li>今は波風を立てたくない</li>
+    </ul>
+
+    <p>どれも間違ってはいません。ただ、その優しさが続くと、関係は「察しているつもり」で成り立つようになります。察しているつもりの関係では、説明されていない感情が増え、説明されていない期待も増えていきます。</p>
+
+    <hr class="divider">
+
+    <h2>壊れる前に起きているのは、断絶ではない</h2>
+
+    <p>関係が壊れる直前に起きているのは、強い拒絶や対立ではありません。多くの場合、<strong>説明されなかった感情が溜まりきった状態</strong>です。</p>
+
+    <p>だからこそ、「突然終わった」「理由が分からない」と感じやすくなります。終わったように見えた関係は、実際にはずっと前から少しずつ言葉を失っていただけなのかもしれません。</p>
+
+    <hr class="divider">
+
+    <h2>感情を全部話す必要はない</h2>
+
+    <p>ここで誤解してほしくないのは、すべての感情を言語化する必要はないということです。沈黙や省略が、必ずしも悪いわけではありません。</p>
+
+    <p>問題になるのは、省略が当たり前になり、説明するという選択肢が消えてしまうことです。</p>
+
+    <hr class="divider">
+
+    <h2>関係を保つのは、正しさではない</h2>
+
+    <p>人間関係を長く続けるために必要なのは、正しいコミュニケーションでも、完璧な理解でもありません。<strong>「まだ説明してもいい関係だと思えるか」</strong>その感覚が残っているかどうかです。</p>
+
+    <p>感情を説明する余地が残っている関係は、まだ更新される可能性を持っています。</p>
+
+    <div class="summary-section">
+        <div class="summary-title">まとめに代えて</div>
+        <div class="summary-content">
+            感情を省略し始めたとき、関係はすぐに壊れるわけではありません。むしろ、とても静かに続いていきます。だからこそ、何も問題がないように見える関係ほど、言葉が減っていないかを振り返る余地があります。これは、関係を終わらせるための話ではありません。関係がまだ更新できるかどうかを考えるための視点です。
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+

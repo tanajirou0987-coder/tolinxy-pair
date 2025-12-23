@@ -386,36 +386,37 @@ export function calculatePercentileRank(score: number): number {
  */
 export interface CompatibilityRank {
   rank: string; // SS, S, A, B, C, D, E, F, G
+  rankName: string; // ベストリア, リンクス, etc.
   tier: string; // SSランク, Sランク, etc.
-  bandName: string; // ランク帯名（評価名）
+  bandName: string; // ランク帯名（評価名）：奇跡級, 理想ペア, 赤の他人, etc.
 }
 
 export function getCompatibilityRank(percentile: number): CompatibilityRank {
   if (percentile <= 1) {
-    return { rank: "SS", tier: "SSランク", bandName: "運命レベル" };
+    return { rank: "SS", rankName: "ベストリア", tier: "SSランク", bandName: "運命レベル" };
   }
   if (percentile <= 10) {
-    return { rank: "S", tier: "Sランク", bandName: "恋人以上" };
+    return { rank: "S", rankName: "リンクス", tier: "Sランク", bandName: "恋人以上" };
   }
   if (percentile <= 20) {
-    return { rank: "A", tier: "Aランク", bandName: "恋人未満" };
+    return { rank: "A", rankName: "グットン", tier: "Aランク", bandName: "恋人未満" };
   }
   if (percentile <= 30) {
-    return { rank: "B", tier: "Bランク", bandName: "友達以上" };
+    return { rank: "B", rankName: "ライトム", tier: "Bランク", bandName: "友達以上" };
   }
   if (percentile <= 40) {
-    return { rank: "C", tier: "Cランク", bandName: "安心できる距離" };
+    return { rank: "C", rankName: "フリカ", tier: "Cランク", bandName: "安心できる距離" };
   }
   if (percentile <= 50) {
-    return { rank: "D", tier: "Dランク", bandName: "初対面感覚" };
+    return { rank: "D", rankName: "ラフネ", tier: "Dランク", bandName: "初対面感覚" };
   }
   if (percentile <= 70) {
-    return { rank: "E", tier: "Eランク", bandName: "少し距離あり" };
+    return { rank: "E", rankName: "ミスタル", tier: "Eランク", bandName: "少し距離あり" };
   }
   if (percentile <= 85) {
-    return { rank: "F", tier: "Fランク", bandName: "敬遠しがち" };
+    return { rank: "F", rankName: "バグシー", tier: "Fランク", bandName: "敬遠しがち" };
   }
-  return { rank: "G", tier: "Gランク", bandName: "赤の他人" };
+  return { rank: "G", rankName: "ゼロナ", tier: "Gランク", bandName: "赤の他人" };
 }
 
 /**

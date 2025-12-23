@@ -177,27 +177,11 @@ export default function Compatibility54MultiPage() {
                     </div>
                     <p className="text-sm text-white/80 mb-3 text-center font-black">
                       2人とも同じQRコードをスキャン<br />
-                      自動で「あなた」「パートナー」に振り分けられます
+                      セッション作成者が「あなた」、読み込んだ人が「パートナー」に自動で振り分けられます
                     </p>
                     <div className="rounded-[20px] border-2 border-white/20 bg-black/20 p-4 w-full">
                       <p className="break-words text-xs text-white/90 font-medium text-center">{joinLink}</p>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <GradientButton
-                      onClick={() => router.push(`${joinLink}&role=user`)}
-                      variant="user"
-                      className="text-base"
-                    >
-                      テスト: あなた
-                    </GradientButton>
-                    <GradientButton
-                      onClick={() => router.push(`${joinLink}&role=partner`)}
-                      variant="partner"
-                      className="text-base"
-                    >
-                      テスト: パートナー
-                    </GradientButton>
                   </div>
                   <GradientButton
                     onClick={() => handleCopy(joinLink)}
