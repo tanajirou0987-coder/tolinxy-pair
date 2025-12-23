@@ -19,6 +19,11 @@ export interface MultiDeviceSession {
 
 const SESSION_TTL_MS = 1000 * 60 * 60 * 12; // 12 hours
 
+// セッション数の上限（メモリ保護のため）
+// 1セッションあたり約2-5KBと仮定すると、10,000セッションで約20-50MB
+// Vercelのサーバーレス関数のメモリ制限（通常1GB）を考慮して、安全な上限を設定
+const MAX_SESSIONS = 10000; // 同時セッション数の上限
+
 const globalForSession = globalThis as unknown as { __matchSessionStore?: Map<string, MultiDeviceSession> };
 const globalStore = globalForSession.__matchSessionStore ?? new Map<string, MultiDeviceSession>();
 
@@ -28,11 +33,47 @@ if (!globalForSession.__matchSessionStore) {
 
 function cleanupExpiredSessions() {
   const now = Date.now();
+  let cleanedCount = 0;
   for (const [sessionId, session] of globalStore.entries()) {
     if (session.expiresAt <= now) {
       globalStore.delete(sessionId);
+      cleanedCount++;
     }
   }
+  // クリーンアップのログ（開発環境のみ）
+  if (cleanedCount > 0 && process.env.NODE_ENV === "development") {
+    console.log(`[SessionStore] ${cleanedCount}件の期限切れセッションを削除しました。現在のセッション数: ${globalStore.size}`);
+  }
+}
+
+/**
+ * セッションストアの統計情報を取得（デバッグ用）
+ */
+export function getSessionStoreStats() {
+  cleanupExpiredSessions();
+  const now = Date.now();
+  let activeCount = 0;
+  let expiredCount = 0;
+  let totalAnswers = 0;
+
+  for (const session of globalStore.values()) {
+    if (session.expiresAt <= now) {
+      expiredCount++;
+    } else {
+      activeCount++;
+      totalAnswers += session.participants.user.answers.length;
+      totalAnswers += session.participants.partner.answers.length;
+    }
+  }
+
+  return {
+    total: globalStore.size,
+    active: activeCount,
+    expired: expiredCount,
+    maxSessions: MAX_SESSIONS,
+    utilizationRate: ((globalStore.size / MAX_SESSIONS) * 100).toFixed(2) + "%",
+    totalAnswers,
+  };
 }
 
 function generateSessionId() {
@@ -47,9 +88,24 @@ function generateSessionId() {
 export function createSession(diagnosisType: "compatibility-54"): MultiDeviceSession {
   cleanupExpiredSessions();
 
+  // セッション数の上限チェック
+  if (globalStore.size >= MAX_SESSIONS) {
+    throw new Error(
+      `セッション数の上限（${MAX_SESSIONS.toLocaleString()}セッション）に達しました。しばらく待ってから再度お試しください。`
+    );
+  }
+
   let sessionId = generateSessionId();
-  while (globalStore.has(sessionId)) {
+  let attempts = 0;
+  const maxAttempts = 100; // 最大試行回数を設定（衝突確率は極めて低いが、安全のため）
+  
+  while (globalStore.has(sessionId) && attempts < maxAttempts) {
     sessionId = generateSessionId();
+    attempts++;
+  }
+
+  if (attempts >= maxAttempts) {
+    throw new Error("セッションIDの生成に失敗しました。しばらく待ってから再度お試しください。");
   }
 
   const now = Date.now();

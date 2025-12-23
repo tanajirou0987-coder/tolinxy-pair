@@ -10,6 +10,7 @@ import { copyToClipboard } from "@/lib/clipboard";
 import { useSessionAssignment } from "@/hooks/useSessionAssignment";
 import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
 import { LazyQuestionCard } from "@/components/diagnoses/LazyQuestionCard";
+import { Button } from "@/components/ui/button";
 
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
@@ -282,6 +283,16 @@ function SingleDeviceQuestions() {
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+        {/* トップページに戻るボタン（PC用） */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
+          <Button
+            type="button"
+            onClick={() => router.push("/")}
+            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          >
+            トップに戻る
+          </Button>
+        </div>
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
@@ -499,6 +510,17 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+      {/* トップページに戻るボタン */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-6 pt-6">
+        <Button
+          type="button"
+          onClick={() => router.push("/")}
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+        >
+          トップに戻る
+        </Button>
+      </div>
+
       {/* スマホ用レイアウト */}
       <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
@@ -588,6 +610,16 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+        {/* トップページに戻るボタン（PC用） */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
+          <Button
+            type="button"
+            onClick={() => router.push("/")}
+            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          >
+            トップに戻る
+          </Button>
+        </div>
         <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
           <div className="flex flex-row items-center justify-between mb-6">
             <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">

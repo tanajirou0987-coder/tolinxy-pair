@@ -1,0 +1,1007 @@
+<!-- WordPress固定ページに貼り付ける用（トップページ全体） -->
+
+<!-- このファイルの内容をWordPressの「カスタムHTML」ブロックに貼り付けてください -->
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pairly-top-container {
+    font-family: 'Coming Soon', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* スマホ用レイアウト */
+.pairly-mobile-layout {
+    position: relative;
+    z-index: 10;
+    max-width: 448px;
+    margin: 0 auto;
+    background: #ffffff;
+    min-height: 100vh;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-mobile-layout {
+        display: none;
+    }
+}
+
+/* PC用レイアウト */
+.pairly-pc-layout {
+    display: none;
+    position: relative;
+    z-index: 10;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px;
+}
+
+@media (min-width: 768px) {
+    .pairly-pc-layout {
+        display: block;
+    }
+}
+
+/* ヘッダーセクション */
+.pairly-header-section {
+    position: relative;
+    height: 299px;
+    border-radius: 28px 28px 0 0;
+    overflow: hidden;
+    margin: 12px 12px 0 12px;
+}
+
+@media (min-width: 768px) {
+    .pairly-header-section {
+        height: 400px;
+        margin: 0 0 48px 0;
+        border-radius: 28px;
+    }
+}
+
+.pairly-header-image-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
+}
+
+@media (min-width: 768px) {
+    .pairly-header-image-container {
+        border-radius: 28px;
+    }
+}
+
+.pairly-header-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pairly-header-quote {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    max-width: 280px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .pairly-header-quote {
+        font-size: 24px;
+        max-width: 600px;
+    }
+}
+
+/* メインコンテナ */
+.pairly-main-container {
+    position: relative;
+    background: #e2bef1;
+    border-radius: 36px;
+    margin: 0 12px 80px 12px;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .pairly-main-container {
+        margin: 0 0 48px 0;
+        border-radius: 0;
+        background: transparent;
+    }
+}
+
+.pairly-content-area {
+    position: relative;
+    background: #ffffff;
+    border-radius: 35px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: -35px;
+    padding: 24px 12px;
+    min-height: 665px;
+}
+
+@media (min-width: 768px) {
+    .pairly-content-area {
+        margin-top: 0;
+        border-radius: 0;
+        padding: 0;
+        min-height: auto;
+        box-shadow: none;
+    }
+}
+
+/* ロゴ/タイトル */
+.pairly-logo {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 32px;
+}
+
+@media (min-width: 768px) {
+    .pairly-logo {
+        margin-bottom: 48px;
+        padding-top: 0;
+    }
+}
+
+.pairly-logo h1 {
+    font-size: 3.75rem;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    line-height: 1;
+    color: #000000;
+}
+
+@media (min-width: 640px) {
+    .pairly-logo h1 {
+        font-size: 4.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .pairly-logo h1 {
+        font-size: 5rem;
+    }
+}
+
+/* クイックアクションボタン */
+.pairly-quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 48px;
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-quick-buttons {
+        flex-direction: column;
+        gap: 16px;
+        padding: 0;
+        margin-bottom: 32px;
+    }
+}
+
+.pairly-btn {
+    position: relative;
+    padding: 16px 32px;
+    font-size: 1.125rem;
+    font-weight: normal;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-btn {
+        padding: 24px 48px;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+
+.pairly-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+.pairly-btn-primary {
+    background: #e2bef1;
+}
+
+.pairly-btn-secondary {
+    background: #fbf7d5;
+}
+
+/* 統計セクション */
+.pairly-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+    padding: 0 22px;
+}
+
+@media (min-width: 768px) {
+    .pairly-stats {
+        padding: 0;
+        gap: 16px;
+    }
+}
+
+.pairly-stat-card {
+    border-radius: 16px;
+    border: 1px solid #000000;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .pairly-stat-card {
+        padding: 24px;
+    }
+}
+
+.pairly-stat-value {
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: #000000;
+    margin-bottom: 4px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-stat-value {
+        font-size: 1.875rem;
+    }
+}
+
+.pairly-stat-label {
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-stat-label {
+        font-size: 0.875rem;
+    }
+}
+
+/* 診断モードセクション */
+.pairly-diagnostics-section {
+    margin-bottom: 32px;
+    padding: 0 22px;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostics-section {
+        padding: 0;
+    }
+}
+
+.pairly-section-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.pairly-section-subtitle {
+    font-size: 0.875rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #000000;
+    margin-bottom: 8px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-section-subtitle {
+        font-size: 1rem;
+    }
+}
+
+.pairly-section-title {
+    font-size: 1.875rem;
+    font-weight: normal;
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 640px) {
+    .pairly-section-title {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .pairly-section-title {
+        font-size: 2.5rem;
+    }
+}
+
+.pairly-diagnostics-grid {
+    display: grid;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostics-grid {
+        gap: 16px;
+    }
+}
+
+.pairly-diagnostic-card {
+    position: relative;
+    border-radius: 16px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #000000;
+    padding: 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-card {
+        min-height: 160px;
+        padding: 24px;
+    }
+}
+
+.pairly-diagnostic-card:hover {
+    transform: scale(1.02);
+}
+
+.pairly-diagnostic-content {
+    text-align: center;
+    padding: 0;
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-content {
+        max-width: none;
+    }
+}
+
+.pairly-diagnostic-duration {
+    font-size: 0.75rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    opacity: 0.8;
+    margin-bottom: 12px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-duration {
+        font-size: 0.875rem;
+        margin-bottom: 12px;
+    }
+}
+
+.pairly-diagnostic-title {
+    font-size: 1.25rem;
+    font-weight: normal;
+    margin-bottom: 8px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-title {
+        font-size: 1.875rem;
+        margin-bottom: 10px;
+    }
+}
+
+.pairly-diagnostic-description {
+    font-size: 0.75rem;
+    font-weight: normal;
+    opacity: 0.8;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-description {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+}
+
+.pairly-diagnostic-subtext {
+    font-size: 0.625rem;
+    font-weight: normal;
+    opacity: 0.7;
+    line-height: 1.5;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+    .pairly-diagnostic-subtext {
+        font-size: 0.875rem;
+        margin-top: 4px;
+    }
+}
+
+/* 使い方セクション */
+.pairly-howto-section {
+    border-radius: 16px;
+    border: 1px solid #000000;
+    background: #f97b83;
+    padding: 32px;
+    margin-bottom: 32px;
+    margin-left: 16px;
+    margin-right: 16px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-howto-section {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 48px;
+        margin-bottom: 32px;
+    }
+}
+
+.pairly-howto-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+    .pairly-howto-header {
+        margin-bottom: 32px;
+    }
+}
+
+.pairly-howto-subtitle {
+    font-size: 0.875rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: #000000;
+    margin-bottom: 12px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-howto-subtitle {
+        font-size: 1rem;
+    }
+}
+
+.pairly-howto-title {
+    font-size: 1.875rem;
+    font-weight: normal;
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 640px) {
+    .pairly-howto-title {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .pairly-howto-title {
+        font-size: 3rem;
+    }
+}
+
+.pairly-steps-grid {
+    display: grid;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .pairly-steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+.pairly-step-card {
+    text-align: center;
+}
+
+.pairly-step-number {
+    font-size: 3rem;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.3);
+    margin-bottom: 8px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-step-number {
+        font-size: 4.5rem;
+        margin-bottom: 16px;
+    }
+}
+
+.pairly-step-title {
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: #000000;
+    margin-bottom: 8px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-step-title {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+}
+
+.pairly-step-desc {
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-step-desc {
+        font-size: 1.125rem;
+    }
+}
+
+/* CTAセクション */
+.pairly-cta-section {
+    margin-top: 32px;
+    text-align: center;
+    margin-bottom: 80px;
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-section {
+        margin-top: 0;
+        margin-bottom: 80px;
+        padding: 0;
+    }
+}
+
+.pairly-cta-card {
+    border-radius: 16px;
+    border: 1px solid #000000;
+    background: #f9ded7;
+    padding: 40px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-card {
+        padding: 64px;
+        max-width: 896px;
+        margin: 0 auto;
+    }
+}
+
+.pairly-cta-title {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: #000000;
+    margin-bottom: 16px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 1.5;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 640px) {
+    .pairly-cta-title {
+        font-size: 1.875rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-title {
+        font-size: 2.25rem;
+        max-width: none;
+        margin-bottom: 24px;
+    }
+}
+
+.pairly-cta-desc {
+    font-size: 1rem;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 32px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    line-height: 1.6;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-desc {
+        font-size: 1.25rem;
+        max-width: none;
+        margin-bottom: 40px;
+    }
+}
+
+.pairly-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-buttons {
+        gap: 24px;
+    }
+}
+
+.pairly-cta-btn {
+    padding: 20px 40px;
+    font-size: 1.25rem;
+    font-weight: normal;
+    border-radius: 16px;
+    border: 1px solid #000000;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+    .pairly-cta-btn {
+        padding: 24px 48px;
+        font-size: 1.5rem;
+    }
+}
+
+.pairly-cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+.pairly-cta-btn-white {
+    background: #ffffff;
+}
+
+.pairly-cta-btn-purple {
+    background: #e2bef1;
+}
+
+/* PC用2カラムレイアウト */
+.pairly-pc-grid {
+    display: grid;
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+@media (min-width: 1024px) {
+    .pairly-pc-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+    }
+}
+
+.pairly-pc-left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.pairly-pc-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+</style>
+
+<div class="pairly-top-container">
+    <!-- スマホ用レイアウト -->
+    <div class="pairly-mobile-layout">
+        <!-- ヘッダーセクション -->
+        <section class="pairly-header-section">
+            <div class="pairly-header-image-container">
+                <img 
+                    src="https://app.pairlylab.com/画像が生成されました.png" 
+                    alt="PAIRLY LAB ヘッダー画像" 
+                    class="pairly-header-image"
+                />
+            </div>
+            <p class="pairly-header-quote">
+                2人のリズム、<br />
+                響き合う瞬間を。
+            </p>
+        </section>
+
+        <!-- メインコンテナ -->
+        <div class="pairly-main-container">
+            <div class="pairly-content-area">
+                <!-- ロゴ/タイトル -->
+                <div class="pairly-logo">
+                    <h1>PAIRLY LAB</h1>
+                </div>
+
+                <!-- クイックアクションボタン -->
+                <div class="pairly-quick-buttons">
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-btn pairly-btn-primary">
+                        54問でじっくり
+                    </a>
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-btn pairly-btn-secondary">
+                        3分で試す
+                    </a>
+                </div>
+
+                <!-- 統計セクション -->
+                <div class="pairly-stats">
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">18/54</div>
+                        <div class="pairly-stat-label">質問</div>
+                    </div>
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">27</div>
+                        <div class="pairly-stat-label">タイプ</div>
+                    </div>
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">729</div>
+                        <div class="pairly-stat-label">相性</div>
+                    </div>
+                </div>
+
+                <!-- 診断モードセクション -->
+                <div class="pairly-diagnostics-section">
+                    <div class="pairly-section-header">
+                        <p class="pairly-section-subtitle">選べる診断</p>
+                        <h2 class="pairly-section-title">モードを選ぶ</h2>
+                    </div>
+                    <div class="pairly-diagnostics-grid">
+                        <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-diagnostic-card" style="background-color: #e2bef1;">
+                            <div class="pairly-diagnostic-content">
+                                <div class="pairly-diagnostic-duration">約7-8分</div>
+                                <h3 class="pairly-diagnostic-title">DEEP 54</h3>
+                                <p class="pairly-diagnostic-description">価値観まで測る徹底54問</p>
+                                <p class="pairly-diagnostic-subtext">感情・意思決定・生活リズムまで6軸で深掘り</p>
+                            </div>
+                        </a>
+                        <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-diagnostic-card" style="background-color: #fbf7d5;">
+                            <div class="pairly-diagnostic-content">
+                                <div class="pairly-diagnostic-duration">約3分</div>
+                                <h3 class="pairly-diagnostic-title">QUICK 18</h3>
+                                <p class="pairly-diagnostic-description">3分で使えるクイック診断</p>
+                                <p class="pairly-diagnostic-subtext">飲み会やちょっとした待ち時間で使える</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 使い方セクション -->
+                <section class="pairly-howto-section">
+                    <div class="pairly-howto-header">
+                        <p class="pairly-howto-subtitle">使い方</p>
+                        <h3 class="pairly-howto-title">かんたん3ステップ</h3>
+                    </div>
+                    <div class="pairly-steps-grid">
+                        <div class="pairly-step-card">
+                            <div class="pairly-step-number">01</div>
+                            <h4 class="pairly-step-title">診断を選ぶ</h4>
+                            <p class="pairly-step-desc">気分に合わせて3分 or 7分</p>
+                        </div>
+                        <div class="pairly-step-card">
+                            <div class="pairly-step-number">02</div>
+                            <h4 class="pairly-step-title">質問に答える</h4>
+                            <p class="pairly-step-desc">シンプルな選択肢だけ</p>
+                        </div>
+                        <div class="pairly-step-card">
+                            <div class="pairly-step-number">03</div>
+                            <h4 class="pairly-step-title">結果を共有</h4>
+                            <p class="pairly-step-desc">カードでスクショして拡散</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CTAセクション -->
+                <section class="pairly-cta-section">
+                    <div class="pairly-cta-card">
+                        <h3 class="pairly-cta-title">
+                            今日の2人の温度を<br />
+                            診断してみる
+                        </h3>
+                        <p class="pairly-cta-desc">
+                            気分が上がる前にサッと診断したい日も、<br />
+                            じっくり語り合いたい日もOK。
+                        </p>
+                        <div class="pairly-cta-buttons">
+                            <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-cta-btn pairly-cta-btn-white">
+                                徹底診断を始める
+                            </a>
+                            <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-cta-btn pairly-cta-btn-purple">
+                                クイック診断
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- PC用レイアウト -->
+    <div class="pairly-pc-layout">
+        <!-- ヘッダーセクション -->
+        <section class="pairly-header-section">
+            <div class="pairly-header-image-container">
+                <img 
+                    src="https://app.pairlylab.com/画像が生成されました.png" 
+                    alt="PAIRLY LAB ヘッダー画像" 
+                    class="pairly-header-image"
+                />
+            </div>
+            <p class="pairly-header-quote">
+                2人のリズム、<br />
+                響き合う瞬間を。
+            </p>
+        </section>
+
+        <!-- メインコンテンツエリア -->
+        <div class="pairly-pc-grid">
+            <!-- 左カラム -->
+            <div class="pairly-pc-left-column">
+                <!-- ロゴ/タイトル -->
+                <div class="pairly-logo">
+                    <h1>PAIRLY LAB</h1>
+                </div>
+
+                <!-- クイックアクションボタン -->
+                <div class="pairly-quick-buttons">
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-btn pairly-btn-primary">
+                        54問でじっくり
+                    </a>
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-btn pairly-btn-secondary">
+                        3分で試す
+                    </a>
+                </div>
+
+                <!-- 統計セクション -->
+                <div class="pairly-stats">
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">18/54</div>
+                        <div class="pairly-stat-label">質問</div>
+                    </div>
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">27</div>
+                        <div class="pairly-stat-label">タイプ</div>
+                    </div>
+                    <div class="pairly-stat-card">
+                        <div class="pairly-stat-value">729</div>
+                        <div class="pairly-stat-label">相性</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右カラム -->
+            <div class="pairly-pc-right-column">
+                <!-- 診断モードセクション -->
+                <div class="pairly-diagnostics-section">
+                    <div class="pairly-section-header">
+                        <p class="pairly-section-subtitle">選べる診断</p>
+                        <h2 class="pairly-section-title">モードを選ぶ</h2>
+                    </div>
+                    <div class="pairly-diagnostics-grid">
+                        <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-diagnostic-card" style="background-color: #e2bef1;">
+                            <div class="pairly-diagnostic-content">
+                                <div class="pairly-diagnostic-duration">約7-8分</div>
+                                <h3 class="pairly-diagnostic-title">DEEP 54</h3>
+                                <p class="pairly-diagnostic-description">価値観まで測る徹底54問</p>
+                                <p class="pairly-diagnostic-subtext">感情・意思決定・生活リズムまで6軸で深掘り</p>
+                            </div>
+                        </a>
+                        <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-diagnostic-card" style="background-color: #fbf7d5;">
+                            <div class="pairly-diagnostic-content">
+                                <div class="pairly-diagnostic-duration">約3分</div>
+                                <h3 class="pairly-diagnostic-title">QUICK 18</h3>
+                                <p class="pairly-diagnostic-description">3分で使えるクイック診断</p>
+                                <p class="pairly-diagnostic-subtext">飲み会やちょっとした待ち時間で使える</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使い方セクション -->
+        <section class="pairly-howto-section">
+            <div class="pairly-howto-header">
+                <p class="pairly-howto-subtitle">使い方</p>
+                <h3 class="pairly-howto-title">かんたん3ステップ</h3>
+            </div>
+            <div class="pairly-steps-grid">
+                <div class="pairly-step-card">
+                    <div class="pairly-step-number">01</div>
+                    <h4 class="pairly-step-title">診断を選ぶ</h4>
+                    <p class="pairly-step-desc">気分に合わせて3分 or 7分</p>
+                </div>
+                <div class="pairly-step-card">
+                    <div class="pairly-step-number">02</div>
+                    <h4 class="pairly-step-title">質問に答える</h4>
+                    <p class="pairly-step-desc">シンプルな選択肢だけ</p>
+                </div>
+                <div class="pairly-step-card">
+                    <div class="pairly-step-number">03</div>
+                    <h4 class="pairly-step-title">結果を共有</h4>
+                    <p class="pairly-step-desc">カードでスクショして拡散</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTAセクション -->
+        <section class="pairly-cta-section">
+            <div class="pairly-cta-card">
+                <h3 class="pairly-cta-title">
+                    今日の2人の温度を<br />
+                    診断してみる
+                </h3>
+                <p class="pairly-cta-desc">
+                    気分が上がる前にサッと診断したい日も、<br />
+                    じっくり語り合いたい日もOK。
+                </p>
+                <div class="pairly-cta-buttons">
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-54" class="pairly-cta-btn pairly-cta-btn-white">
+                        徹底診断を始める
+                    </a>
+                    <a href="https://app.pairlylab.com/diagnoses/compatibility-18" class="pairly-cta-btn pairly-cta-btn-purple">
+                        クイック診断
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

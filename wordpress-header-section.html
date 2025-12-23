@@ -1,0 +1,80 @@
+<!-- WordPress固定ページに貼り付ける用（ヘッダーセクション） -->
+
+<!-- このファイルの内容をWordPressの「カスタムHTML」ブロックに貼り付けてください -->
+
+<style>
+.pairly-header-section {
+    position: relative;
+    width: 100%;
+    height: 299px;
+    border-radius: 28px 28px 0 0;
+    overflow: hidden;
+    margin: 12px 12px 0 12px;
+}
+
+@media (min-width: 768px) {
+    .pairly-header-section {
+        height: 400px;
+        margin: 12px 24px 0 24px;
+    }
+}
+
+.pairly-header-image-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
+}
+
+.pairly-header-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pairly-header-quote {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    max-width: 280px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .pairly-header-quote {
+        font-size: 20px;
+        max-width: 400px;
+    }
+}
+
+.pairly-header-quote br {
+    display: block;
+}
+</style>
+
+<section class="pairly-header-section">
+    <div class="pairly-header-image-container">
+        <img 
+            src="https://app.pairlylab.com/画像が生成されました.png" 
+            alt="PAIRLY LAB ヘッダー画像" 
+            class="pairly-header-image"
+        />
+    </div>
+    <p class="pairly-header-quote">
+        2人のリズム、<br />
+        響き合う瞬間を。
+    </p>
+</section>
+

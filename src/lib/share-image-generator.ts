@@ -3,31 +3,32 @@
  * フロントエンドのみで完結、非表示canvasを使用して画像を生成
  * Instagramストーリー用比率（1080 × 1920、9:16）を厳守
  * 
- * コンセプト：「縦に流れる評価カード」
- * - 上から下へ自然に視線が流れる
- * - 情報は少なめ・感情は強め
- * - 下半分は"余白"を味方につける
+ * コンセプト：「トレーディングカードスタイル」
+ * - Figmaのトレーディングカードデザインを参考
+ * - カラフルで装飾的なデザイン
+ * - 大胆なタイポグラフィと視覚的な魅力
  */
 
 // ==========================================
 // 定数定義（比率・サイズ・文言）
 // ==========================================
-const CANVAS_WIDTH = 1080;
-const CANVAS_HEIGHT = 1920; // 9:16比率を厳守（ストーリー用）
+// Figmaのトレーディングカードサイズ: 700 x 1080
+const CANVAS_WIDTH = 700;
+const CANVAS_HEIGHT = 1080;
 const SCALE = 2; // Retina対応
 
-// レイアウト定数（9:16比率を厳守）
-const PADDING_X = 60;
-const CONTENT_WIDTH = CANVAS_WIDTH - PADDING_X * 2;
+// カードレイアウト（Figmaの指定通り）
+// padding: 48px 64px 64px 56px (top right bottom left)
+const CARD_PADDING_TOP = 48;
+const CARD_PADDING_RIGHT = 64;
+const CARD_PADDING_BOTTOM = 64;
+const CARD_PADDING_LEFT = 56;
+const CARD_BORDER_RADIUS = 64;
+const CARD_GAP = 24; // gap: 24px
+const CARD_BG_COLOR = "#564EB3";
 
-// セクション分割（9:16比率に最適化・ストーリー用）
-// 「中央1カード・上下余白」構造
-// 情報の90%を画面中央に集約、上下は"呼吸する余白"として使う
-const HEADER_TOP = 60; // ヘッダー開始位置（弱め・上端）
-const HEADER_HEIGHT = 100; // ヘッダー高さ
-const MAIN_CARD_TOP = HEADER_TOP + HEADER_HEIGHT + 100; // メインカード開始（上部余白100px）
-const ELEMENT_GAP = 30; // 要素間の余白（一定）
-const FOOTER_START = CANVAS_HEIGHT - 100; // フッター開始（最下部・弱め）
+// 画像サイズ
+const IMAGE_SIZE = 400; // 400×400px
 
 interface ShareImageData {
   userNickname: string;
@@ -189,6 +190,125 @@ function drawImageContain(
 }
 
 /**
+ * 画像を正方形にクロップして描画（横の長さを維持し、上を少し切り取って下を伸ばす）
+ */
+function drawImageSquareCrop(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  x: number,
+  y: number,
+  size: number
+): void {
+  // 画像の幅をそのまま使用
+  const drawWidth = size;
+  const drawHeight = size; // 正方形
+  
+  // 画像の上を少し切り取って下を伸ばす（上20%、下80%の比率）
+  const imgAspect = img.width / img.height;
+  let sourceWidth: number;
+  let sourceHeight: number;
+  let sourceX: number;
+  let sourceY: number;
+  
+  if (imgAspect > 1) {
+    // 画像が横長の場合：高さを基準に、幅の中央部分を切り取る
+    sourceHeight = img.height;
+    sourceWidth = img.height; // 正方形
+    sourceX = (img.width - sourceWidth) / 2;
+    sourceY = 0;
+  } else {
+    // 画像が縦長または正方形の場合：幅を基準に、高さの上10%を切り取って下90%を使用
+    sourceWidth = img.width;
+    sourceHeight = img.width; // 正方形
+    sourceX = 0;
+    // 上を10%切り取る（つまり、上から10%の位置から開始）
+    sourceY = img.height * 0.1;
+    // もし下が足りない場合は、上をさらに切り取る
+    if (sourceY + sourceHeight > img.height) {
+      sourceY = img.height - sourceHeight;
+      if (sourceY < 0) {
+        sourceY = 0;
+        sourceHeight = img.height;
+      }
+    }
+  }
+  
+  // 画像をクロップして描画
+  ctx.drawImage(
+    img,
+    sourceX, sourceY, sourceWidth, sourceHeight, // ソース（元画像の切り取り範囲）
+    x, y, drawWidth, drawHeight // デスティネーション（描画先）
+  );
+}
+
+/**
+ * 星を描画（装飾用）
+ */
+function drawStar(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  scale: number,
+  color: string = "#ffffff"
+): void {
+  ctx.save();
+  ctx.scale(scale, scale);
+  ctx.fillStyle = color;
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 2;
+  
+  const spikes = 5;
+  const outerRadius = size / 2;
+  const innerRadius = outerRadius * 0.4;
+  const step = Math.PI / spikes;
+  
+  ctx.beginPath();
+  for (let i = 0; i < spikes * 2; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = i * step - Math.PI / 2;
+    const px = x + Math.cos(angle) * radius;
+    const py = y + Math.sin(angle) * radius;
+    if (i === 0) {
+      ctx.moveTo(px, py);
+    } else {
+      ctx.lineTo(px, py);
+    }
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.restore();
+}
+
+/**
+ * 円を描画（装飾用）
+ */
+function drawCircle(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  radius: number,
+  scale: number,
+  fillColor: string,
+  strokeColor: string = "#000000",
+  strokeWidth: number = 2
+): void {
+  ctx.save();
+  ctx.scale(scale, scale);
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = fillColor;
+  ctx.fill();
+  if (strokeColor) {
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = strokeWidth;
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/**
  * 角丸矩形の影を描画（カード感を出す）
  */
 function drawCardShadow(
@@ -201,10 +321,10 @@ function drawCardShadow(
   scale: number
 ): void {
   ctx.save();
-  ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-  ctx.shadowBlur = 20 * scale;
+  ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+  ctx.shadowBlur = 30 * scale;
   ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 8 * scale;
+  ctx.shadowOffsetY = 12 * scale;
   
   // 角丸矩形のパスを作成
   const r = radius * scale;
@@ -220,7 +340,7 @@ function drawCardShadow(
   ctx.quadraticCurveTo(x * scale, y * scale, (x + r) * scale, y * scale);
   ctx.closePath();
   
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
   ctx.fill();
   ctx.restore();
 }
@@ -298,6 +418,52 @@ function drawCenteredText(
 }
 
 /**
+ * テキストを描画（左揃え）
+ */
+function drawLeftText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  fontSize: number,
+  fontWeight: string,
+  color: string,
+  scale: number,
+  maxWidth?: number
+): void {
+  ctx.save();
+  ctx.scale(scale, scale);
+  ctx.font = `${fontWeight} ${fontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = color;
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  
+  if (maxWidth) {
+    const words = text.split(" ");
+    let line = "";
+    let lineY = y;
+    const lineHeight = fontSize * 1.5;
+    
+    for (let i = 0; i < words.length; i++) {
+      const testLine = line + words[i] + " ";
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && i > 0) {
+        ctx.fillText(line, x, lineY);
+        line = words[i] + " ";
+        lineY += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, lineY);
+  } else {
+    ctx.fillText(text, x, y);
+  }
+  
+  ctx.restore();
+}
+
+/**
  * QRコードをcanvasに描画
  */
 async function drawQRCode(
@@ -341,26 +507,35 @@ async function drawQRCode(
 }
 
 /**
+ * ランクに応じたカード背景色を取得
+ */
+function getCardBackgroundColor(rank: string): string {
+  const colors: Record<string, string> = {
+    SS: "#564eb3", // 紫
+    S: "#f1dd02", // 黄色
+    A: "#ff84c5", // ピンク
+    B: "#d4ff4e", // ライム
+    C: "#746ae1", // ライトパープル
+    D: "#949494", // グレー
+    E: "#949494",
+    F: "#949494",
+    G: "#949494",
+  };
+  return colors[rank] || colors.G;
+}
+
+/**
  * 共有画像を生成する（非表示canvasを使用）
  * 
- * レイアウト構造（Instagramストーリー 9:16 / 1080×1920）:
- * ① ヘッダー（最上部・必須）
- *    - Pairly Lab（ロゴ的）
- *    - 相性診断結果
- * ② キャラクターゾーン（画面上部 25-30%）
- *    - キャラクター画像を大きめに
- *    - 余白をしっかり取る
- * ③ ランクゾーン（画面中央・主役）
- *    - ランク記号（Cなど）
- *    - ランク帯名（タグ風）
- * ④ 組み合わせ名（1行）
- * ⑤ 感情コピー（1行・重要）
- * ⑥ 評価補足（弱め）
- *    - 評価の補足ラベル
- *    - スコアとパーセンタイル
- * ⑦ フッター（最下部・共有動機）
- *    - Pairly Lab（ロゴ的）
- *    - この相性、どう思う？
+ * レイアウト構造（トレーディングカードスタイル）:
+ * ① 背景（ランクに応じた色）
+ * ② 装飾要素（星、円など）
+ * ③ メインカード（中央）
+ *    - キャラクター画像（フレーム付き）
+ *    - 大きな名前表示
+ *    - ランク情報
+ *    - スコア情報
+ * ④ フッター（QRコード）
  */
 export async function generateShareImageBlob(data: ShareImageData): Promise<Blob> {
   await document.fonts.ready;
@@ -378,253 +553,352 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
   }
   
   // ==========================================
-  // レイヤー1: シンプルな背景
+  // レイヤー1: カード背景（Figmaの指定通り）
   // ==========================================
-  ctx.fillStyle = "#ffffff"; // 白背景（カード感を出す）
-  ctx.fillRect(0, 0, width, height);
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  drawRoundedRect(ctx, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, CARD_BORDER_RADIUS, 1);
+  ctx.fillStyle = CARD_BG_COLOR;
+  ctx.fill();
+  ctx.restore();
   
-  // 微細なグラデーション（立体感）
-  const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
-  bgGradient.addColorStop(0, "rgba(0, 0, 0, 0.02)");
-  bgGradient.addColorStop(1, "rgba(0, 0, 0, 0.05)");
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0, 0, width, height);
+  // 装飾的な背景パターン（Figmaスタイル）
+  ctx.save();
+  ctx.globalAlpha = 0.4;
+  
+  // 上部に花のような装飾（大きな円）
+  const flowerSize = 344;
+  const flowerX = CANVAS_WIDTH / 2;
+  const flowerY = -158;
+  drawCircle(ctx, flowerX, flowerY, flowerSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  // 左下にプラネットのような装飾
+  const planetSize = 224;
+  const planetX = 33;
+  const planetY = CANVAS_HEIGHT - 201;
+  drawCircle(ctx, planetX, planetY, planetSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  // 右下にハートのような装飾（大きな円）
+  const heartSize = 416;
+  const heartX = CANVAS_WIDTH;
+  const heartY = CANVAS_HEIGHT + 100;
+  drawCircle(ctx, heartX, heartY, heartSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  ctx.restore();
   
   // ==========================================
-  // レイヤー2: ヘッダー（弱め・上端）
+  // レイヤー2: カード内のコンテンツ（flex-direction: column, align-items: flex-end）
   // ==========================================
-  let currentY = HEADER_TOP;
+  // コンテンツエリア（padding内側）
+  const contentX = CARD_PADDING_LEFT;
+  const contentY = CARD_PADDING_TOP;
+  const contentWidth = CANVAS_WIDTH - CARD_PADDING_LEFT - CARD_PADDING_RIGHT;
   
-  // "Pairly Lab"（ロゴ的・弱め）
-  const headerFontSize = 20;
-  drawCenteredText(
+  // 画像エリア（400×400px、右寄せ）
+  const imageX = contentX + contentWidth - IMAGE_SIZE; // 右寄せ
+  const imageY = contentY;
+  
+  // 画像フレームの影（外側）
+  const frameShadowOffset = 26;
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  drawRoundedRect(
     ctx,
-    "Pairly Lab",
-    CANVAS_WIDTH / 2,
-    currentY,
-    headerFontSize,
-    "500",
-    "rgba(0, 0, 0, 0.55)",
-    SCALE
+    imageX - frameShadowOffset,
+    imageY - frameShadowOffset,
+    IMAGE_SIZE + frameShadowOffset * 2,
+    IMAGE_SIZE + frameShadowOffset * 2,
+    24,
+    1
   );
-  currentY += headerFontSize * 1.3 + 8;
+  ctx.fillStyle = "#ff84c5";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
   
-  // "相性診断結果"
-  const subtitleFontSize = 14;
-  drawCenteredText(
-    ctx,
-    "相性診断結果",
-    CANVAS_WIDTH / 2,
-    currentY,
-    subtitleFontSize,
-    "400",
-    "rgba(0, 0, 0, 0.45)",
-    SCALE
-  );
+  // 画像フレーム（内側）
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  drawRoundedRect(ctx, imageX, imageY, IMAGE_SIZE, IMAGE_SIZE, 24, 1);
+  ctx.fillStyle = "#ffa5d4";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
   
-  // ==========================================
-  // レイヤー3: メインカード（画面中央・主役）
-  // ==========================================
-  // 縦積み（column）でY座標を積み上げ方式で計算
-  currentY = MAIN_CARD_TOP;
+  // 画像背景（黄色、フレーム内）
+  const imagePadding = 24;
+  const imageBgX = imageX + imagePadding;
+  const imageBgY = imageY + imagePadding;
+  const imageBgSize = IMAGE_SIZE - imagePadding * 2;
   
-  // キャラクター画像（カード内でランクより少し上の存在感）
-  const imageAreaWidth = CONTENT_WIDTH * 0.75;
-  const imageAreaLeft = PADDING_X + (CONTENT_WIDTH - imageAreaWidth) / 2;
-  const imageAreaHeight = 380; // 固定高さ（カード内で適切なサイズ）
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  drawRoundedRect(ctx, imageBgX, imageBgY, imageBgSize, imageBgSize, 16, 1); // 角丸16px
+  ctx.fillStyle = "#f1dd02";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
   
-  let characterImageHeight = 0;
+  // キャラクター画像を描画（正方形にクロップ、角丸付き）
   try {
     const characterImagePath = getRankCharacterImagePath(data.rankInfo.rank);
     const characterImage = await loadImage(characterImagePath);
     
-    // 画像をcontain的に描画
-    const drawn = drawImageContain(
+    const imageDrawX = imageBgX * SCALE;
+    const imageDrawY = imageBgY * SCALE;
+    const imageDrawSize = imageBgSize * SCALE;
+    const imageRadius = 16 * SCALE; // 角丸16px
+    
+    // 角丸のクリッピングパスを作成
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(imageDrawX + imageRadius, imageDrawY);
+    ctx.lineTo(imageDrawX + imageDrawSize - imageRadius, imageDrawY);
+    ctx.quadraticCurveTo(imageDrawX + imageDrawSize, imageDrawY, imageDrawX + imageDrawSize, imageDrawY + imageRadius);
+    ctx.lineTo(imageDrawX + imageDrawSize, imageDrawY + imageDrawSize - imageRadius);
+    ctx.quadraticCurveTo(imageDrawX + imageDrawSize, imageDrawY + imageDrawSize, imageDrawX + imageDrawSize - imageRadius, imageDrawY + imageDrawSize);
+    ctx.lineTo(imageDrawX + imageRadius, imageDrawY + imageDrawSize);
+    ctx.quadraticCurveTo(imageDrawX, imageDrawY + imageDrawSize, imageDrawX, imageDrawY + imageDrawSize - imageRadius);
+    ctx.lineTo(imageDrawX, imageDrawY + imageRadius);
+    ctx.quadraticCurveTo(imageDrawX, imageDrawY, imageDrawX + imageRadius, imageDrawY);
+    ctx.closePath();
+    ctx.clip();
+    
+    // 画像を正方形にクロップして描画
+    drawImageSquareCrop(
       ctx,
       characterImage,
-      imageAreaLeft * SCALE,
-      currentY * SCALE,
-      imageAreaWidth * SCALE,
-      imageAreaHeight * SCALE
+      imageDrawX,
+      imageDrawY,
+      imageDrawSize
     );
     
-    characterImageHeight = drawn.drawnHeight / SCALE;
+    ctx.restore();
   } catch (error) {
     console.warn("Failed to load character image:", error);
   }
   
-  // 縦積み：画像の下にランクを配置
-  currentY += imageAreaHeight + ELEMENT_GAP;
-  
-  // ランク文字（主役・画面高さの12-14%程度）
-  const rankFontSize = 110; // 1920 * 0.057 ≈ 110px（適切なサイズ）
-  drawCenteredText(
-    ctx,
-    data.rankInfo.rank, // SS / S / A など
-    CANVAS_WIDTH / 2,
-    currentY,
-    rankFontSize,
-    "900",
-    "#000000",
-    SCALE
-  );
-  
-  // 縦積み：ランクの下にランク帯名を配置（セットで扱う）
-  currentY += rankFontSize * 0.4; // ランク直下に密接配置
-  
-  // ランク帯名（感情ラベル・ランクとセット）
-  const rankBandName = getRankBandName(data.rankInfo.bandName);
-  const bandNameFontSize = 28;
-  
-  // ランク帯名の背景（タグ感を出す）
+  // 上部の名前（カードの外側、左側、中央寄せに調整）
+  const topNameX = imageX - 80; // 左に少し移動
+  const topNameY = imageY - 48.5;
+  const topNameFontSize = 64;
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  ctx.font = `700 ${bandNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  const bandNameMetrics = ctx.measureText(rankBandName);
-  const bandNameWidth = bandNameMetrics.width + 40;
-  const bandNameHeight = bandNameFontSize + 20;
-  const bandNameX = (CANVAS_WIDTH - bandNameWidth) / 2;
-  const bandNameY = currentY - bandNameHeight / 2;
-  
-  // 角丸矩形の背景
-  const tagRadius = 16;
-  ctx.beginPath();
-  ctx.moveTo(bandNameX + tagRadius, bandNameY);
-  ctx.lineTo(bandNameX + bandNameWidth - tagRadius, bandNameY);
-  ctx.quadraticCurveTo(bandNameX + bandNameWidth, bandNameY, bandNameX + bandNameWidth, bandNameY + tagRadius);
-  ctx.lineTo(bandNameX + bandNameWidth, bandNameY + bandNameHeight - tagRadius);
-  ctx.quadraticCurveTo(bandNameX + bandNameWidth, bandNameY + bandNameHeight, bandNameX + bandNameWidth - tagRadius, bandNameY + bandNameHeight);
-  ctx.lineTo(bandNameX + tagRadius, bandNameY + bandNameHeight);
-  ctx.quadraticCurveTo(bandNameX, bandNameY + bandNameHeight, bandNameX, bandNameY + bandNameHeight - tagRadius);
-  ctx.lineTo(bandNameX, bandNameY + tagRadius);
-  ctx.quadraticCurveTo(bandNameX, bandNameY, bandNameX + tagRadius, bandNameY);
-  ctx.closePath();
-  
-  // ランクに応じた背景色
-  const rankBandColors: Record<string, string> = {
-    SS: "rgba(253, 224, 71, 0.15)",
-    S: "rgba(192, 132, 252, 0.15)",
-    A: "rgba(96, 165, 250, 0.15)",
-    B: "rgba(74, 222, 128, 0.15)",
-    C: "rgba(251, 146, 60, 0.15)",
-    D: "rgba(156, 163, 175, 0.15)",
-    E: "rgba(156, 163, 175, 0.15)",
-    F: "rgba(156, 163, 175, 0.15)",
-    G: "rgba(156, 163, 175, 0.15)",
-  };
-  ctx.fillStyle = rankBandColors[data.rankInfo.rank] || rankBandColors.G;
-  ctx.fill();
+  ctx.font = `400 ${topNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(data.userNickname.toUpperCase(), topNameX, topNameY);
   ctx.restore();
   
-  // ランク帯名のテキスト
-  drawCenteredText(
-    ctx,
-    rankBandName,
-    CANVAS_WIDTH / 2,
-    currentY,
-    bandNameFontSize,
-    "700",
-    "#000000",
-    SCALE
-  );
+  // 下部の名前（画像フレームの下、左側、中央寄せに調整）
+  const bottomNameX = imageX - 80; // 左に少し移動
+  const bottomNameY = imageY + IMAGE_SIZE + 0.5;
+  const bottomNameFontSize = 64;
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  ctx.font = `400 ${bottomNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(data.partnerNickname.toUpperCase(), bottomNameX, bottomNameY);
+  ctx.restore();
   
-  // 縦積み：ランク帯名の下に関係性コピーを配置（セットで扱う）
-  currentY += bandNameFontSize * 0.5 + ELEMENT_GAP;
-  
-  // 関係性コピー（ランクとセット）
-  const emotionalCopy = getRankEmotionalCopy(data.rankInfo.rank);
-  const emotionalCopyFontSize = 30;
-  drawCenteredText(
-    ctx,
-    emotionalCopy,
-    CANVAS_WIDTH / 2,
-    currentY,
-    emotionalCopyFontSize,
-    "600",
-    "rgba(0, 0, 0, 0.85)",
-    SCALE,
-    CONTENT_WIDTH
-  );
-  
-  // ==========================================
-  // レイヤー4: 補足情報（カード直下・近接）
-  // ==========================================
-  // 縦積み：関係性コピーの下に補足情報を配置（近接・一定の余白）
-  currentY += emotionalCopyFontSize * 1.3 + ELEMENT_GAP;
-  
-  // 組み合わせ名
-  const combinationFontSize = 24;
-  drawCenteredText(
-    ctx,
-    `${data.userNickname} × ${data.partnerNickname}`,
-    CANVAS_WIDTH / 2,
-    currentY,
-    combinationFontSize,
-    "600",
-    "rgba(0, 0, 0, 0.75)",
-    SCALE,
-    CONTENT_WIDTH
-  );
-  
-  // 縦積み：組み合わせ名の下に評価を配置
-  currentY += combinationFontSize * 1.4 + ELEMENT_GAP;
-  
-  // 評価の補足（主）
-  const evaluationLabel = getRankEvaluationLabel(data.rankInfo.rank);
-  if (evaluationLabel) {
-    const evaluationFontSize = 20;
-    drawCenteredText(
-      ctx,
-      evaluationLabel,
-      CANVAS_WIDTH / 2,
-      currentY,
-      evaluationFontSize,
-      "600",
-      "rgba(0, 0, 0, 0.7)",
-      SCALE
-    );
-    
-    // 縦積み：評価の下にスコアを配置
-    currentY += evaluationFontSize * 1.4 + ELEMENT_GAP;
+  // 星のアイコン（右上）- SVG画像を使用
+  try {
+    const sparkleFilledImg = await loadImage("/sparkle-filled.svg");
+    const starRightX = imageX + IMAGE_SIZE + 64;
+    const starRightY = imageY + 28;
+    const starRightSize = 64;
+    drawImage(ctx, sparkleFilledImg, starRightX * SCALE, starRightY * SCALE, starRightSize * SCALE, starRightSize * SCALE);
+  } catch (error) {
+    console.warn("Failed to load sparkle-filled icon:", error);
   }
   
-  // スコアとパーセンタイル（納得材料・補足）
-  const scoreAndPercentile = `${data.score} pts（${data.percentileDisplay}）`;
-  const scoreFontSize = 18;
-  drawCenteredText(
-    ctx,
-    scoreAndPercentile,
-    CANVAS_WIDTH / 2,
-    currentY,
-    scoreFontSize,
-    "500",
-    "rgba(0, 0, 0, 0.65)",
-    SCALE
-  );
+  // 星のアイコン（左下）- SVG画像を使用
+  try {
+    const sparkleFilledImg = await loadImage("/sparkle-filled.svg");
+    const starLeftX = imageX - 53;
+    const starLeftY = imageY + IMAGE_SIZE - 13.23 - 88;
+    const starLeftSize = 88;
+    drawImage(ctx, sparkleFilledImg, starLeftX * SCALE, starLeftY * SCALE, starLeftSize * SCALE, starLeftSize * SCALE);
+  } catch (error) {
+    console.warn("Failed to load sparkle-filled icon:", error);
+  }
   
-  // ==========================================
-  // レイヤー5: フッター（最下部・弱め）
-  // ==========================================
-  // フッターは最下部に配置（弱め）
-  let footerY = FOOTER_START;
+  // 下部セクション（gap: 24px）
+  let currentY = imageY + IMAGE_SIZE + CARD_GAP;
+  
+  // 下部セクション（BIOとFun factスタイル、Figma: gap-[64px] h-[225px]）
+  const bottomSectionY = currentY;
+  const bottomSectionHeight = 225;
+  const bottomSectionGap = 64;
+  
+  // 左右均等に配置（中央寄せ）
+  const bottomSectionTotalWidth = contentWidth;
+  const bioSectionWidth = (bottomSectionTotalWidth - bottomSectionGap) / 2;
+  
+  // 左側: BIOセクション
+  const bioSectionX = contentX;
+  const bioSectionY = bottomSectionY;
+  
+  // BIOボックス（先に描画、後ろに配置）
+  const bioBoxX = bioSectionX + 16;
+  const bioBoxY = bioSectionY + 16;
+  const bioBoxWidth = bioSectionWidth - 16;
+  const bioBoxHeight = bottomSectionHeight - 16;
   
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  // "Pairly Lab"（ロゴ的・弱め）
-  const footerBrandFontSize = 18;
-  ctx.font = `500 ${footerBrandFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+  
+  ctx.beginPath();
+  ctx.moveTo(bioBoxX + 16, bioBoxY);
+  ctx.lineTo(bioBoxX + bioBoxWidth - 16, bioBoxY);
+  ctx.quadraticCurveTo(bioBoxX + bioBoxWidth, bioBoxY, bioBoxX + bioBoxWidth, bioBoxY + 16);
+  ctx.lineTo(bioBoxX + bioBoxWidth, bioBoxY + bioBoxHeight - 16);
+  ctx.quadraticCurveTo(bioBoxX + bioBoxWidth, bioBoxY + bioBoxHeight, bioBoxX + bioBoxWidth - 16, bioBoxY + bioBoxHeight);
+  ctx.lineTo(bioBoxX + 16, bioBoxY + bioBoxHeight);
+  ctx.quadraticCurveTo(bioBoxX, bioBoxY + bioBoxHeight, bioBoxX, bioBoxY + bioBoxHeight - 16);
+  ctx.lineTo(bioBoxX, bioBoxY + 16);
+  ctx.quadraticCurveTo(bioBoxX, bioBoxY, bioBoxX + 16, bioBoxY);
+  ctx.closePath();
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  
+  // BIOテキスト内容（名前、BIOタグの下に余白を追加）
+  const bioText = `${data.userNickname} × ${data.partnerNickname}`;
+  ctx.font = `600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  const bioTextX = bioBoxX + 16;
+  const bioTextY = bioBoxY + 80; // 64から80に変更してBIOタグとの間隔を広げる
+  ctx.fillText(bioText, bioTextX, bioTextY);
+  
+  // ポイント（スコア）をBIOボックス内に追加
+  const scoreText = `${data.score} pts`;
+  ctx.font = `600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.fillText(scoreText, bioTextX, bioTextY + 24);
+  
+  ctx.restore();
+  
+  // BIOタイトル（黄色のタグ、3層、後から描画して前面に表示）
+  const bioTitleWidth = 145;
+  const bioTitleHeight = 66;
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  
+  // BIOタイトルの3層（後ろから順に描画）
+  for (let i = 2; i >= 0; i--) {
+    const offsetX = i === 0 ? 0 : i === 1 ? bioTitleWidth * 0.0483 : bioTitleWidth * 0.0966;
+    const offsetY = i === 0 ? 0 : i === 1 ? bioTitleHeight * 0.0758 : bioTitleHeight * 0.1515;
+    const width = bioTitleWidth * (1 - offsetX * 2 / bioTitleWidth);
+    const height = bioTitleHeight * (1 - offsetY * 2 / bioTitleHeight);
+    
+    ctx.beginPath();
+    ctx.moveTo(bioSectionX + offsetX + 24, bioSectionY + offsetY);
+    ctx.lineTo(bioSectionX + offsetX + width - 24, bioSectionY + offsetY);
+    ctx.quadraticCurveTo(bioSectionX + offsetX + width, bioSectionY + offsetY, bioSectionX + offsetX + width, bioSectionY + offsetY + 24);
+    ctx.lineTo(bioSectionX + offsetX + width, bioSectionY + offsetY + height - 24);
+    ctx.quadraticCurveTo(bioSectionX + offsetX + width, bioSectionY + offsetY + height, bioSectionX + offsetX + width - 24, bioSectionY + offsetY + height);
+    ctx.lineTo(bioSectionX + offsetX + 24, bioSectionY + offsetY + height);
+    ctx.quadraticCurveTo(bioSectionX + offsetX, bioSectionY + offsetY + height, bioSectionX + offsetX, bioSectionY + offsetY + height - 24);
+    ctx.lineTo(bioSectionX + offsetX, bioSectionY + offsetY + 24);
+    ctx.quadraticCurveTo(bioSectionX + offsetX, bioSectionY + offsetY, bioSectionX + offsetX + 24, bioSectionY + offsetY);
+    ctx.closePath();
+    
+    ctx.fillStyle = "#f1dd02";
+    ctx.fill();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  
+  // BIOテキスト（最前面）- "result"に変更
+  ctx.font = `400 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`; // フォントサイズを40から32に縮小
+  ctx.fillStyle = "#564eb3";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("result", bioSectionX + bioTitleWidth / 2, bioSectionY + bioTitleHeight / 2);
+  
+  ctx.restore();
+  
+  // 右側: Fun factセクション（左側の隣）
+  const funFactSectionX = bioSectionX + bioSectionWidth + bottomSectionGap;
+  const funFactSectionY = bottomSectionY;
+  
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  
+  // Fun factボックス
+  const funFactBoxWidth = bioSectionWidth;
+  const funFactBoxHeight = bottomSectionHeight;
+  
+  ctx.beginPath();
+  ctx.moveTo(funFactSectionX + 16, funFactSectionY);
+  ctx.lineTo(funFactSectionX + funFactBoxWidth - 16, funFactSectionY);
+  ctx.quadraticCurveTo(funFactSectionX + funFactBoxWidth, funFactSectionY, funFactSectionX + funFactBoxWidth, funFactSectionY + 16);
+  ctx.lineTo(funFactSectionX + funFactBoxWidth, funFactSectionY + funFactBoxHeight - 16);
+  ctx.quadraticCurveTo(funFactSectionX + funFactBoxWidth, funFactSectionY + funFactBoxHeight, funFactSectionX + funFactBoxWidth - 16, funFactSectionY + funFactBoxHeight);
+  ctx.lineTo(funFactSectionX + 16, funFactSectionY + funFactBoxHeight);
+  ctx.quadraticCurveTo(funFactSectionX, funFactSectionY + funFactBoxHeight, funFactSectionX, funFactSectionY + funFactBoxHeight - 16);
+  ctx.lineTo(funFactSectionX, funFactSectionY + 16);
+  ctx.quadraticCurveTo(funFactSectionX, funFactSectionY, funFactSectionX + 16, funFactSectionY);
+  ctx.closePath();
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  
+  // Fun factタイトル（上部）
+  ctx.font = `400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#564eb3";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText("Fun fact!", funFactSectionX + 16, funFactSectionY + 16);
+  
+  // ランク表示（上部、Fun factタイトルの下）
+  const rankFontSize = 48;
+  ctx.font = `900 ${rankFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.fillText(data.rankInfo.rank, funFactSectionX + 16, funFactSectionY + 40);
+  
+  // ランク帯名（ランクの下）
+  const rankBandName = getRankBandName(data.rankInfo.bandName);
+  const bandNameFontSize = 20;
+  const bandNameY = funFactSectionY + 40 + rankFontSize + 8;
+  ctx.font = `600 ${bandNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.fillText(rankBandName, funFactSectionX + 16, bandNameY);
+  
+  // パーセンタイル表示（ランク帯名の下、中央に配置）
+  const percentileFontSize = 16;
+  const percentileY = bandNameY + bandNameFontSize + 20; // ランク帯名の下に余白を追加
+  ctx.font = `600 ${percentileFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
-  ctx.fillText("Pairly Lab", CANVAS_WIDTH / 2, footerY);
+  const percentileX = funFactSectionX + funFactBoxWidth / 2;
+  ctx.fillText(data.percentileDisplay, percentileX, percentileY);
   
-  // 「この相性、どう思う？」（感情を呼ぶ・弱め）
-  footerY += footerBrandFontSize * 1.3 + 8;
-  const footerCopyFontSize = 16;
-  ctx.font = `400 ${footerCopyFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
-  ctx.fillText("この相性、どう思う？", CANVAS_WIDTH / 2, footerY);
   ctx.restore();
+  
   
   // ==========================================
   // Blobを生成
@@ -645,19 +919,111 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
 }
 
 /**
- * 画像をダウンロード
+ * 画像をダウンロード（PC・スマホ対応）
  */
 export function downloadImage(blob: Blob, filename: string): void {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   
-  setTimeout(() => URL.revokeObjectURL(url), 100);
+  if (isMobile) {
+    // モバイルの場合：新しいタブで画像を開く（長押しで保存可能）
+    const url = URL.createObjectURL(blob);
+    const newWindow = window.open();
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta charset="UTF-8">
+            <title>${filename}</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body {
+                margin: 0;
+                padding: 20px;
+                background: #000;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+              }
+              img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+              }
+              p {
+                color: white;
+                text-align: center;
+                margin-top: 20px;
+                font-size: 16px;
+                line-height: 1.5;
+              }
+              .instruction {
+                color: #ccc;
+                font-size: 14px;
+                margin-top: 10px;
+              }
+            </style>
+          </head>
+          <body>
+            <div>
+              <img src="${url}" alt="${filename}" />
+              <p>画像を長押しして保存してください</p>
+              <p class="instruction">（iOS: 長押し → 画像を保存）</p>
+              <p class="instruction">（Android: 長押し → 画像をダウンロード）</p>
+            </div>
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+      // 5秒後にURLを解放
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } else {
+      // ポップアップブロックされた場合、フォールバック
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.target = "_blank";
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+  } else {
+    // PCの場合：通常のダウンロード
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+    link.setAttribute("download", filename); // 明示的にdownload属性を設定
+    
+    // DOMに追加してからクリック
+    document.body.appendChild(link);
+    
+    // クリックイベントを確実に発火させる
+    const clickEvent = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    link.dispatchEvent(clickEvent);
+    
+    // 少し待ってからクリーンアップ
+    setTimeout(() => {
+      if (document.body.contains(link)) {
+        document.body.removeChild(link);
+      }
+      URL.revokeObjectURL(url);
+    }, 200);
+  }
 }
 
 /**
@@ -670,6 +1036,7 @@ export async function shareOrDownloadImage(
 ): Promise<void> {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   
+  // モバイルでWeb Share APIが利用可能な場合
   if (isMobile && navigator.share) {
     try {
       const file = new File([blob], filename, { type: "image/png" });
@@ -683,41 +1050,15 @@ export async function shareOrDownloadImage(
         return;
       }
     } catch (error: unknown) {
-      if (!(error instanceof DOMException && error.name === "AbortError")) {
-        console.log("Web Share API failed, falling back to download", error);
+      // ユーザーがキャンセルした場合は何もしない
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
       }
+      // その他のエラーの場合はダウンロードにフォールバック
+      console.log("Web Share API failed, falling back to download", error);
     }
   }
   
+  // Web Share APIが使えない、または失敗した場合はダウンロード
   downloadImage(blob, filename);
-  
-  // iOS Safari対策
-  if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-    setTimeout(() => {
-      const url = URL.createObjectURL(blob);
-      const newWindow = window.open();
-      if (newWindow) {
-        newWindow.document.write(`
-          <html>
-            <head>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>相性診断結果</title>
-              <style>
-                body { margin: 0; padding: 20px; background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-                img { max-width: 100%; height: auto; }
-                p { color: white; text-align: center; margin-top: 20px; }
-              </style>
-            </head>
-            <body>
-              <div>
-                <img src="${url}" alt="相性診断結果" />
-                <p>画像を長押しして保存してください</p>
-              </div>
-            </body>
-          </html>
-        `);
-        newWindow.document.close();
-      }
-    }, 100);
-  }
 }

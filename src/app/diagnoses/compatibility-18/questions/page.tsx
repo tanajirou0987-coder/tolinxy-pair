@@ -6,6 +6,7 @@ import questionsData from "../../../../../data/diagnoses/compatibility-18/questi
 import type { Question, Answer, Score } from "@/lib/types";
 import { calculateScores, getPersonalityType } from "@/lib/calculate";
 import { QuestionCard } from "@/components/diagnoses/QuestionCard";
+import { Button } from "@/components/ui/button";
 
 const TOTAL_QUESTIONS = 18;
 type Step = "user" | "partner";
@@ -98,6 +99,17 @@ export default function Compatibility18QuestionsPage() {
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+      {/* トップページに戻るボタン */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-6 pt-6">
+        <Button
+          type="button"
+          onClick={() => router.push("/")}
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+        >
+          トップに戻る
+        </Button>
+      </div>
+
       {/* スマホ用レイアウト */}
       <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="text-center">
@@ -179,6 +191,16 @@ export default function Compatibility18QuestionsPage() {
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+        {/* トップページに戻るボタン（PC用） */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
+          <Button
+            type="button"
+            onClick={() => router.push("/")}
+            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          >
+            トップに戻る
+          </Button>
+        </div>
         <div className="text-center">
           <div className="inline-flex items-center gap-3 rounded-[16px] border border-black bg-[#fbf7d5] px-8 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             <span className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
