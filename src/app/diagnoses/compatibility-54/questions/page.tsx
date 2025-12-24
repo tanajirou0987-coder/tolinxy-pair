@@ -10,7 +10,11 @@ import { copyToClipboard } from "@/lib/clipboard";
 import { useSessionAssignment } from "@/hooks/useSessionAssignment";
 import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
 import { LazyQuestionCard } from "@/components/diagnoses/LazyQuestionCard";
-import { Button } from "@/components/ui/button";
+import { ProgressBar } from "@/components/diagnoses/ProgressBar";
+import { StepHeader } from "@/components/diagnoses/StepHeader";
+import { BackToTopButton } from "@/components/diagnoses/BackToTopButton";
+import { CompletionSection } from "@/components/diagnoses/CompletionSection";
+import { useAnswerManagement } from "@/hooks/useAnswerManagement";
 
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
@@ -65,40 +69,19 @@ export default function Compatibility54QuestionsPage() {
 function SingleDeviceQuestions() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("user");
-  const [userAnswers, setUserAnswers] = useState<Answer[]>([]);
-  const [partnerAnswers, setPartnerAnswers] = useState<Answer[]>([]);
+  const { userAnswers, partnerAnswers, updateAnswer, getAnswerForQuestion } = useAnswerManagement();
   // 質問データをメモ化（ビルド時に最適化される）
   const questions = useMemo(() => questionsData as Question[], []);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isTransitioningStep, setIsTransitioningStep] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
 
   // トランジション中は前のステップの回答数を保持
   const currentAnswers = step === "user" ? userAnswers : partnerAnswers;
   const answeredCount = currentAnswers.length;
-  const progress = (answeredCount / TOTAL_QUESTIONS) * 100;
-  const currentQuestion = questions[currentQuestionIndex];
 
   const handleAnswer = useCallback((questionId: number, score: Score) => {
-    if (step === "user") {
-      setUserAnswers((prev) => {
-        const existingIndex = prev.findIndex((a) => a.questionId === questionId);
-        if (existingIndex >= 0) {
-          return prev.map((a, i) => (i === existingIndex ? { questionId, score } : a));
-        }
-        return [...prev, { questionId, score }];
-      });
-    } else {
-      setPartnerAnswers((prev) => {
-        const existingIndex = prev.findIndex((a) => a.questionId === questionId);
-        if (existingIndex >= 0) {
-          return prev.map((a, i) => (i === existingIndex ? { questionId, score } : a));
-        }
-        return [...prev, { questionId, score }];
-      });
-    }
-  }, [step]);
+    updateAnswer(step, questionId, score);
+  }, [step, updateAnswer]);
 
   const calculateResult = (userFinalAnswers: Answer[], partnerFinalAnswers: Answer[]) => {
     try {
@@ -183,48 +166,18 @@ function SingleDeviceQuestions() {
     }
   }, [step]);
 
-  // 回答をMapに変換して高速検索
-  const answersMap = useMemo(() => {
-    const map = new Map<number, Score>();
-    currentAnswers.forEach((a) => {
-      map.set(a.questionId, a.score);
-    });
-    return map;
-  }, [currentAnswers]);
-
-  const getAnswerForQuestion = useCallback((questionId: number): Score | null => {
-    return answersMap.get(questionId) ?? null;
-  }, [answersMap]);
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
       {/* スマホ用レイアウト */}
       <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-[16px] border border-black bg-[#e2bef1] px-3 py-1 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
-            <span className="text-[10px] font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-1.5 py-0.5 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "1/2" : "2/2"}</span>
-          </div>
-        </div>
-
-        <div className="sticky top-0 z-20 -mx-4 border-b border-black bg-white px-4 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          <div className="mb-1.5 flex items-center justify-between text-sm">
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-xs text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-              {answeredCount} / {TOTAL_QUESTIONS}
-            </span>
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-lg text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
-            <div
-              className="h-full rounded-full bg-[#e2bef1] transition-all duration-200"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
+        <BackToTopButton variant="mobile" />
+        <StepHeader step={step} variant="mobile" />
+        <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="mobile" />
 
         <div className="space-y-2.5 pb-8">
           {questions.map((question, index) => {
-            const currentAnswer = getAnswerForQuestion(question.id);
+            const currentAnswer = getAnswerForQuestion(currentAnswers, question.id);
             const isAnswered = currentAnswer !== null;
             // 最初の5問と回答済みの質問は優先的にレンダリング
             const priority = index < 5 || isAnswered;
@@ -246,78 +199,27 @@ function SingleDeviceQuestions() {
 
         <div className="mt-12 space-y-4 text-center">
           <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
-          {step === "user" ? (
-            userAnswers.length === TOTAL_QUESTIONS ? (
-              <div className="space-y-3 rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                  自分の回答がそろいました！<br />
-                  内容に間違いがないか確認してからパートナーに渡してください。
-                </p>
-                <button
-                  onClick={handleConfirmStep}
-                  disabled={isTransitioningStep}
-                  className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
-                >
-                  パートナーの回答に進む →
-                </button>
-              </div>
-            ) : (
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答するとパートナーにバトンタッチできます</p>
-            )
-          ) : partnerAnswers.length === TOTAL_QUESTIONS ? (
-            <div className="space-y-3 rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">2人分の回答がそろいました！<br />診断結果を作成します</p>
-              <button
-                onClick={handleConfirmStep}
-                disabled={isCalculating}
-                className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
-              >
-                結果を表示
-              </button>
-            </div>
-          ) : (
-            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答をすべて埋めてから結果へ進めます</p>
-          )}
+          <CompletionSection
+            step={step}
+            answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}
+            totalQuestions={TOTAL_QUESTIONS}
+            onConfirm={handleConfirmStep}
+            isTransitioning={isTransitioningStep}
+            isCalculating={isCalculating}
+            variant="mobile"
+          />
         </div>
       </div>
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
-        {/* トップページに戻るボタン（PC用） */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
-          <Button
-            type="button"
-            onClick={() => router.push("/")}
-            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-          >
-            トップに戻る
-          </Button>
-        </div>
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-            <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
-            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-3 py-1 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "1/2" : "2/2"}</span>
-          </div>
-        </div>
-
-        <div className="sticky top-0 z-20 border-b border-black bg-white px-8 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          <div className="mb-3 flex items-center justify-between text-lg">
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-              {answeredCount} / {TOTAL_QUESTIONS}
-            </span>
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
-          </div>
-          <div className="h-5 w-full overflow-hidden rounded-full border border-black bg-white">
-            <div
-              className="h-full rounded-full bg-[#e2bef1] transition-all duration-200"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
+        <BackToTopButton variant="desktop" />
+        <StepHeader step={step} variant="desktop" />
+        <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="desktop" />
 
         <div className="space-y-4 pb-8">
           {questions.map((question, index) => {
-            const currentAnswer = getAnswerForQuestion(question.id);
+            const currentAnswer = getAnswerForQuestion(currentAnswers, question.id);
             const isAnswered = currentAnswer !== null;
             const priority = index < 5 || isAnswered;
 
@@ -338,38 +240,15 @@ function SingleDeviceQuestions() {
 
         <div className="mt-12 space-y-4 text-center">
           <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
-          {step === "user" ? (
-            userAnswers.length === TOTAL_QUESTIONS ? (
-              <div className="space-y-4 rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                  自分の回答がそろいました！<br />
-                  内容に間違いがないか確認してからパートナーに渡してください。
-                </p>
-                <button
-                  onClick={handleConfirmStep}
-                  disabled={isTransitioningStep}
-                  className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
-                >
-                  パートナーの回答に進む →
-                </button>
-              </div>
-            ) : (
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答するとパートナーにバトンタッチできます</p>
-            )
-          ) : partnerAnswers.length === TOTAL_QUESTIONS ? (
-            <div className="space-y-4 rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">2人分の回答がそろいました！<br />診断結果を作成します</p>
-              <button
-                onClick={handleConfirmStep}
-                disabled={isCalculating}
-                className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-[#e2bef1] px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
-              >
-                結果を表示
-              </button>
-            </div>
-          ) : (
-            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答をすべて埋めてから結果へ進めます</p>
-          )}
+          <CompletionSection
+            step={step}
+            answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}
+            totalQuestions={TOTAL_QUESTIONS}
+            onConfirm={handleConfirmStep}
+            isTransitioning={isTransitioningStep}
+            isCalculating={isCalculating}
+            variant="desktop"
+          />
         </div>
       </div>
     </div>
@@ -510,17 +389,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
-      {/* トップページに戻るボタン */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-6 pt-6">
-        <Button
-          type="button"
-          onClick={() => router.push("/")}
-          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-        >
-          トップに戻る
-        </Button>
-      </div>
-
+      <BackToTopButton variant="mobile" />
       {/* スマホ用レイアウト */}
       <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
@@ -610,16 +479,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
-        {/* トップページに戻るボタン（PC用） */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
-          <Button
-            type="button"
-            onClick={() => router.push("/")}
-            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-          >
-            トップに戻る
-          </Button>
-        </div>
+        <BackToTopButton variant="desktop" />
         <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
           <div className="flex flex-row items-center justify-between mb-6">
             <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">

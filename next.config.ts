@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
   
   // Turbopack設定（Next.js 16ではTurbopackがデフォルト）
   turbopack: {},
+  
+  // キャッシュ設定（開発時は無効化）
+  ...(process.env.NODE_ENV === 'production' ? {} : {
+    // 開発環境ではキャッシュを無効化しない（パフォーマンスのため）
+  }),
 };
 
 export default nextConfig;

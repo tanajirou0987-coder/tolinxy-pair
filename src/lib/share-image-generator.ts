@@ -7,6 +7,10 @@
  * - Figmaのトレーディングカードデザインを参考
  * - カラフルで装飾的なデザイン
  * - 大胆なタイポグラフィと視覚的な魅力
+ * 
+ * Version: 2.0 (2024-12-XX)
+ * - 最新UIデザインに更新（白背景、#e2bef1カード、PAIRLY LABヘッダー）
+ * - 診断結果画面と同じレイアウト構造に統一
  */
 
 import { getRankImagePath } from "./calculate";
@@ -27,7 +31,7 @@ const CARD_PADDING_BOTTOM = 64;
 const CARD_PADDING_LEFT = 56;
 const CARD_BORDER_RADIUS = 64;
 const CARD_GAP = 24; // gap: 24px
-const CARD_BG_COLOR = "#e2bef1"; // 最新UIのカード背景色
+const CARD_BG_COLOR = "#e2bef1"; // 最新UIのカード背景色 v2.0
 
 // 画像サイズ
 const IMAGE_SIZE = 400; // 400×400px
