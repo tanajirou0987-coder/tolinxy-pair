@@ -27,84 +27,62 @@ const diagnostics = [
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#ffc9c9]">
+    <div className="relative min-h-screen overflow-hidden bg-white">
       {/* スマホ用レイアウト */}
-      <div className="relative z-10 max-w-md mx-auto min-h-screen md:hidden py-8 px-4">
-        {/* Figmaデザインスタイルのメインカード */}
-        <motion.div
-          className="relative bg-white border-[3.996px] border-[#2b2b2b] rounded-[49.948px] p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+      <div className="relative z-10 max-w-md mx-auto bg-white min-h-screen shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:hidden">
+        {/* ヘッダーセクション - Figmaデザインの背景画像とスタイル */}
+        <motion.section
+          className="relative h-[299px] rounded-t-[28px] overflow-hidden mx-3 mt-3"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          {/* 繰り返しテキスト - Figmaデザインスタイル */}
-          <div className="text-center mb-4 py-2">
-            <p className="text-[19.979px] font-['Coming_Soon:Regular',sans-serif] font-light text-[#e84d3d] tracking-[-0.3197px] leading-[31.967px]">
-              相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断
-            </p>
+          <div className="absolute inset-0 overflow-hidden rounded-t-[28px]">
+            <img alt="" className="absolute inset-0 w-full h-full object-cover" src={headerBackgroundImage} />
           </div>
+          {/* 引用文 - Figmaデザインのフォントとスタイル */}
+          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-['Inter:Extra_Bold_Italic',sans-serif] font-extrabold italic text-[16px] text-center text-white text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] max-w-[280px] leading-[1.5]">
+            2人のリズム、<br />
+            響き合う瞬間を。
+          </p>
+        </motion.section>
 
-          {/* メインタイトル - Figmaデザインスタイル */}
-          <div className="text-center mb-8 py-4">
-            <h1 className="text-[65.931px] font-['Coming_Soon:Regular',sans-serif] font-bold text-[#ff9960] mb-2 leading-[31.967px] tracking-[-0.3197px]">
-              PAIRLY LAB
-            </h1>
-            <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black">
-              恋愛相性診断
-            </p>
-          </div>
-
+        {/* メインコンテナ - Figmaデザインの背景色 */}
+        <div className="relative bg-[#FFB6C1] rounded-[36px] mx-3 mb-20 overflow-hidden">
           {/* メインコンテンツエリア */}
-          <div className="relative bg-white rounded-[35px] px-[12px] py-[24px]">
-            {/* 説明文 - Figmaデザインスタイル（大きな黄色緑色テキスト） */}
+          <div className="relative bg-white rounded-[35px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mx-0 mt-[-35px] px-[12px] py-[24px] min-h-[665px]">
+            {/* ロゴ/タイトル - Figmaデザインのフォントスタイルに合わせて調整 */}
             <motion.div
-              className="text-center mb-8 py-6"
+              className="text-center mb-8 pt-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <p className="text-[55.942px] font-['Coming_Soon:Regular',sans-serif] font-normal text-[#c1d50c] leading-[64.932px] whitespace-pre-wrap max-w-[615px] mx-auto">
-                2人のリズムを数分で診断。恋愛タイプの測定と相性分析をかんたん＆ビジュアルに届ける診断アプリです。
-              </p>
+              <h1 className="text-6xl sm:text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal tracking-tight mb-4 text-black">
+                PAIRLY LAB
+              </h1>
             </motion.div>
 
-            {/* メニューフレーム風のコンテナ - Figmaデザインスタイル */}
-            <div className="border-[#2a2a2a] border-[3.996px] border-solid rounded-[31.967px] p-6 mb-8">
-              {/* クイックアクションボタン - Figmaデザインのスタイルに合わせて調整 */}
-              <motion.div
-                className="flex flex-wrap justify-center gap-4 mb-6"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+            {/* クイックアクションボタン - Figmaデザインのスタイルに合わせて調整 */}
+            <motion.div
+              className="flex flex-wrap justify-center gap-4 mb-12 px-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <Link
+                href="/diagnoses/compatibility-54"
+                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
               >
-                <Link
-                  href="/diagnoses/compatibility-54"
-                  className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
-                >
-                  <span className="relative z-10">54問でじっくり</span>
-                </Link>
-                <Link
-                  href="/diagnoses/compatibility-18"
-                  className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
-                >
-                  <span className="relative z-10">3分で試す</span>
-                </Link>
-              </motion.div>
-
-              {/* ボタン風の要素 - Figmaデザインスタイル */}
-              <div className="flex flex-wrap justify-center gap-3 mb-4">
-                <div className="bg-[#ffebdc] border-[#2a2a2a] border-[3.996px] border-solid h-[54.943px] rounded-[15.983px] px-6 flex items-center justify-center">
-                  <p className="font-['Coming_Soon:Regular',sans-serif] font-bold text-[#2a2a2a] text-[24.974px] tracking-[-0.3197px]">
-                    診断モード
-                  </p>
-                </div>
-                <div className="bg-[#ffebdc] border-[#2a2a2a] border-[3.996px] border-solid h-[54.943px] rounded-[15.983px] px-6 flex items-center justify-center">
-                  <p className="font-['Coming_Soon:Regular',sans-serif] font-bold text-[#2a2a2a] text-[24.974px] tracking-[-0.3197px]">
-                    相性分析
-                  </p>
-                </div>
-              </div>
-            </div>
+                <span className="relative z-10">54問でじっくり</span>
+              </Link>
+              <Link
+                href="/diagnoses/compatibility-18"
+                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
+              >
+                <span className="relative z-10">3分で試す</span>
+              </Link>
+            </motion.div>
 
             {/* 統計セクション - Figmaデザインのスタイルに合わせて調整 */}
             <motion.div
@@ -244,79 +222,64 @@ export default function Home() {
               </div>
             </motion.section>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative z-10 max-w-7xl mx-auto px-8 py-12">
-        {/* Figmaデザインスタイルのメインカード - PC用 */}
-        <motion.div
-          className="relative bg-white border-[3.996px] border-[#2b2b2b] rounded-[49.948px] p-12 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        {/* ヘッダーセクション - PC用 */}
+        <motion.section
+          className="relative h-[400px] rounded-[28px] overflow-hidden mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          {/* 繰り返しテキスト - Figmaデザインスタイル PC用 */}
-          <div className="text-center mb-6 py-2">
-            <p className="text-[19.979px] font-['Coming_Soon:Regular',sans-serif] font-light text-[#e84d3d] tracking-[-0.3197px] leading-[31.967px]">
-              相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断 · 相性診断
-            </p>
+          <div className="absolute inset-0 overflow-hidden rounded-[28px]">
+            <img alt="" className="absolute inset-0 w-full h-full object-cover" src={headerBackgroundImage} />
           </div>
-
-          {/* メインタイトル - Figmaデザインスタイル PC用 */}
-          <div className="text-center mb-8 py-4">
-            <h1 className="text-[65.931px] font-['Coming_Soon:Regular',sans-serif] font-bold text-[#ff9960] mb-4 leading-[31.967px] tracking-[-0.3197px]">
-              PAIRLY LAB
-            </h1>
-            <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-6">
-              恋愛相性診断
-            </p>
-            <p className="text-[55.942px] font-['Coming_Soon:Regular',sans-serif] font-normal text-[#c1d50c] leading-[64.932px] whitespace-pre-wrap max-w-[615px] mx-auto">
-              2人のリズムを数分で診断。恋愛タイプの測定と相性分析をかんたん＆ビジュアルに届ける診断アプリです。
-            </p>
-          </div>
+          {/* 引用文 - PC用 */}
+          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-['Inter:Extra_Bold_Italic',sans-serif] font-extrabold italic text-3xl text-center text-white text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] max-w-2xl leading-[1.5]">
+            2人のリズム、<br />
+            響き合う瞬間を。
+          </p>
+        </motion.section>
 
         {/* メインコンテンツエリア - PC用 */}
         <div className="grid lg:grid-cols-2 gap-8 mb-12">
           {/* 左カラム */}
           <div className="space-y-8">
-            {/* メニューフレーム風のコンテナ - Figmaデザインスタイル PC用 */}
-            <div className="border-[#2a2a2a] border-[3.996px] border-solid rounded-[31.967px] p-8">
-              {/* クイックアクションボタン - PC用 */}
-              <motion.div
-                className="flex flex-col gap-4 mb-6"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <Link
-                  href="/diagnoses/compatibility-54"
-                  className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
-                >
-                  <span className="relative z-10">54問でじっくり</span>
-                </Link>
-                <Link
-                  href="/diagnoses/compatibility-18"
-                  className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
-                >
-                  <span className="relative z-10">3分で試す</span>
-                </Link>
-              </motion.div>
+            {/* ロゴ/タイトル - PC用 */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <h1 className="text-8xl font-['Coming_Soon:Regular',sans-serif] font-normal tracking-tight mb-6 text-black">
+                PAIRLY LAB
+              </h1>
+            </motion.div>
 
-              {/* ボタン風の要素 - Figmaデザインスタイル PC用 */}
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-[#ffebdc] border-[#2a2a2a] border-[3.996px] border-solid h-[54.943px] rounded-[15.983px] px-8 flex items-center justify-center">
-                  <p className="font-['Coming_Soon:Regular',sans-serif] font-bold text-[#2a2a2a] text-[24.974px] tracking-[-0.3197px]">
-                    診断モード
-                  </p>
-                </div>
-                <div className="bg-[#ffebdc] border-[#2a2a2a] border-[3.996px] border-solid h-[54.943px] rounded-[15.983px] px-8 flex items-center justify-center">
-                  <p className="font-['Coming_Soon:Regular',sans-serif] font-bold text-[#2a2a2a] text-[24.974px] tracking-[-0.3197px]">
-                    相性分析
-                  </p>
-                </div>
-              </div>
-            </div>
+            {/* クイックアクションボタン - PC用 */}
+            <motion.div
+              className="flex flex-col gap-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <Link
+                href="/diagnoses/compatibility-54"
+                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
+              >
+                <span className="relative z-10">54問でじっくり</span>
+              </Link>
+              <Link
+                href="/diagnoses/compatibility-18"
+                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
+              >
+                <span className="relative z-10">3分で試す</span>
+              </Link>
+            </motion.div>
 
             {/* 統計セクション - PC用 */}
             <motion.div
@@ -460,7 +423,6 @@ export default function Home() {
             </div>
           </div>
         </motion.section>
-        </motion.div>
       </div>
     </div>
   );
