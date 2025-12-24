@@ -559,32 +559,59 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
   }
   
   // ==========================================
-  // レイヤー1: 背景（白）
+  // レイヤー1: 背景（ランクに応じた色）
   // ==========================================
+  const cardBgColor = getCardBackgroundColor(data.rankInfo.rank);
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  ctx.fillStyle = "#ffffff"; // 白背景
+  ctx.fillStyle = cardBgColor;
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   ctx.restore();
   
   // ==========================================
-  // レイヤー2: メインカード（最新UIデザイン）
+  // レイヤー2: 装飾的な背景要素（Figmaスタイル）
   // ==========================================
-  const cardPadding = 32;
-  const cardX = cardPadding;
-  const cardY = cardPadding;
-  const cardWidth = CANVAS_WIDTH - cardPadding * 2;
-  const cardHeight = CANVAS_HEIGHT - cardPadding * 2;
+  ctx.save();
+  ctx.globalAlpha = 0.4;
+  
+  // 上部の花のような装飾（大きな円）
+  const flowerSize = 344;
+  const flowerX = CANVAS_WIDTH / 2;
+  const flowerY = -158;
+  drawCircle(ctx, flowerX, flowerY, flowerSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  // 左下にプラネットのような装飾
+  const planetSize = 224;
+  const planetX = 33;
+  const planetY = CANVAS_HEIGHT - 201;
+  drawCircle(ctx, planetX, planetY, planetSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  // 右下にハートのような装飾（大きな円）
+  const heartSize = 416;
+  const heartX = CANVAS_WIDTH;
+  const heartY = CANVAS_HEIGHT + 100;
+  drawCircle(ctx, heartX, heartY, heartSize / 2, SCALE, "#746ae1", "transparent", 0);
+  
+  ctx.restore();
+  
+  // ==========================================
+  // レイヤー3: メインカード（Figmaのレイアウト通り）
+  // ==========================================
+  // メインカード（700x1080、角丸64px、padding: 48px 64px 64px 56px）
+  const cardX = 0;
+  const cardY = 0;
+  const cardWidth = CANVAS_WIDTH;
+  const cardHeight = CANVAS_HEIGHT;
   
   // カードの影
   ctx.save();
-  ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
-  ctx.shadowBlur = 4 * SCALE;
+  ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+  ctx.shadowBlur = 30 * SCALE;
   ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4 * SCALE;
+  ctx.shadowOffsetY = 12 * SCALE;
   ctx.scale(SCALE, SCALE);
-  drawRoundedRect(ctx, cardX, cardY, cardWidth, cardHeight, 16, 1); // 角丸16px
-  ctx.fillStyle = CARD_BG_COLOR; // #e2bef1
+  drawRoundedRect(ctx, cardX, cardY, cardWidth, cardHeight, 64, 1); // 角丸64px
+  ctx.fillStyle = cardBgColor;
   ctx.fill();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 1;
@@ -592,113 +619,93 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
   ctx.restore();
   
   // ==========================================
-  // レイヤー3: カード内のコンテンツ
+  // レイヤー4: カード内のコンテンツ
   // ==========================================
-  // コンテンツエリア（カード内のpadding）
-  const contentPadding = 24;
-  const contentX = cardX + contentPadding;
-  const contentY = cardY + contentPadding;
-  const contentWidth = cardWidth - contentPadding * 2;
+  // コンテンツエリア（padding内側）
+  const contentX = CARD_PADDING_LEFT;
+  const contentY = CARD_PADDING_TOP;
+  const contentWidth = CANVAS_WIDTH - CARD_PADDING_LEFT - CARD_PADDING_RIGHT;
   
-  // ヘッダー（PAIRLY LAB）
-  const headerY = contentY + 20;
+  // 画像エリア（400×400px、右寄せ）
+  const imageX = contentX + contentWidth - IMAGE_SIZE; // 右寄せ
+  const imageY = contentY;
+  
+  // 画像フレームの影（外側）
+  const frameShadowOffset = 26;
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  ctx.font = `400 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  // テキストシャドウを描画
-  ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
-  ctx.shadowBlur = 4;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
-  ctx.fillText("PAIRLY LAB", contentX + contentWidth / 2, headerY);
-  ctx.restore();
-  
-  // メインコンテンツエリア（診断結果画面と同じレイアウト）
-  const mainContentY = headerY + 50;
-  
-  // スコア表示（円形プログレス）- 上部に配置
-  const scoreCircleRadius = 50;
-  const scoreCircleX = contentX + contentWidth / 2;
-  const scoreCircleY = mainContentY + scoreCircleRadius + 20;
-  
-  // 円形プログレスバー（背景）
-  ctx.save();
-  ctx.scale(SCALE, SCALE);
-  ctx.beginPath();
-  ctx.arc(scoreCircleX, scoreCircleY, scoreCircleRadius, 0, Math.PI * 2);
-  ctx.strokeStyle = "#e5e5e5";
-  ctx.lineWidth = 10;
-  ctx.stroke();
-  
-  // 円形プログレスバー（スコア）
-  const scorePercentage = Math.min(data.score, 100);
-  const startAngle = -Math.PI / 2;
-  const endAngle = startAngle + (scorePercentage / 100) * Math.PI * 2;
-  ctx.beginPath();
-  ctx.arc(scoreCircleX, scoreCircleY, scoreCircleRadius, startAngle, endAngle);
-  ctx.strokeStyle = "#e2bef1";
-  ctx.lineWidth = 10;
-  ctx.lineCap = "round";
+  drawRoundedRect(
+    ctx,
+    imageX - frameShadowOffset,
+    imageY - frameShadowOffset,
+    IMAGE_SIZE + frameShadowOffset * 2,
+    IMAGE_SIZE + frameShadowOffset * 2,
+    24,
+    1
+  );
+  ctx.fillStyle = "#ff84c5";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
   ctx.stroke();
   ctx.restore();
   
-  // スコアテキスト
+  // 画像フレーム（内側）
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  ctx.font = `400 40px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  // テキストシャドウ
-  ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
-  ctx.shadowBlur = 4;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
-  ctx.fillText(data.score.toString(), scoreCircleX, scoreCircleY);
+  drawRoundedRect(ctx, imageX, imageY, IMAGE_SIZE, IMAGE_SIZE, 24, 1);
+  ctx.fillStyle = "#ffa5d4";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
   ctx.restore();
   
-  // pts テキスト
+  // 画像背景（黄色、フレーム内）
+  const imagePadding = 24;
+  const imageBgX = imageX + imagePadding;
+  const imageBgY = imageY + imagePadding;
+  const imageBgSize = IMAGE_SIZE - imagePadding * 2;
+  
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  ctx.font = `400 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "top";
-  // テキストシャドウ
-  ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
-  ctx.shadowBlur = 4;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
-  ctx.fillText("pts", scoreCircleX, scoreCircleY + 25);
+  drawRoundedRect(ctx, imageBgX, imageBgY, imageBgSize, imageBgSize, 16, 1); // 角丸16px
+  ctx.fillStyle = "#f1dd02";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
   ctx.restore();
   
-  // ランク画像（中央に配置）
-  const rankImageY = scoreCircleY + scoreCircleRadius + 30;
-  const rankImageSize = 200;
-  const rankImageX = contentX + (contentWidth - rankImageSize) / 2;
-  
-  // ランク画像を描画
+  // キャラクター画像を描画（正方形にクロップ、角丸付き）
   try {
-    const rankImagePath = getRankImagePath(data.rankInfo.rank);
-    const rankImage = await loadImage(rankImagePath);
+    const characterImagePath = getRankCharacterImagePath(data.rankInfo.rank);
+    const characterImage = await loadImage(characterImagePath);
     
-    const imageDrawX = rankImageX * SCALE;
-    const imageDrawY = rankImageY * SCALE;
-    const imageDrawSize = rankImageSize * SCALE;
+    const imageDrawX = imageBgX * SCALE;
+    const imageDrawY = imageBgY * SCALE;
+    const imageDrawSize = imageBgSize * SCALE;
+    const imageRadius = 16 * SCALE; // 角丸16px
     
-    // 正方形にクロップして描画
+    // 角丸のクリッピングパスを作成
     ctx.save();
     ctx.beginPath();
-    ctx.rect(imageDrawX, imageDrawY, imageDrawSize, imageDrawSize);
+    ctx.moveTo(imageDrawX + imageRadius, imageDrawY);
+    ctx.lineTo(imageDrawX + imageDrawSize - imageRadius, imageDrawY);
+    ctx.quadraticCurveTo(imageDrawX + imageDrawSize, imageDrawY, imageDrawX + imageDrawSize, imageDrawY + imageRadius);
+    ctx.lineTo(imageDrawX + imageDrawSize, imageDrawY + imageDrawSize - imageRadius);
+    ctx.quadraticCurveTo(imageDrawX + imageDrawSize, imageDrawY + imageDrawSize, imageDrawX + imageDrawSize - imageRadius, imageDrawY + imageDrawSize);
+    ctx.lineTo(imageDrawX + imageRadius, imageDrawY + imageDrawSize);
+    ctx.quadraticCurveTo(imageDrawX, imageDrawY + imageDrawSize, imageDrawX, imageDrawY + imageDrawSize - imageRadius);
+    ctx.lineTo(imageDrawX, imageDrawY + imageRadius);
+    ctx.quadraticCurveTo(imageDrawX, imageDrawY, imageDrawX + imageRadius, imageDrawY);
+    ctx.closePath();
     ctx.clip();
     
-    // 画像を正方形にクロップ（最新UIと同じ方法）
+    // 画像を正方形にクロップして描画
     drawImageSquareCrop(
       ctx,
-      rankImage,
+      characterImage,
       imageDrawX,
       imageDrawY,
       imageDrawSize
@@ -706,90 +713,223 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
     
     ctx.restore();
   } catch (error) {
-    console.warn("Failed to load rank image:", error);
+    console.warn("Failed to load character image:", error);
   }
   
-  // ランク情報セクション（画像の下）
-  const rankSectionY = rankImageY + rankImageSize + 20;
-  const rankBoxWidth = contentWidth;
-  const rankBoxHeight = 100;
-  const rankBoxX = contentX;
-  const rankBoxY = rankSectionY;
-  
-  // ランク情報ボックス（白背景）
+  // 上部の名前（カードの外側、左側、中央寄せに調整）
+  const topNameX = imageX - 80; // 左に少し移動
+  const topNameY = imageY - 48.5;
+  const topNameFontSize = 64;
   ctx.save();
   ctx.scale(SCALE, SCALE);
-  drawRoundedRect(ctx, rankBoxX, rankBoxY, rankBoxWidth, rankBoxHeight, 16, 1);
+  ctx.font = `400 ${topNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(data.userNickname.toUpperCase(), topNameX, topNameY);
+  ctx.restore();
+  
+  // 下部の名前（画像フレームの下、左側、中央寄せに調整）
+  const bottomNameX = imageX - 80; // 左に少し移動
+  const bottomNameY = imageY + IMAGE_SIZE + 0.5;
+  const bottomNameFontSize = 64;
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  ctx.font = `400 ${bottomNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(data.partnerNickname.toUpperCase(), bottomNameX, bottomNameY);
+  ctx.restore();
+  
+  // 星のアイコン（右上）- SVG画像を使用
+  try {
+    const sparkleFilledImg = await loadImage("/sparkle-filled.svg");
+    const starRightX = imageX + IMAGE_SIZE + 64;
+    const starRightY = imageY + 28;
+    const starRightSize = 64;
+    ctx.drawImage(sparkleFilledImg, starRightX * SCALE, starRightY * SCALE, starRightSize * SCALE, starRightSize * SCALE);
+  } catch (error) {
+    console.warn("Failed to load sparkle-filled icon:", error);
+  }
+  
+  // 星のアイコン（左下）- SVG画像を使用
+  try {
+    const sparkleFilledImg = await loadImage("/sparkle-filled.svg");
+    const starLeftX = imageX - 53;
+    const starLeftY = imageY + IMAGE_SIZE - 13.23 - 88;
+    const starLeftSize = 88;
+    ctx.drawImage(sparkleFilledImg, starLeftX * SCALE, starLeftY * SCALE, starLeftSize * SCALE, starLeftSize * SCALE);
+  } catch (error) {
+    console.warn("Failed to load sparkle-filled icon:", error);
+  }
+  
+  // 下部セクション（gap: 24px）
+  let currentY = imageY + IMAGE_SIZE + CARD_GAP;
+  
+  // 下部セクション（BIOとFun factスタイル、Figma: gap-[64px] h-[225px]）
+  const bottomSectionY = currentY;
+  const bottomSectionHeight = 225;
+  const bottomSectionGap = 64;
+  
+  // 左右均等に配置（中央寄せ）
+  const bottomSectionTotalWidth = contentWidth;
+  const bioSectionWidth = (bottomSectionTotalWidth - bottomSectionGap) / 2;
+  
+  // 左側: BIOセクション
+  const bioSectionX = contentX;
+  const bioSectionY = bottomSectionY;
+  
+  // BIOボックス（先に描画、後ろに配置）
+  const bioBoxX = bioSectionX + 16;
+  const bioBoxY = bioSectionY + 16;
+  const bioBoxWidth = bioSectionWidth - 16;
+  const bioBoxHeight = bottomSectionHeight - 16;
+  
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  
+  ctx.beginPath();
+  ctx.moveTo(bioBoxX + 16, bioBoxY);
+  ctx.lineTo(bioBoxX + bioBoxWidth - 16, bioBoxY);
+  ctx.quadraticCurveTo(bioBoxX + bioBoxWidth, bioBoxY, bioBoxX + bioBoxWidth, bioBoxY + 16);
+  ctx.lineTo(bioBoxX + bioBoxWidth, bioBoxY + bioBoxHeight - 16);
+  ctx.quadraticCurveTo(bioBoxX + bioBoxWidth, bioBoxY + bioBoxHeight, bioBoxX + bioBoxWidth - 16, bioBoxY + bioBoxHeight);
+  ctx.lineTo(bioBoxX + 16, bioBoxY + bioBoxHeight);
+  ctx.quadraticCurveTo(bioBoxX, bioBoxY + bioBoxHeight, bioBoxX, bioBoxY + bioBoxHeight - 16);
+  ctx.lineTo(bioBoxX, bioBoxY + 16);
+  ctx.quadraticCurveTo(bioBoxX, bioBoxY, bioBoxX + 16, bioBoxY);
+  ctx.closePath();
+  
   ctx.fillStyle = "#ffffff";
   ctx.fill();
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 1;
   ctx.stroke();
   
-  // ランク表示（大きく中央に）
-  const rankFontSize = 64;
-  ctx.font = `900 ${rankFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  // BIOテキスト内容（名前、BIOタグの下に余白を追加）
+  const bioText = `${data.userNickname} × ${data.partnerNickname}`;
+  ctx.font = `600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
+  ctx.textAlign = "left";
   ctx.textBaseline = "top";
-  ctx.fillText(data.rankInfo.rank, rankBoxX + rankBoxWidth / 2, rankBoxY + 10);
+  const bioTextX = bioBoxX + 16;
+  const bioTextY = bioBoxY + 80; // 64から80に変更してBIOタグとの間隔を広げる
+  ctx.fillText(bioText, bioTextX, bioTextY);
   
-  // ランク帯名（ランクの下、中央に）
-  const rankBandName = getRankBandName(data.rankInfo.bandName);
-  const bandNameFontSize = 18;
-  const bandNameY = rankBoxY + 10 + rankFontSize + 4;
-  ctx.font = `600 ${bandNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  // ポイント（スコア）をBIOボックス内に追加
+  const scoreText = `${data.score} pts`;
+  ctx.font = `600 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
-  ctx.fillText(rankBandName, rankBoxX + rankBoxWidth / 2, bandNameY);
-  
-  // パーセンタイル表示（ランク帯名の下、中央に）
-  const percentileFontSize = 14;
-  const percentileY = bandNameY + bandNameFontSize + 4;
-  ctx.font = `600 ${percentileFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.fillStyle = "#000000";
-  ctx.textAlign = "center";
-  ctx.fillText(data.percentileDisplay, rankBoxX + rankBoxWidth / 2, percentileY);
+  ctx.textAlign = "left";
+  ctx.fillText(scoreText, bioTextX, bioTextY + 24);
   
   ctx.restore();
   
-  // メッセージ表示（ランク情報の下）
-  if (data.message) {
-    const messageY = rankBoxY + rankBoxHeight + 20;
-    ctx.save();
-    ctx.scale(SCALE, SCALE);
-    ctx.font = `400 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    // テキストシャドウ
-    ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
-    ctx.shadowBlur = 4;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 4;
-    // テキストを折り返して表示
-    const maxWidth = contentWidth - 40;
-    const words = data.message.split("");
-    let line = "";
-    let lineY = messageY;
-    const lineHeight = 28;
+  // BIOタイトル（黄色のタグ、3層、後から描画して前面に表示）
+  const bioTitleWidth = 145;
+  const bioTitleHeight = 66;
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  
+  // BIOタイトルの3層（後ろから順に描画）
+  for (let i = 2; i >= 0; i--) {
+    const offsetX = i === 0 ? 0 : i === 1 ? bioTitleWidth * 0.0483 : bioTitleWidth * 0.0966;
+    const offsetY = i === 0 ? 0 : i === 1 ? bioTitleHeight * 0.0758 : bioTitleHeight * 0.1515;
+    const width = bioTitleWidth * (1 - offsetX * 2 / bioTitleWidth);
+    const height = bioTitleHeight * (1 - offsetY * 2 / bioTitleHeight);
     
-    for (let i = 0; i < words.length; i++) {
-      const testLine = line + words[i];
-      const metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && line.length > 0) {
-        ctx.fillText(line, contentX + contentWidth / 2, lineY);
-        line = words[i];
-        lineY += lineHeight;
-      } else {
-        line = testLine;
-      }
-    }
-    if (line.length > 0) {
-      ctx.fillText(line, contentX + contentWidth / 2, lineY);
-    }
-    ctx.restore();
+    ctx.beginPath();
+    ctx.moveTo(bioSectionX + offsetX + 24, bioSectionY + offsetY);
+    ctx.lineTo(bioSectionX + offsetX + width - 24, bioSectionY + offsetY);
+    ctx.quadraticCurveTo(bioSectionX + offsetX + width, bioSectionY + offsetY, bioSectionX + offsetX + width, bioSectionY + offsetY + 24);
+    ctx.lineTo(bioSectionX + offsetX + width, bioSectionY + offsetY + height - 24);
+    ctx.quadraticCurveTo(bioSectionX + offsetX + width, bioSectionY + offsetY + height, bioSectionX + offsetX + width - 24, bioSectionY + offsetY + height);
+    ctx.lineTo(bioSectionX + offsetX + 24, bioSectionY + offsetY + height);
+    ctx.quadraticCurveTo(bioSectionX + offsetX, bioSectionY + offsetY + height, bioSectionX + offsetX, bioSectionY + offsetY + height - 24);
+    ctx.lineTo(bioSectionX + offsetX, bioSectionY + offsetY + 24);
+    ctx.quadraticCurveTo(bioSectionX + offsetX, bioSectionY + offsetY, bioSectionX + offsetX + 24, bioSectionY + offsetY);
+    ctx.closePath();
+    
+    ctx.fillStyle = "#f1dd02";
+    ctx.fill();
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 1;
+    ctx.stroke();
   }
+  
+  // BIOテキスト（最前面）- "result"に変更
+  ctx.font = `400 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`; // フォントサイズを40から32に縮小
+  ctx.fillStyle = "#564eb3";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("result", bioSectionX + bioTitleWidth / 2, bioSectionY + bioTitleHeight / 2);
+  
+  ctx.restore();
+  
+  // 右側: Fun factセクション（左側の隣）
+  const funFactSectionX = bioSectionX + bioSectionWidth + bottomSectionGap;
+  const funFactSectionY = bottomSectionY;
+  
+  ctx.save();
+  ctx.scale(SCALE, SCALE);
+  
+  // Fun factボックス
+  const funFactBoxWidth = bioSectionWidth;
+  const funFactBoxHeight = bottomSectionHeight;
+  
+  ctx.beginPath();
+  ctx.moveTo(funFactSectionX + 16, funFactSectionY);
+  ctx.lineTo(funFactSectionX + funFactBoxWidth - 16, funFactSectionY);
+  ctx.quadraticCurveTo(funFactSectionX + funFactBoxWidth, funFactSectionY, funFactSectionX + funFactBoxWidth, funFactSectionY + 16);
+  ctx.lineTo(funFactSectionX + funFactBoxWidth, funFactSectionY + funFactBoxHeight - 16);
+  ctx.quadraticCurveTo(funFactSectionX + funFactBoxWidth, funFactSectionY + funFactBoxHeight, funFactSectionX + funFactBoxWidth - 16, funFactSectionY + funFactBoxHeight);
+  ctx.lineTo(funFactSectionX + 16, funFactSectionY + funFactBoxHeight);
+  ctx.quadraticCurveTo(funFactSectionX, funFactSectionY + funFactBoxHeight, funFactSectionX, funFactSectionY + funFactBoxHeight - 16);
+  ctx.lineTo(funFactSectionX, funFactSectionY + 16);
+  ctx.quadraticCurveTo(funFactSectionX, funFactSectionY, funFactSectionX + 16, funFactSectionY);
+  ctx.closePath();
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  
+  // Fun factタイトル（上部）
+  ctx.font = `400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#564eb3";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText("Fun fact!", funFactSectionX + 16, funFactSectionY + 16);
+  
+  // ランク表示（上部、Fun factタイトルの下）
+  const rankFontSize = 48;
+  ctx.font = `900 ${rankFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.fillText(data.rankInfo.rank, funFactSectionX + 16, funFactSectionY + 40);
+  
+  // ランク帯名（ランクの下）
+  const rankBandName = getRankBandName(data.rankInfo.bandName);
+  const bandNameFontSize = 20;
+  const bandNameY = funFactSectionY + 40 + rankFontSize + 8;
+  ctx.font = `600 ${bandNameFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "left";
+  ctx.fillText(rankBandName, funFactSectionX + 16, bandNameY);
+  
+  // パーセンタイル表示（ランク帯名の下、中央に配置）
+  const percentileFontSize = 16;
+  const percentileY = bandNameY + bandNameFontSize + 20; // ランク帯名の下に余白を追加
+  ctx.font = `600 ${percentileFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.fillStyle = "#000000";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  const percentileX = funFactSectionX + funFactBoxWidth / 2;
+  ctx.fillText(data.percentileDisplay, percentileX, percentileY);
+  
+  ctx.restore();
   
   
   // ==========================================
