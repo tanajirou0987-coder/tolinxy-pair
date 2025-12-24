@@ -399,6 +399,25 @@ export default function SharePreview({
     try {
       setIsDownloading(true);
       
+      // 非表示DOM要素を一時的に表示してレンダリングさせる
+      // （画面外に配置しつつ、ブラウザにレンダリングさせる）
+      const originalStyle = {
+        left: cardRef.current.style.left,
+        top: cardRef.current.style.top,
+        visibility: cardRef.current.style.visibility,
+      };
+      
+      // 画面外だが、ブラウザがレンダリングする位置に配置
+      cardRef.current.style.left = '0px';
+      cardRef.current.style.top = '0px';
+      cardRef.current.style.visibility = 'hidden'; // 非表示だがレンダリングされる
+      
+      // レイアウトの再計算を待つ
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // フォントの読み込みを待つ
+      await document.fonts.ready;
+      
       // 画像の読み込みを確実に待つ
       const images = cardRef.current.querySelectorAll('img');
       await Promise.all(
@@ -424,6 +443,11 @@ export default function SharePreview({
         quality: 1.0,
         cacheBust: true,
       });
+      
+      // 元のスタイルに戻す
+      cardRef.current.style.left = originalStyle.left;
+      cardRef.current.style.top = originalStyle.top;
+      cardRef.current.style.visibility = originalStyle.visibility;
       
       if (!blob) {
         throw new Error("画像の生成に失敗しました");
@@ -487,10 +511,11 @@ export default function SharePreview({
               {/* ダウンロード用の非表示DOM（700x1080サイズ、元のサイズそのまま） */}
               <div 
                 ref={cardRef} 
-                className="fixed left-[-9999px] top-0 pointer-events-none"
+                className="fixed left-0 top-0 pointer-events-none"
                 style={{ 
                   width: "700px", 
                   height: "1080px",
+                  visibility: "hidden",
                 }}
               >
                 <ShareImageCard
