@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { getCompatibilityRank, getRankImagePath } from "@/lib/calculate";
-import { generateShareImageBlob, shareOrDownloadImage } from "@/lib/share-image-generator";
+import { shareOrDownloadImage } from "@/lib/share-image-generator";
+import { toBlob } from "html-to-image";
 
 // ランク画像コンポーネント（エラーハンドリング付き、正方形にクロップ）
 const RankImageDisplay: React.FC<{ imagePath: string; alt: string; fallbackText?: string }> = ({
@@ -382,6 +383,7 @@ export default function SharePreview({
   message,
 }: SharePreviewProps) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const roundedPercentile = Math.round(percentile);
   const displayPercentile = roundedPercentile;
   const percentileDisplay = `上位${displayPercentile}%`;
@@ -389,20 +391,29 @@ export default function SharePreview({
   const rankImagePath = getRankImagePath(rankInfo.rank);
 
   const handleDownloadImage = async () => {
+    if (!cardRef.current) {
+      alert("画像の生成に失敗しました。");
+      return;
+    }
+
     try {
       setIsDownloading(true);
       
-      // 非表示canvasで画像を生成（UIに影響なし）
-      const blob = await generateShareImageBlob({
-        userNickname,
-        partnerNickname,
-        score,
-        percentileDisplay,
-        rankInfo,
-        rankImagePath,
-        message,
-        shareUrl: typeof window !== "undefined" ? window.location.href : "",
+      // プレビュー画像のDOMをそのまま画像化
+      // 画像の読み込みを待つ
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      const blob = await toBlob(cardRef.current, {
+        width: 700,
+        height: 1080,
+        pixelRatio: 2,
+        quality: 1.0,
+        cacheBust: true,
       });
+      
+      if (!blob) {
+        throw new Error("画像の生成に失敗しました");
+      }
       
       // 共有またはダウンロード
       const filename = `pairlylab-${userNickname}-${partnerNickname}-${rankInfo.rank}.png`;
@@ -444,17 +455,40 @@ export default function SharePreview({
                 </div>
               <div className="w-full max-w-[350px] mx-auto">
                 <div className="relative w-full" style={{ aspectRatio: "700 / 1080" }}>
-                  <ShareImageCard
-                    score={score}
-                    percentileDisplay={percentileDisplay}
-                    userNickname={userNickname}
-                    partnerNickname={partnerNickname}
-                    rankInfo={rankInfo}
-                    rankImagePath={rankImagePath}
-                    message={message}
-                    className="absolute inset-0 h-full w-full"
-                  />
+                  {/* プレビュー表示用 */}
+                  <div className="absolute inset-0 h-full w-full">
+                    <ShareImageCard
+                      score={score}
+                      percentileDisplay={percentileDisplay}
+                      userNickname={userNickname}
+                      partnerNickname={partnerNickname}
+                      rankInfo={rankInfo}
+                      rankImagePath={rankImagePath}
+                      message={message}
+                      className="h-full w-full"
+                    />
+                  </div>
                 </div>
+              </div>
+              {/* ダウンロード用の非表示DOM（画面外に配置、700x1080サイズ） */}
+              <div 
+                ref={cardRef} 
+                className="fixed left-[-9999px] top-0 pointer-events-none"
+                style={{ 
+                  width: "700px", 
+                  height: "1080px",
+                }}
+              >
+                <ShareImageCard
+                  score={score}
+                  percentileDisplay={percentileDisplay}
+                  userNickname={userNickname}
+                  partnerNickname={partnerNickname}
+                  rankInfo={rankInfo}
+                  rankImagePath={rankImagePath}
+                  message={message}
+                  className=""
+                />
               </div>
               <div className="my-6 flex items-center justify-center gap-3">
                 <Button
