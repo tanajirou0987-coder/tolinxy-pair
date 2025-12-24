@@ -13,7 +13,7 @@ const diagnostics = [
     subtext: "感情・意思決定・生活リズムまで6軸で深掘り",
     href: "/diagnoses/compatibility-54",
     duration: "約7-8分",
-    bgColor: "#e2bef1", // Figmaデザインの紫系
+    bgColor: "#FFB6C1", // ライトピンク
   },
   {
     title: "QUICK 18",
@@ -21,7 +21,7 @@ const diagnostics = [
     subtext: "飲み会やちょっとした待ち時間で使える",
     href: "/diagnoses/compatibility-18",
     duration: "約3分",
-    bgColor: "#fbf7d5", // Figmaデザインの黄色系
+    bgColor: "#87CEEB", // スカイブルー
   },
 ];
 
@@ -48,7 +48,7 @@ export default function Home() {
         </motion.section>
 
         {/* メインコンテナ - Figmaデザインの背景色 */}
-        <div className="relative bg-[#e2bef1] rounded-[36px] mx-3 mb-20 overflow-hidden">
+        <div className="relative bg-[#FFB6C1] rounded-[36px] mx-3 mb-20 overflow-hidden">
           {/* メインコンテンツエリア */}
           <div className="relative bg-white rounded-[35px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] mx-0 mt-[-35px] px-[12px] py-[24px] min-h-[665px]">
             {/* ロゴ/タイトル - Figmaデザインのフォントスタイルに合わせて調整 */}
@@ -72,13 +72,13 @@ export default function Home() {
             >
               <Link
                 href="/diagnoses/compatibility-54"
-                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#e2bef1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
+                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
               >
                 <span className="relative z-10">54問でじっくり</span>
               </Link>
               <Link
                 href="/diagnoses/compatibility-18"
-                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#fbf7d5] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
+                className="group relative px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02]"
               >
                 <span className="relative z-10">3分で試す</span>
               </Link>
@@ -158,7 +158,7 @@ export default function Home() {
 
             {/* 使い方セクション - Figmaデザインのスタイルに合わせて調整 */}
             <motion.section
-              className="rounded-[16px] border border-black bg-[#f97b83] p-8 mb-8 mx-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-8 mb-8 mx-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -196,7 +196,7 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              <div className="rounded-[16px] border border-black bg-[#f9ded7] p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+              <div className="rounded-[16px] border border-black bg-[#FFF8DC] p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                 <h3 className="text-2xl sm:text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] leading-[1.5] mx-auto max-w-[320px]">
                   今日の2人の温度を<br />
                   診断してみる
@@ -214,7 +214,7 @@ export default function Home() {
                   </Link>
                   <Link
                     href="/diagnoses/compatibility-18"
-                    className="px-10 py-5 text-xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] border border-black bg-[#e2bef1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transform hover:scale-105 transition-all"
+                    className="px-10 py-5 text-xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] border border-black bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transform hover:scale-105 transition-all"
                   >
                     クイック診断
                   </Link>
@@ -269,13 +269,13 @@ export default function Home() {
             >
               <Link
                 href="/diagnoses/compatibility-54"
-                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#e2bef1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
+                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
               >
                 <span className="relative z-10">54問でじっくり</span>
               </Link>
               <Link
                 href="/diagnoses/compatibility-18"
-                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#fbf7d5] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
+                className="group relative px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] bg-[#87CEEB] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transition-all transform hover:scale-[1.02] text-center"
               >
                 <span className="relative z-10">3分で試す</span>
               </Link>
@@ -360,7 +360,7 @@ export default function Home() {
 
         {/* 使い方セクション - PC用 */}
         <motion.section
-          className="rounded-[16px] border border-black bg-[#f97b83] p-12 mb-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+          className="rounded-[16px] border border-black bg-[#FFB6C1] p-12 mb-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -398,7 +398,7 @@ export default function Home() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <div className="rounded-[16px] border border-black bg-[#f9ded7] p-16 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] max-w-4xl mx-auto">
+          <div className="rounded-[16px] border border-black bg-[#FFF8DC] p-16 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] max-w-4xl mx-auto">
             <h3 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] leading-[1.5]">
               今日の2人の温度を<br />
               診断してみる
@@ -416,7 +416,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/diagnoses/compatibility-18"
-                className="px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] border border-black bg-[#e2bef1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transform hover:scale-105 transition-all"
+                className="px-12 py-6 text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal rounded-[16px] border border-black bg-[#FFB6C1] text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] hover:shadow-[0px_6px_6px_0px_rgba(0,0,0,0.3)] transform hover:scale-105 transition-all"
               >
                 クイック診断
               </Link>
