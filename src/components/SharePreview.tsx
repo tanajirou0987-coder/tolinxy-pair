@@ -399,10 +399,46 @@ export default function SharePreview({
     try {
       setIsDownloading(true);
       
-      // プレビュー画像のDOMをそのまま画像化
-      // 画像の読み込みを待つ
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // 画像の読み込みを確実に待つ
+      const images = cardRef.current.querySelectorAll('img');
+      await Promise.all(
+        Array.from(images).map((img) => {
+          if (img.complete && img.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+          return new Promise<void>((resolve) => {
+            img.onload = () => resolve();
+            img.onerror = () => resolve(); // エラーでも続行
+            setTimeout(() => resolve(), 3000); // タイムアウト
+          });
+        })
+      );
       
+      // 少し待ってから画像化（レンダリング完了を待つ）
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // プレビュー画像のDOM要素を一時的に700x1080サイズに拡大
+      const originalStyle = {
+        width: cardRef.current.style.width,
+        height: cardRef.current.style.height,
+        position: cardRef.current.style.position,
+        left: cardRef.current.style.left,
+        top: cardRef.current.style.top,
+        transform: cardRef.current.style.transform,
+      };
+      
+      // 一時的に700x1080サイズに拡大（画面外に配置）
+      cardRef.current.style.width = '700px';
+      cardRef.current.style.height = '1080px';
+      cardRef.current.style.position = 'fixed';
+      cardRef.current.style.left = '-9999px';
+      cardRef.current.style.top = '0';
+      cardRef.current.style.transform = 'none';
+      
+      // レイアウトの再計算を待つ
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // プレビュー画像のDOM要素を直接画像化
       const blob = await toBlob(cardRef.current, {
         width: 700,
         height: 1080,
@@ -410,6 +446,14 @@ export default function SharePreview({
         quality: 1.0,
         cacheBust: true,
       });
+      
+      // 元のスタイルに戻す
+      cardRef.current.style.width = originalStyle.width;
+      cardRef.current.style.height = originalStyle.height;
+      cardRef.current.style.position = originalStyle.position;
+      cardRef.current.style.left = originalStyle.left;
+      cardRef.current.style.top = originalStyle.top;
+      cardRef.current.style.transform = originalStyle.transform;
       
       if (!blob) {
         throw new Error("画像の生成に失敗しました");
@@ -455,8 +499,8 @@ export default function SharePreview({
                 </div>
               <div className="w-full max-w-[350px] mx-auto">
                 <div className="relative w-full" style={{ aspectRatio: "700 / 1080" }}>
-                  {/* プレビュー表示用 */}
-                  <div className="absolute inset-0 h-full w-full">
+                  {/* プレビュー表示用（このDOMを直接画像化） */}
+                  <div ref={cardRef} className="absolute inset-0 h-full w-full">
                     <ShareImageCard
                       score={score}
                       percentileDisplay={percentileDisplay}
@@ -469,26 +513,6 @@ export default function SharePreview({
                     />
                   </div>
                 </div>
-              </div>
-              {/* ダウンロード用の非表示DOM（画面外に配置、700x1080サイズ） */}
-              <div 
-                ref={cardRef} 
-                className="fixed left-[-9999px] top-0 pointer-events-none"
-                style={{ 
-                  width: "700px", 
-                  height: "1080px",
-                }}
-              >
-                <ShareImageCard
-                  score={score}
-                  percentileDisplay={percentileDisplay}
-                  userNickname={userNickname}
-                  partnerNickname={partnerNickname}
-                  rankInfo={rankInfo}
-                  rankImagePath={rankImagePath}
-                  message={message}
-                  className=""
-                />
               </div>
               <div className="my-6 flex items-center justify-center gap-3">
                 <Button
