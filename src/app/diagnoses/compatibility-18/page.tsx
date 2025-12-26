@@ -7,12 +7,18 @@ export default function Compatibility18StartPage() {
   const router = useRouter();
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50">
+      {/* 装飾的な背景要素 - Soft UIスタイル */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
+      </div>
       {/* スマホ用レイアウト */}
-      <div className="relative min-h-screen px-4 py-12 md:hidden">
+      <div className="relative z-10 min-h-screen px-4 py-12 md:hidden">
         <div className="relative mx-auto w-full max-w-md">
         <motion.main
-          className="rounded-[16px] border border-black bg-[#87CEEB] p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+          className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-8 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -36,7 +42,7 @@ export default function Compatibility18StartPage() {
             ].map((item, i) => (
               <motion.div
                 key={item.label}
-                className="rounded-[16px] border border-black bg-white p-4 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+                className="rounded-[32px] border border-white/70 bg-white/80 backdrop-blur-lg p-4 text-center shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 + i * 0.1 }}
@@ -57,8 +63,8 @@ export default function Compatibility18StartPage() {
               ].map((item, i) => (
                 <motion.div
                   key={item.title}
-                  className="rounded-[16px] border border-black p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-                  style={{ backgroundColor: item.bgColor }}
+                  className="rounded-[32px] border border-white/70 p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg"
+                  style={{ background: `linear-gradient(135deg, ${item.bgColor}DD 0%, ${item.bgColor}BB 100%)` }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + i * 0.1 }}
@@ -70,7 +76,7 @@ export default function Compatibility18StartPage() {
             </div>
           </div>
 
-          <div className="rounded-[16px] border border-black bg-white p-6 mb-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          <div className="rounded-[32px] border border-white/70 bg-white/80 backdrop-blur-lg p-6 mb-10 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
             <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ご利用前のメモ</p>
             <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
               クイック診断は1台の端末を交互に操作する方式です。同時入力をしたい場合は54問モードをご利用ください。
@@ -80,7 +86,7 @@ export default function Compatibility18StartPage() {
           <div className="space-y-4">
             <motion.button
               onClick={() => router.push("/diagnoses/compatibility-18/questions")}
-              className="w-full rounded-[16px] border border-black bg-[#FFB6C1] px-8 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all transform hover:scale-105 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+              className="w-full rounded-[32px] border border-white/60 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md px-8 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(255,182,193,0.5),0px_8px_25px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -89,7 +95,7 @@ export default function Compatibility18StartPage() {
 
             <motion.button
               onClick={() => router.push("/")}
-              className="w-full rounded-[16px] border border-black bg-white px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 transition-all shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+              className="w-full rounded-[32px] border border-white/60 bg-white/95 backdrop-blur-md px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_16px_40px_rgba(0,0,0,0.12),0px_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1"
             >
               ホームに戻る
             </motion.button>
@@ -99,10 +105,10 @@ export default function Compatibility18StartPage() {
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden md:block relative min-h-screen px-8 py-16">
+      <div className="hidden md:block relative z-10 min-h-screen px-8 py-16">
         <div className="relative mx-auto w-full max-w-7xl">
           <motion.main
-            className="rounded-[16px] border border-black bg-[#87CEEB] p-12 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+            className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-12 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -129,7 +135,7 @@ export default function Compatibility18StartPage() {
                   ].map((item, i) => (
                     <motion.div
                       key={item.label}
-                      className="rounded-[16px] border border-black bg-white p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+                      className="rounded-[36px] border border-white/70 bg-white/85 backdrop-blur-lg p-6 text-center shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
@@ -153,8 +159,8 @@ export default function Compatibility18StartPage() {
                     ].map((item, i) => (
                       <motion.div
                         key={item.title}
-                        className="rounded-[16px] border border-black p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-                        style={{ backgroundColor: item.bgColor }}
+                        className="rounded-[32px] border border-white/70 p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg"
+                        style={{ background: `linear-gradient(135deg, ${item.bgColor}DD 0%, ${item.bgColor}BB 100%)` }}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 + i * 0.1 }}
@@ -166,7 +172,7 @@ export default function Compatibility18StartPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <div className="rounded-[32px] border border-white/70 bg-white/80 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
                   <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ご利用前のメモ</p>
                   <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                     クイック診断は1台の端末を交互に操作する方式です。同時入力をしたい場合は54問モードをご利用ください。
@@ -178,7 +184,7 @@ export default function Compatibility18StartPage() {
             <div className="space-y-4 max-w-2xl mx-auto">
               <motion.button
                 onClick={() => router.push("/diagnoses/compatibility-18/questions")}
-                className="w-full rounded-[16px] border border-black bg-[#FFB6C1] px-12 py-8 text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] transition-all transform hover:scale-105 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+                className="w-full rounded-[36px] border border-white/60 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md px-12 py-8 text-3xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 shadow-[0px_16px_48px_rgba(255,182,193,0.45),0px_8px_24px_rgba(255,182,193,0.35),inset_0px_1px_0px_rgba(255,255,255,0.7)] hover:shadow-[0px_20px_60px_rgba(255,182,193,0.55),0px_10px_30px_rgba(255,182,193,0.45),inset_0px_1px_0px_rgba(255,255,255,0.9)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_2px_4px_rgba(255,255,255,0.9)]"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -187,7 +193,7 @@ export default function Compatibility18StartPage() {
 
               <motion.button
                 onClick={() => router.push("/")}
-                className="w-full rounded-[16px] border border-black bg-white px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 transition-all shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+                className="w-full rounded-[36px] border border-white/60 bg-white/95 backdrop-blur-md px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.15),0px_10px_30px_rgba(0,0,0,0.1)] transition-all duration-300 transform hover:scale-[1.02] hover:-translate-y-1"
               >
                 ホームに戻る
               </motion.button>

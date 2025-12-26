@@ -8,6 +8,8 @@ import { X } from "lucide-react";
 import { getCompatibilityRank, getRankImagePath } from "@/lib/calculate";
 import { shareOrDownloadImage } from "@/lib/share-image-generator";
 import { toBlob } from "html-to-image";
+import type { PersonalityTypeCode } from "@/lib/types";
+import { getCharacterImagePath } from "@/lib/character-image-mapping";
 
 // ランク画像コンポーネント（エラーハンドリング付き、正方形にクロップ）
 const RankImageDisplay: React.FC<{ imagePath: string; alt: string; fallbackText?: string }> = ({
@@ -35,19 +37,18 @@ const RankImageDisplay: React.FC<{ imagePath: string; alt: string; fallbackText?
     );
   }
 
-  // 画像を正方形にクロップ（横の長さを維持し、上を少し切り取って下を伸ばす）
+  // 画像を全体表示（上下が切れないように、少し上に配置）
   return (
-    <div className="relative w-full" style={{ aspectRatio: "1 / 1", overflow: "hidden" }}>
+    <div className="relative w-full h-full" style={{ overflow: "hidden", display: "flex", alignItems: "center" }}>
       <img
         src={imagePath}
         alt={alt}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain"
         style={{
-          objectPosition: "center bottom", // 下を基準に配置
+          objectPosition: "center center",
           width: "100%",
-          height: "auto",
-          minHeight: "100%",
-          transform: "translateY(-10%)", // 上を10%切り取る
+          height: "100%",
+          transform: "translateY(-5%)",
         }}
         crossOrigin="anonymous"
         onLoad={handleImageLoad}
@@ -68,6 +69,8 @@ interface SharePreviewProps {
   userNickname: string;
   partnerNickname: string;
   message: string;
+  userTypeCode?: PersonalityTypeCode; // ユーザーのタイプコード
+  partnerTypeCode?: PersonalityTypeCode; // パートナーのタイプコード
 }
 
 interface ShareImageCardProps {
@@ -79,6 +82,8 @@ interface ShareImageCardProps {
   rankImagePath: string;
   className?: string;
   message?: string;
+  userTypeCode?: PersonalityTypeCode; // ユーザーのタイプコード
+  partnerTypeCode?: PersonalityTypeCode; // パートナーのタイプコード
 }
 
 // ランクに応じたカード背景色を取得
@@ -98,7 +103,7 @@ function getCardBgColor(rank: string): string {
 }
 
 export const ShareImageCard = forwardRef<HTMLDivElement, ShareImageCardProps>(function ShareImageCard(
-  { score, percentileDisplay, userNickname, partnerNickname, rankInfo, rankImagePath, className = "", message },
+  { score, percentileDisplay, userNickname, partnerNickname, rankInfo, rankImagePath, className = "", message, userTypeCode, partnerTypeCode },
   ref
 ) {
   const shareMessage = message?.trim();
@@ -175,7 +180,7 @@ export const ShareImageCard = forwardRef<HTMLDivElement, ShareImageCardProps>(fu
           zIndex: 10,
         }}
       >
-        {/* 画像エリア（400×400px、右寄せ） */}
+        {/* 画像エリア（2つの画像を合わせて正方形になるように、右寄せ） */}
         <div className="relative" style={{ width: scaleValue(400, "100%"), height: scaleValue(400, "auto") }}>
           {/* 画像フレームの影（外側） */}
           <div
@@ -188,29 +193,57 @@ export const ShareImageCard = forwardRef<HTMLDivElement, ShareImageCardProps>(fu
               backgroundColor: "#FF7F7F",
             }}
           />
-          {/* 画像フレーム（内側） */}
+          {/* 画像フレーム（内側） - 正方形になるように */}
           <div
             className="relative rounded-3xl border border-black bg-[#FFB6C1]"
             style={{
               width: "100%",
-              height: "100%",
+              aspectRatio: "1 / 1",
               padding: scaleValue(24, 12),
+              display: "flex",
+              flexDirection: "row",
+              gap: scaleValue(8, 4),
             }}
           >
-            {/* 画像背景（黄色、角丸） */}
-            <div
-              className="absolute border border-black bg-[#FFA500] rounded-2xl"
-              style={{
-                left: scaleValue(24, 12),
-                top: scaleValue(24, 12),
-                width: `calc(100% - ${scaleValue(48, 24)}px)`,
-                height: `calc(100% - ${scaleValue(48, 24)}px)`,
-                borderRadius: scaleValue(16, 8),
-              }}
-            />
-            <div className="relative z-10 h-full overflow-hidden rounded-2xl" style={{ borderRadius: scaleValue(16, 8) }}>
-              <RankImageDisplay imagePath={rankImagePath} alt={rankInfo.tier} fallbackText={rankInfo.rank} />
-            </div>
+            {/* 2つのタイプ画像を横に並べて表示 - 合わせて正方形 */}
+            {/* あなたのタイプ画像 */}
+            {userTypeCode && (
+              <div className="flex-1 relative rounded-2xl overflow-hidden border border-black bg-black" style={{ borderRadius: scaleValue(16, 8), height: "100%" }}>
+                <RankImageDisplay 
+                  imagePath={getCharacterImagePath({
+                    rank: rankInfo.rank,
+                    userTypeCode,
+                    preferTypeIndividual: true,
+                  })} 
+                  alt={`${userNickname}のタイプ`} 
+                  fallbackText={userNickname.charAt(0)} 
+                />
+              </div>
+            )}
+            {/* パートナーのタイプ画像 */}
+            {partnerTypeCode && (
+              <div className="flex-1 relative rounded-2xl overflow-hidden border border-black bg-black" style={{ borderRadius: scaleValue(16, 8), height: "100%" }}>
+                <RankImageDisplay 
+                  imagePath={getCharacterImagePath({
+                    rank: rankInfo.rank,
+                    userTypeCode: partnerTypeCode,
+                    preferTypeIndividual: true,
+                  })} 
+                  alt={`${partnerNickname}のタイプ`} 
+                  fallbackText={partnerNickname.charAt(0)} 
+                />
+              </div>
+            )}
+            {/* フォールバック: タイプコードがない場合はランク画像を表示 */}
+            {!userTypeCode && !partnerTypeCode && (
+              <div className="relative z-10 h-full overflow-hidden rounded-2xl" style={{ borderRadius: scaleValue(16, 8), width: "100%" }}>
+                <RankImageDisplay 
+                  imagePath={rankImagePath} 
+                  alt={rankInfo.tier} 
+                  fallbackText={rankInfo.rank} 
+                />
+              </div>
+            )}
           </div>
           
           {/* 上部の名前（カードの外側、左側、中央寄せに調整） */}
@@ -381,6 +414,8 @@ export default function SharePreview({
   userNickname,
   partnerNickname,
   message,
+  userTypeCode,
+  partnerTypeCode,
 }: SharePreviewProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -481,6 +516,8 @@ export default function SharePreview({
                       rankInfo={rankInfo}
                       rankImagePath={rankImagePath}
                       message={message}
+                      userTypeCode={userTypeCode}
+                      partnerTypeCode={partnerTypeCode}
                       className="h-full w-full"
                     />
                   </div>

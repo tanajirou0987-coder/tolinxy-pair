@@ -12,9 +12,9 @@ import { BackgroundEffect } from "@/components/diagnoses/BackgroundEffect";
 import { LazyQuestionCard } from "@/components/diagnoses/LazyQuestionCard";
 import { ProgressBar } from "@/components/diagnoses/ProgressBar";
 import { StepHeader } from "@/components/diagnoses/StepHeader";
-import { BackToTopButton } from "@/components/diagnoses/BackToTopButton";
 import { CompletionSection } from "@/components/diagnoses/CompletionSection";
 import { useAnswerManagement } from "@/hooks/useAnswerManagement";
+import { Button } from "@/components/ui/button";
 
 const TOTAL_QUESTIONS = 54;
 type Step = "user" | "partner";
@@ -169,9 +169,18 @@ function SingleDeviceQuestions() {
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+      {/* トップに戻るボタン */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 md:px-8 md:pt-8">
+        <Button
+          type="button"
+          onClick={() => router.push("/")}
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm md:px-6 md:py-3 md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+        >
+          トップに戻る
+        </Button>
+      </div>
       {/* スマホ用レイアウト */}
       <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
-        <BackToTopButton variant="mobile" />
         <StepHeader step={step} variant="mobile" />
         <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="mobile" />
 
@@ -213,7 +222,6 @@ function SingleDeviceQuestions() {
 
       {/* PC用レイアウト */}
       <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
-        <BackToTopButton variant="desktop" />
         <StepHeader step={step} variant="desktop" />
         <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="desktop" />
 
@@ -389,10 +397,19 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
 
   return (
     <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
-      <BackToTopButton variant="mobile" />
+      {/* トップに戻るボタン */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 md:px-8 md:pt-8">
+        <Button
+          type="button"
+          onClick={() => router.push("/")}
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm md:px-6 md:py-3 md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+        >
+          トップに戻る
+        </Button>
+      </div>
       {/* スマホ用レイアウト */}
-      <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
-        <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+      <div className="relative z-10 mx-auto w-full max-w-md space-y-10 md:hidden">
+        <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
           <div className="flex flex-col gap-3 text-center mb-4">
             <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#FFB6C1] px-4 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
               <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
@@ -458,7 +475,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[16px] border border-black bg-[#FFB6C1] p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="mt-12 space-y-4 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-6 text-center shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
           <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
@@ -478,9 +495,8 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
-        <BackToTopButton variant="desktop" />
-        <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+      <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
+        <div className="rounded-[32px] border border-white/70 bg-white/85 backdrop-blur-lg p-6 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
           <div className="flex flex-row items-center justify-between mb-6">
             <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
               <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
@@ -545,7 +561,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[16px] border border-black bg-[#FFB6C1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="mt-12 space-y-4 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-8 text-center shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
           <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button

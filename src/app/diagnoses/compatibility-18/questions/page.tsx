@@ -98,20 +98,25 @@ export default function Compatibility18QuestionsPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
-      {/* トップページに戻るボタン */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-6 pt-6">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 px-4 py-12 sm:px-6 lg:px-8">
+      {/* 装飾的な背景要素 - Soft UIスタイル */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
+      </div>
+      {/* トップに戻るボタン */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 md:px-8 md:pt-8">
         <Button
           type="button"
           onClick={() => router.push("/")}
-          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm md:px-6 md:py-3 md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
         >
           トップに戻る
         </Button>
       </div>
-
       {/* スマホ用レイアウト */}
-      <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
+      <div className="relative z-10 mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="text-center">
           <div className="inline-flex items-center gap-3 rounded-[16px] border border-black bg-[#87CEEB] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
@@ -119,7 +124,7 @@ export default function Compatibility18QuestionsPage() {
           </div>
         </div>
 
-        <div className="sticky top-0 z-20 -mx-4 border-b border-black bg-white px-4 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="sticky top-0 z-20 -mx-4 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-4 py-4 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
           <div className="mb-3 flex items-center justify-between text-lg">
             <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
               回答済み {answeredCount} / {TOTAL_QUESTIONS}
@@ -179,7 +184,7 @@ export default function Compatibility18QuestionsPage() {
                   </div>
                   <button
                     onClick={handleComplete}
-                    className="rounded-[16px] border border-black bg-[#FFB6C1] px-8 py-4 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition-all shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+                    className="rounded-[32px] border border-white/60 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md px-8 py-4 text-base font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(255,182,193,0.5),0px_8px_25px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]"
                   >
                     {step === "user" ? "次へ進む →" : "結果を見る"}
                   </button>
@@ -190,17 +195,7 @@ export default function Compatibility18QuestionsPage() {
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
-        {/* トップページに戻るボタン（PC用） */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-8 pt-8">
-          <Button
-            type="button"
-            onClick={() => router.push("/")}
-            className="pointer-events-auto rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-          >
-            トップに戻る
-          </Button>
-        </div>
+      <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
         <div className="text-center">
           <div className="inline-flex items-center gap-3 rounded-[16px] border border-black bg-[#87CEEB] px-8 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
             <span className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
@@ -208,7 +203,7 @@ export default function Compatibility18QuestionsPage() {
           </div>
         </div>
 
-        <div className="sticky top-0 z-20 border-b border-black bg-white px-8 py-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        <div className="sticky top-0 z-20 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-8 py-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
           <div className="mb-4 flex items-center justify-between text-xl">
             <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
               回答済み {answeredCount} / {TOTAL_QUESTIONS}
@@ -268,7 +263,7 @@ export default function Compatibility18QuestionsPage() {
                   </div>
                   <button
                     onClick={handleComplete}
-                    className="rounded-[16px] border border-black bg-[#FFB6C1] px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition-all shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+                    className="rounded-[36px] border border-white/60 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 shadow-[0px_16px_48px_rgba(255,182,193,0.45),0px_8px_24px_rgba(255,182,193,0.35),inset_0px_1px_0px_rgba(255,255,255,0.7)] hover:shadow-[0px_20px_60px_rgba(255,182,193,0.55),0px_10px_30px_rgba(255,182,193,0.45),inset_0px_1px_0px_rgba(255,255,255,0.9)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_2px_4px_rgba(255,255,255,0.9)]"
                   >
                     {step === "user" ? "次へ進む →" : "結果を見る"}
                   </button>

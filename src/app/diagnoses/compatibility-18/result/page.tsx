@@ -85,24 +85,24 @@ function ResultContent() {
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   return (
-    <div className="relative min-h-screen">
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-end px-6 pt-6">
-        <Button
-          type="button"
-          onClick={() => router.push("/")}
-          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
-        >
-          トップに戻る
-        </Button>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50">
+      {/* 装飾的な背景要素 - Soft UIスタイル */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
       </div>
-      <DiagnosisResult
+      <div className="relative z-10">
+        <DiagnosisResult
         type1={userType}
         type2={partnerType}
         compatibility={compatibility}
         rank={rank}
         percentile={percentile}
         shareUrl={shareUrl}
+        diagnosisType="18"
       />
+      </div>
     </div>
   );
 }

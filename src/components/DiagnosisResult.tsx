@@ -9,6 +9,7 @@ import { ShareButton } from './ShareButton';
 import SharePreview from './SharePreview';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
+import { getCharacterImagePath } from '@/lib/character-image-mapping';
 
 interface DiagnosisResultProps {
   type1: PersonalityType;
@@ -18,6 +19,7 @@ interface DiagnosisResultProps {
   analysis?: DetailedCompatibilityAnalysis;
   percentile?: number;
   shareUrl: string;
+  diagnosisType?: "18" | "54"; // 診断タイプ（18問 or 54問）
 }
 
 const AnimatedCircularProgress: React.FC<{ score: number }> = ({ score }) => {
@@ -59,27 +61,52 @@ const AnimatedCircularProgress: React.FC<{ score: number }> = ({ score }) => {
   );
 };
 
-const TypeProfile: React.FC<{ type: PersonalityType, isUser?: boolean }> = ({ type, isUser }) => (
-  <div className="flex flex-col items-center text-center space-y-3">
-    <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-        {isUser ? "あなた" : "パートナー"}
-    </div>
-    {type.icon && (
-      <div className="flex items-center justify-center w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full border-2 border-black bg-[#FFB6C1] text-4xl md:text-5xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-        {type.icon}
+const TypeProfile: React.FC<{ type: PersonalityType, isUser?: boolean, showCharacterImage?: boolean }> = ({ type, isUser, showCharacterImage = false }) => {
+  const characterImagePath = showCharacterImage ? getCharacterImagePath({ 
+    userTypeCode: type.type,
+    preferTypeIndividual: true 
+  }) : null;
+
+  return (
+    <div className="flex flex-col items-center text-center space-y-3">
+      <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+          {isUser ? "あなた" : "パートナー"}
       </div>
-    )}
-    <div className="text-center">
-        <h3 className="text-xl md:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.name}</h3>
+      {showCharacterImage && characterImagePath ? (
+        <div className="relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-[16px] overflow-hidden border-2 border-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={characterImagePath}
+            alt={type.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // 画像が見つからない場合はアイコンを表示
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          {type.icon && (
+            <div className="absolute inset-0 flex items-center justify-center bg-[#FFB6C1] text-4xl md:text-5xl">
+              {type.icon}
+            </div>
+          )}
+        </div>
+      ) : type.icon ? (
+        <div className="flex items-center justify-center w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full border-2 border-black bg-[#FFB6C1] text-4xl md:text-5xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+          {type.icon}
+        </div>
+      ) : null}
+      <div className="text-center">
+          <h3 className="text-xl md:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.name}</h3>
+      </div>
+      <p className="text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 w-full px-4 text-center leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.description}</p>
+      <div className="flex flex-wrap gap-2 justify-center pt-2">
+          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFB6C1] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.communication}</span>
+          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#87CEEB] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.decision}</span>
+          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFF8DC] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.relationship}</span>
+      </div>
     </div>
-    <p className="text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 w-full px-4 text-center leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.description}</p>
-    <div className="flex flex-wrap gap-2 justify-center pt-2">
-        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFB6C1] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.communication}</span>
-        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#87CEEB] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.decision}</span>
-        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFF8DC] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.relationship}</span>
-    </div>
-  </div>
-);
+  );
+};
 
 const AccordionItem: React.FC<{ title: string; children: React.ReactNode, initialOpen?: boolean }> = ({ title, children, initialOpen = false }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
@@ -148,7 +175,9 @@ const ShareImageButton: React.FC<{
   userNickname: string;
   partnerNickname: string;
   message: string;
-}> = ({ score, percentile, userNickname, partnerNickname, message }) => {
+  userTypeCode: string;
+  partnerTypeCode: string;
+}> = ({ score, percentile, userNickname, partnerNickname, message, userTypeCode, partnerTypeCode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -167,6 +196,8 @@ const ShareImageButton: React.FC<{
         userNickname={userNickname}
         partnerNickname={partnerNickname}
         message={message}
+        userTypeCode={userTypeCode}
+        partnerTypeCode={partnerTypeCode}
       />
     </>
   );
@@ -180,6 +211,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   analysis,
   percentile,
   shareUrl,
+  diagnosisType = "54",
 }) => {
   const containerVariants = {
     hidden: { opacity: 0, y: 12 },
@@ -225,7 +257,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white">
+    <div className="relative min-h-screen overflow-hidden">
       {/* 装飾的なハートアイコン（背景に散りばめる） */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {[...Array(12)].map((_, i) => {
@@ -284,62 +316,30 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
         })}
       </div>
 
-      {/* スマホ用レイアウト */}
-      <div className="flex flex-col gap-8 px-4 py-10 relative z-10 md:hidden">
-        <motion.header 
-            className="text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-        >
-            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
-            <h1 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-              PAIRLY LAB
-            </h1>
-        </motion.header>
-
-        <main className="grid grid-cols-1 gap-6">
-          <motion.div 
-            className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 space-y-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+      {/* 18問診断用レイアウト（スマホ） */}
+      {diagnosisType === "18" ? (
+        <div className="flex flex-col gap-8 px-4 py-10 relative z-10 md:hidden">
+          <motion.header 
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <div className="w-full grid grid-cols-1 items-start gap-6">
-              <div className="order-2 mx-auto">
-                <AnimatedCircularProgress score={compatibility.total} />
-              </div>
-              <div className="order-1">
-                <TypeProfile type={type1} isUser={true} />
-              </div>
-              <div className="order-3">
-                <TypeProfile type={type2} isUser={false} />
-              </div>
-            </div>
-            <div className="text-center border-t-2 border-black/20 pt-6">
-              <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
-            </div>
-          </motion.div>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                PAIRLY LAB
+              </h1>
+          </motion.header>
 
-          <motion.aside 
-            className="space-y-6"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
-                {rank && percentile !== undefined && (
-                  <div className="mb-4 flex flex-col items-center justify-center">
-                    <div className="relative w-full h-48">
-                      <RankImage rank={rank} />
-                    </div>
-                    <p className="mt-2 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                      この画像はあなたのランク帯画像です
-                    </p>
-                  </div>
-                )}
+          <main className="grid grid-cols-1 gap-6">
+            {/* サマリーセクション */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -353,14 +353,139 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                     </div>
                 )}
                 {percentile !== undefined && (
-                    <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
+                    <div className="flex justify-between items-baseline py-3">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">上位</span>
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{percentile.toFixed(1)}%</span>
                     </div>
                 )}
-            </div>
+            </motion.div>
 
-            {analysis && (
+            {/* カップルの説明 */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="text-center space-y-4">
+                <div>
+                  <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                  <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 区切り */}
+            <div className="border-t-2 border-black/20 my-4"></div>
+
+            {/* タイププロフィール */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたたちのタイプ</h3>
+              <div className="grid grid-cols-1 gap-8">
+                <TypeProfile type={type1} isUser={true} showCharacterImage={true} />
+                <div className="border-t-2 border-black/20"></div>
+                <TypeProfile type={type2} isUser={false} showCharacterImage={true} />
+              </div>
+            </motion.div>
+
+            {/* 結果を共有 */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
+              <div className="flex flex-col gap-3">
+                <ShareButton shareUrl={shareUrl} darkTheme={false} />
+                {compatibility && percentile !== undefined && type2 && (
+                  <ShareImageButton 
+                    score={compatibility.total}
+                    percentile={percentile}
+                    userNickname={type1.name}
+                    partnerNickname={type2.name}
+                    message={compatibility.message}
+                    userTypeCode={type1.type}
+                    partnerTypeCode={type2.type}
+                  />
+                )}
+              </div>
+            </motion.div>
+          </main>
+        </div>
+      ) : (
+        /* 54問診断用レイアウト（スマホ） */
+        <>
+        <div className="flex flex-col gap-8 px-4 py-10 relative z-10 md:hidden">
+          <motion.header 
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+          >
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                PAIRLY LAB
+              </h1>
+          </motion.header>
+
+          <main className="grid grid-cols-1 gap-6">
+            <motion.div 
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 space-y-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="w-full grid grid-cols-1 items-start gap-6">
+                <div className="order-2 mx-auto">
+                  <AnimatedCircularProgress score={compatibility.total} />
+                </div>
+                <div className="order-1">
+                  <TypeProfile type={type1} isUser={true} />
+                </div>
+                <div className="order-3">
+                  <TypeProfile type={type2} isUser={false} />
+                </div>
+              </div>
+              <div className="text-center border-t-2 border-black/20 pt-6">
+                <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+              </div>
+            </motion.div>
+
+            <motion.aside 
+              className="space-y-6"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                  <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {rank && (
+                    <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{rank.rank}</span>
+                    </div>
+                )}
+                {rank && (
+                    <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ランク帯</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{rank.bandName}</span>
+                    </div>
+                )}
+                {percentile !== undefined && (
+                    <div className="flex justify-between items-baseline py-3">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">上位</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{percentile.toFixed(1)}%</span>
+                    </div>
+                )}
+              </div>
+              {analysis && (
               <div className="rounded-[16px] border border-black bg-[#E0F2E0] p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                 <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">詳細分析</h3>
                 <AccordionItem title="二人の強み" initialOpen={true}>
@@ -416,6 +541,8 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                       userNickname={type1.name}
                       partnerNickname={type2.name}
                       message={compatibility.message}
+                      userTypeCode={type1.type}
+                      partnerTypeCode={type2.type}
                     />
                   )}
                 </div>
@@ -423,119 +550,34 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           </motion.aside>
         </main>
       </div>
-
+      </>
+      )}
+      
       {/* PC用レイアウト */}
-      <div className="hidden md:flex flex-col gap-12 px-8 py-16 relative z-10 max-w-7xl mx-auto">
-        {/* PC用の装飾的なハートアイコン（背景に散りばめる） */}
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          {[...Array(15)].map((_, i) => {
-            const positions = [
-              { top: "8%", left: "3%", size: "w-12 h-12", opacity: "opacity-20" },
-              { top: "12%", right: "5%", size: "w-10 h-10", opacity: "opacity-15" },
-              { top: "20%", left: "8%", size: "w-14 h-14", opacity: "opacity-25" },
-              { top: "25%", right: "10%", size: "w-11 h-11", opacity: "opacity-18" },
-              { top: "35%", left: "2%", size: "w-13 h-13", opacity: "opacity-22" },
-              { top: "40%", right: "4%", size: "w-9 h-9", opacity: "opacity-15" },
-              { top: "50%", left: "6%", size: "w-12 h-12", opacity: "opacity-20" },
-              { top: "55%", right: "8%", size: "w-10 h-10", opacity: "opacity-18" },
-              { top: "65%", left: "10%", size: "w-11 h-11", opacity: "opacity-20" },
-              { top: "70%", right: "6%", size: "w-13 h-13", opacity: "opacity-22" },
-              { top: "80%", left: "4%", size: "w-9 h-9", opacity: "opacity-18" },
-              { top: "85%", right: "12%", size: "w-12 h-12", opacity: "opacity-20" },
-              { top: "15%", left: "50%", size: "w-8 h-8", opacity: "opacity-15" },
-              { top: "45%", right: "50%", size: "w-10 h-10", opacity: "opacity-18" },
-              { top: "75%", left: "50%", size: "w-9 h-9", opacity: "opacity-20" },
-            ];
-            const pos = positions[i] || positions[0];
-            return (
-              <motion.div
-                key={i}
-                className={`absolute ${pos.size} ${pos.opacity}`}
-                style={{
-                  top: pos.top,
-                  left: pos.left || undefined,
-                  right: pos.right || undefined,
-                }}
-                initial={{ 
-                  opacity: 0,
-                  scale: 0,
-                  rotate: -180
-                }}
-                animate={{ 
-                  opacity: [0.15, 0.25, 0.15],
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 10, -10, 0]
-                }}
-                transition={{
-                  duration: 3 + i * 0.3,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut"
-                }}
-              >
-                <img 
-                  src="/heart.png" 
-                  alt="" 
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    // 画像が見つからない場合は非表示
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </motion.div>
-            );
-          })}
-        </div>
-        <motion.header 
-            className="text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-        >
-            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
-            <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-              PAIRLY LAB
-            </h1>
-        </motion.header>
-
-        <main className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          <motion.div 
-            className="lg:col-span-2 rounded-[16px] border border-black bg-[#FFB6C1] p-10 space-y-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+      {diagnosisType === "18" ? (
+        /* 18問診断用レイアウト（PC） */
+        <div className="hidden md:flex flex-col gap-12 px-8 py-16 relative z-10 max-w-7xl mx-auto">
+          <motion.header 
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <div className="w-full grid grid-cols-[1fr,auto,1fr] items-start gap-10">
-              <TypeProfile type={type1} isUser={true} />
-              <div className="my-0 mx-auto">
-                <AnimatedCircularProgress score={compatibility.total} />
-              </div>
-              <TypeProfile type={type2} isUser={false} />
-            </div>
-            <div className="text-center border-t-2 border-black/20 pt-8">
-              <h2 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
-              <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-2xl mx-auto mt-4 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
-            </div>
-          </motion.div>
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                PAIRLY LAB
+              </h1>
+          </motion.header>
 
-          <motion.aside 
-            className="space-y-8"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
-                {rank && percentile !== undefined && (
-                  <div className="mb-6 flex flex-col items-center justify-center">
-                    <div className="relative w-full h-64">
-                      <RankImage rank={rank} />
-                    </div>
-                    <p className="mt-3 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                      この画像はあなたのランク帯画像です
-                    </p>
-                  </div>
-                )}
+          <main className="grid grid-cols-1 gap-10">
+            {/* サマリーセクション */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
                 {rank && (
                     <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -549,14 +591,194 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                     </div>
                 )}
                 {percentile !== undefined && (
-                    <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
+                    <div className="flex justify-between items-baseline py-4">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">上位</span>
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{percentile.toFixed(1)}%</span>
                     </div>
                 )}
-            </div>
+            </motion.div>
 
-            {analysis && (
+            {/* カップルの説明 */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="text-center space-y-6">
+                <div>
+                  <h2 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                  <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-3xl mx-auto mt-4 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 区切り */}
+            <div className="border-t-2 border-black/20 my-4"></div>
+
+            {/* タイププロフィール */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-white p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-8 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたたちのタイプ</h3>
+              <div className="grid grid-cols-2 gap-12 relative">
+                <TypeProfile type={type1} isUser={true} showCharacterImage={true} />
+                <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-black/20 -translate-x-1/2"></div>
+                <TypeProfile type={type2} isUser={false} showCharacterImage={true} />
+              </div>
+            </motion.div>
+
+            {/* 結果を共有 */}
+            <motion.div 
+              className="rounded-[16px] border border-black bg-[#FFB6C1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
+              <div className="flex flex-col gap-4">
+                <ShareButton shareUrl={shareUrl} darkTheme={false} />
+                {compatibility && percentile !== undefined && type2 && (
+                  <ShareImageButton 
+                    score={compatibility.total}
+                    percentile={percentile}
+                    userNickname={type1.name}
+                    partnerNickname={type2.name}
+                    message={compatibility.message}
+                    userTypeCode={type1.type}
+                    partnerTypeCode={type2.type}
+                  />
+                )}
+              </div>
+            </motion.div>
+          </main>
+        </div>
+      ) : (
+        /* 54問診断用レイアウト（PC） */
+        <div className="hidden md:flex flex-col gap-12 px-8 py-16 relative z-10 max-w-7xl mx-auto">
+          {/* PC用の装飾的なハートアイコン（背景に散りばめる） */}
+          <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+            {[...Array(15)].map((_, i) => {
+              const positions = [
+                { top: "8%", left: "3%", size: "w-12 h-12", opacity: "opacity-20" },
+                { top: "12%", right: "5%", size: "w-10 h-10", opacity: "opacity-15" },
+                { top: "20%", left: "8%", size: "w-14 h-14", opacity: "opacity-25" },
+                { top: "25%", right: "10%", size: "w-11 h-11", opacity: "opacity-18" },
+                { top: "35%", left: "2%", size: "w-13 h-13", opacity: "opacity-22" },
+                { top: "40%", right: "4%", size: "w-9 h-9", opacity: "opacity-15" },
+                { top: "50%", left: "6%", size: "w-12 h-12", opacity: "opacity-20" },
+                { top: "55%", right: "8%", size: "w-10 h-10", opacity: "opacity-18" },
+                { top: "65%", left: "10%", size: "w-11 h-11", opacity: "opacity-20" },
+                { top: "70%", right: "6%", size: "w-13 h-13", opacity: "opacity-22" },
+                { top: "80%", left: "4%", size: "w-9 h-9", opacity: "opacity-18" },
+                { top: "85%", right: "12%", size: "w-12 h-12", opacity: "opacity-20" },
+                { top: "15%", left: "50%", size: "w-8 h-8", opacity: "opacity-15" },
+                { top: "45%", right: "50%", size: "w-10 h-10", opacity: "opacity-18" },
+                { top: "75%", left: "50%", size: "w-9 h-9", opacity: "opacity-20" },
+              ];
+              const pos = positions[i] || positions[0];
+              return (
+                <motion.div
+                  key={i}
+                  className={`absolute ${pos.size} ${pos.opacity}`}
+                  style={{
+                    top: pos.top,
+                    left: pos.left || undefined,
+                    right: pos.right || undefined,
+                  }}
+                  initial={{ 
+                    opacity: 0,
+                    scale: 0,
+                    rotate: -180
+                  }}
+                  animate={{ 
+                    opacity: [0.15, 0.25, 0.15],
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 10, -10, 0]
+                  }}
+                  transition={{
+                    duration: 3 + i * 0.3,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <img 
+                    src="/heart.png" 
+                    alt="" 
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      // 画像が見つからない場合は非表示
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+          <motion.header 
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+          >
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                PAIRLY LAB
+              </h1>
+          </motion.header>
+
+          <main className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <motion.div 
+              className="lg:col-span-2 rounded-[16px] border border-black bg-[#FFB6C1] p-10 space-y-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="w-full grid grid-cols-[1fr,auto,1fr] items-start gap-10">
+                <TypeProfile type={type1} isUser={true} />
+                <div className="my-0 mx-auto">
+                  <AnimatedCircularProgress score={compatibility.total} />
+                </div>
+                <TypeProfile type={type2} isUser={false} />
+              </div>
+              <div className="text-center border-t-2 border-black/20 pt-8">
+                <h2 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-2xl mx-auto mt-4 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+              </div>
+            </motion.div>
+
+            <motion.aside 
+              className="space-y-8"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                  <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {rank && (
+                    <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{rank.rank}</span>
+                    </div>
+                )}
+                {rank && (
+                    <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ランク帯</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{rank.bandName}</span>
+                    </div>
+                )}
+                {percentile !== undefined && (
+                    <div className="flex justify-between items-baseline py-4">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">上位</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{percentile.toFixed(1)}%</span>
+                    </div>
+                )}
+              </div>
+              {analysis && (
               <div className="rounded-[16px] border border-black bg-[#E0F2E0] p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                 <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">詳細分析</h3>
                 <AccordionItem title="二人の強み" initialOpen={true}>
@@ -612,6 +834,8 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                       userNickname={type1.name}
                       partnerNickname={type2.name}
                       message={compatibility.message}
+                      userTypeCode={type1.type}
+                      partnerTypeCode={type2.type}
                     />
                   )}
                 </div>
@@ -619,6 +843,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           </motion.aside>
         </main>
       </div>
+      )}
     </div>
   );
 };
