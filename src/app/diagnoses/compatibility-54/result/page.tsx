@@ -69,7 +69,7 @@ function ResultContent() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 text-gray-700">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 text-gray-700">
         結果を計算中...
       </div>
     );
@@ -77,8 +77,8 @@ function ResultContent() {
 
   if (error || !userType || !partnerType || !compatibility || !detailedAnalysis || percentile === null || !rank) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 text-gray-800">
-        <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 px-4 text-gray-800">
+        <div className="space-y-4 rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-2xl p-6 text-center shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
           <p>{error || "結果を取得できませんでした"}</p>
           <Button onClick={() => router.push("/diagnoses/compatibility-54")}>
             診断に戻る
@@ -103,7 +103,7 @@ function ResultContent() {
         <Button
           type="button"
           onClick={() => router.push("/")}
-          className="pointer-events-auto rounded-[16px] border border-black bg-white px-5 py-2 text-sm md:px-6 md:py-3 md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          className="pointer-events-auto rounded-[28px] sm:rounded-[32px] border border-white/70 bg-white/95 backdrop-blur-md px-5 py-2 text-sm md:px-6 md:py-3 md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-white shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] text-shadow-[0px_1px_2px_rgba(255,255,255,0.8)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1"
         >
           トップに戻る
         </Button>
@@ -127,7 +127,7 @@ export default function Compatibility54ResultPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-gray-100 text-gray-700">
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 text-gray-700">
           結果を読み込み中...
         </div>
       }

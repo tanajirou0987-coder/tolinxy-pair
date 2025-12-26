@@ -184,7 +184,7 @@ const ShareImageButton: React.FC<{
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded-[16px] border border-black bg-white px-6 py-3 text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+        className="rounded-[28px] sm:rounded-[32px] border border-white/70 bg-white/95 backdrop-blur-md px-6 py-3 text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-white shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] text-shadow-[0px_1px_2px_rgba(255,255,255,0.8)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1"
       >
         画像をダウンロード
       </button>
@@ -221,13 +221,13 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
   if (!type2 || !compatibility) {
     return (
         <motion.div 
-            className="flex flex-col items-center justify-center p-4 min-h-screen bg-white"
+            className="flex flex-col items-center justify-center p-4 min-h-screen"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
         >
             {/* スマホ用レイアウト */}
-            <div className="w-full max-w-md rounded-[16px] border border-black bg-[#FFB6C1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] md:hidden">
+            <div className="w-full max-w-md rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-8 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)] md:hidden">
                 <h1 className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたのタイプ</h1>
                 <TypeProfile type={type1} isUser={true} />
                 <div className="mt-8">
@@ -235,7 +235,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 </div>
             </div>
             {/* PC用レイアウト */}
-            <div className="hidden md:block w-full max-w-2xl rounded-[16px] border border-black bg-[#FFB6C1] p-12 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <div className="hidden md:block w-full max-w-2xl rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-12 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
                 <h1 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたのタイプ</h1>
                 <TypeProfile type={type1} isUser={true} />
                 <div className="mt-10">
@@ -318,7 +318,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
       {/* 18問診断用レイアウト（スマホ） */}
       {diagnosisType === "18" ? (
-        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 relative z-10 md:hidden">
+        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 pb-16 sm:pb-20 relative z-10 md:hidden">
           <motion.header 
               className="text-center"
               initial={{ opacity: 0 }}
@@ -334,12 +334,18 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           <main className="grid grid-cols-1 gap-4 sm:gap-5">
             {/* サマリーセクション */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {compatibility && (
+                    <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
+                    </div>
+                )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -362,7 +368,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* カップルの説明 */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -380,7 +386,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* タイププロフィール */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -395,7 +401,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* 結果を共有 */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-4 sm:p-5 md:p-6 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -421,7 +427,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
       ) : (
         /* 54問診断用レイアウト（スマホ） */
         <>
-        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 relative z-10 md:hidden">
+        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 pb-16 sm:pb-20 relative z-10 md:hidden">
           <motion.header 
               className="text-center"
               initial={{ opacity: 0 }}
@@ -437,7 +443,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           <main className="grid grid-cols-1 gap-4 sm:gap-5">
             {/* カップルの説明 */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -452,12 +458,18 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* サマリーセクション */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {compatibility && (
+                    <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
+                    </div>
+                )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -483,7 +495,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* タイププロフィール */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -499,7 +511,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             {/* 詳細分析 */}
             {analysis && (
               <motion.div 
-                className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#E0F2E0] p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+                className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-green-200/80 via-green-100/80 to-green-200/80 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(144,238,144,0.2),0px_15px_40px_rgba(144,238,144,0.15),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -550,7 +562,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* 結果を共有 */}
             <motion.div 
-              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-4 sm:p-5 md:p-6 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -579,7 +591,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
       {/* PC用レイアウト */}
       {diagnosisType === "18" ? (
         /* 18問診断用レイアウト（PC） */
-        <div className="hidden md:flex flex-col gap-12 px-8 py-16 relative z-10 max-w-7xl mx-auto">
+        <div className="hidden md:flex flex-col gap-12 px-8 py-16 pb-24 relative z-10 max-w-7xl mx-auto">
           <motion.header 
               className="text-center"
               initial={{ opacity: 0 }}
@@ -595,12 +607,18 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           <main className="grid grid-cols-1 gap-10">
             {/* サマリーセクション */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-8 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {compatibility && (
+                    <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
+                    </div>
+                )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -623,7 +641,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* カップルの説明 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-10 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -641,7 +659,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* タイププロフィール */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-10 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -656,7 +674,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* 結果を共有 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-8 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -681,7 +699,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
         </div>
       ) : (
         /* 54問診断用レイアウト（PC） */
-        <div className="hidden md:flex flex-col gap-12 px-8 py-16 relative z-10 max-w-7xl mx-auto">
+        <div className="hidden md:flex flex-col gap-12 px-8 py-16 pb-24 relative z-10 max-w-7xl mx-auto">
           {/* PC用の装飾的なハートアイコン（背景に散りばめる） */}
           <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             {[...Array(15)].map((_, i) => {
@@ -757,7 +775,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           <main className="grid grid-cols-1 gap-10">
             {/* カップルの説明 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-10 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-10 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -772,12 +790,18 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* サマリーセクション */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-8 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                {compatibility && (
+                    <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
+                        <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
+                    </div>
+                )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -803,7 +827,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* タイププロフィール */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-8 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -819,7 +843,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             {/* 詳細分析 */}
             {analysis && (
               <motion.div 
-                className="rounded-[16px] border border-black bg-[#E0F2E0] p-8 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+                className="rounded-[48px] border border-white/70 bg-gradient-to-br from-green-200/80 via-green-100/80 to-green-200/80 backdrop-blur-md p-8 shadow-[0px_30px_80px_rgba(144,238,144,0.2),0px_15px_40px_rgba(144,238,144,0.15),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -870,7 +894,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* 結果を共有 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-8 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-8 text-center shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
