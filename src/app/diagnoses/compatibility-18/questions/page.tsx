@@ -118,22 +118,22 @@ export default function Compatibility18QuestionsPage() {
       {/* スマホ用レイアウト */}
       <div className="relative z-10 mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="text-center">
-          <div className="inline-flex items-center gap-3 rounded-[16px] border border-black bg-[#87CEEB] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-            <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
-            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-3 py-1 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "1/2" : "2/2"}</span>
+          <div className="inline-flex items-center gap-3 rounded-[32px] border border-white/70 bg-gradient-to-br from-sky-200/90 via-sky-100/90 to-sky-200/90 backdrop-blur-md px-6 py-3 shadow-[0px_12px_32px_rgba(135,206,235,0.3),0px_6px_16px_rgba(135,206,235,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+            <span className="text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
+            <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold bg-white/95 rounded-[20px] border border-white/80 text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)] px-3 py-1">{step === "user" ? "1/2" : "2/2"}</span>
           </div>
         </div>
 
-        <div className="sticky top-0 z-20 -mx-4 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-4 py-4 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
-          <div className="mb-3 flex items-center justify-between text-lg">
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+        <div className="sticky top-0 z-20 -mx-4 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-4 py-3 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
+          <div className="mb-2 flex items-center justify-between text-sm">
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
               回答済み {answeredCount} / {TOTAL_QUESTIONS}
             </span>
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-bold text-lg text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(progress)}%</span>
           </div>
-          <div className="h-4 w-full overflow-hidden rounded-full border border-black bg-white">
+          <div className="h-2 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
             <div
-              className="h-full rounded-full bg-[#FFB6C1] transition-all duration-300"
+              className="h-full rounded-full bg-gradient-to-r from-pink-300/90 via-pink-200/90 to-pink-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -165,18 +165,18 @@ export default function Compatibility18QuestionsPage() {
         </div>
 
         {answeredCount === TOTAL_QUESTIONS && (
-            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-black bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/70 bg-white/95 backdrop-blur-2xl shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
               <div className="mx-auto max-w-md px-4 py-6">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
                       <div>
-                        <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                        <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                           {step === "user"
                             ? "自分の回答が完了しました！"
                             : "すべての質問に回答しました！"}
                         </p>
-                        <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                        <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                           {step === "user" ? "次はパートナーの回答です" : "結果を確認しましょう"}
                         </p>
                       </div>
@@ -197,22 +197,22 @@ export default function Compatibility18QuestionsPage() {
       {/* PC用レイアウト */}
       <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
         <div className="text-center">
-          <div className="inline-flex items-center gap-3 rounded-[16px] border border-black bg-[#87CEEB] px-8 py-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-            <span className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
-            <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-4 py-2 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{step === "user" ? "ステップ 1/2" : "ステップ 2/2"}</span>
+          <div className="inline-flex items-center gap-3 rounded-[32px] border border-white/70 bg-gradient-to-br from-sky-200/90 via-sky-100/90 to-sky-200/90 backdrop-blur-md px-8 py-4 shadow-[0px_12px_32px_rgba(135,206,235,0.3),0px_6px_16px_rgba(135,206,235,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+            <span className="text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{step === "user" ? "自分の回答" : "パートナーの回答"}</span>
+            <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-semibold bg-white/95 rounded-[20px] border border-white/80 text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)] px-4 py-2">{step === "user" ? "ステップ 1/2" : "ステップ 2/2"}</span>
           </div>
         </div>
 
-        <div className="sticky top-0 z-20 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-8 py-6 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
-          <div className="mb-4 flex items-center justify-between text-xl">
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+        <div className="sticky top-0 z-20 border-b border-white/70 bg-white/90 backdrop-blur-2xl px-8 py-5 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
+          <div className="mb-3 flex items-center justify-between text-lg">
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
               回答済み {answeredCount} / {TOTAL_QUESTIONS}
             </span>
-            <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</span>
+            <span className="font-['Coming_Soon:Regular',sans-serif] font-bold text-2xl text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(progress)}%</span>
           </div>
-          <div className="h-6 w-full overflow-hidden rounded-full border border-black bg-white">
+          <div className="h-6 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
             <div
-              className="h-full rounded-full bg-[#FFB6C1] transition-all duration-300"
+              className="h-full rounded-full bg-gradient-to-r from-pink-300/90 via-pink-200/90 to-pink-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -244,18 +244,18 @@ export default function Compatibility18QuestionsPage() {
         </div>
 
         {answeredCount === TOTAL_QUESTIONS && (
-            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-black bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+            <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/70 bg-white/95 backdrop-blur-2xl shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
               <div className="mx-auto max-w-7xl px-8 py-8">
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
                       <div>
-                        <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                        <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                           {step === "user"
                             ? "自分の回答が完了しました！"
                             : "すべての質問に回答しました！"}
                         </p>
-                        <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                        <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                           {step === "user" ? "次はパートナーの回答です" : "結果を確認しましょう"}
                         </p>
                       </div>

@@ -168,7 +168,13 @@ function SingleDeviceQuestions() {
 
 
   return (
-    <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 px-4 py-12 sm:px-6 lg:px-8">
+      {/* 装飾的な背景要素 - Soft UIスタイル */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
+      </div>
       {/* トップに戻るボタン */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 md:px-8 md:pt-8">
         <Button
@@ -180,7 +186,7 @@ function SingleDeviceQuestions() {
         </Button>
       </div>
       {/* スマホ用レイアウト */}
-      <div className="relative mx-auto w-full max-w-md space-y-10 md:hidden">
+      <div className="relative z-10 mx-auto w-full max-w-md space-y-10 md:hidden">
         <StepHeader step={step} variant="mobile" />
         <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="mobile" />
 
@@ -221,7 +227,7 @@ function SingleDeviceQuestions() {
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden md:block relative mx-auto w-full max-w-7xl space-y-10">
+      <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
         <StepHeader step={step} variant="desktop" />
         <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="desktop" />
 
@@ -396,7 +402,13 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
   };
 
   return (
-    <div className="relative min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 px-4 py-12 sm:px-6 lg:px-8">
+      {/* 装飾的な背景要素 - Soft UIスタイル */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
+      </div>
       {/* トップに戻るボタン */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end px-4 pt-4 md:px-8 md:pt-8">
         <Button
@@ -411,45 +423,45 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
       <div className="relative z-10 mx-auto w-full max-w-md space-y-10 md:hidden">
         <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-2xl p-4 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]">
           <div className="flex flex-col gap-3 text-center mb-4">
-            <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#FFB6C1] px-4 py-2 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
-              <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-2 py-0.5 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ID {sessionId.slice(0, 6)}</span>
+            <div className="inline-flex items-center justify-center gap-2 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-md px-4 py-2 shadow-[0px_12px_32px_rgba(255,182,193,0.3),0px_6px_16px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{participant === "user" ? "あなた" : "パートナー"}</span>
+              <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold bg-white/95 rounded-[20px] border border-white/80 text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)] px-2 py-0.5">ID {sessionId.slice(0, 6)}</span>
             </div>
             <button
               onClick={handleCopyShareLink}
-              className="rounded-[16px] border border-black bg-white px-3 py-1.5 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+              className="rounded-[24px] border border-white/70 bg-white/90 backdrop-blur-md px-3 py-1.5 text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 hover:bg-white/95 shadow-[0px_8px_24px_rgba(0,0,0,0.08),0px_4px_12px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] transition-all duration-300 hover:scale-105"
             >
               URLコピー
             </button>
           </div>
           <div className="grid gap-3 grid-cols-2">
-            <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたの進捗</p>
-              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</p>
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
-                <div className="h-full rounded-full bg-[#FFB6C1] transition-all duration-200" style={{ width: `${progress}%` }}></div>
+            <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-lg p-4 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-600 mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">あなたの進捗</p>
+              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(progress)}%</p>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-2 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
+                <div className="h-full rounded-full bg-gradient-to-r from-pink-300/90 via-pink-200/90 to-pink-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
-            <div className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの進捗</p>
-              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(partnerProgress)}%</p>
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full border border-black bg-white">
-                <div className="h-full rounded-full bg-[#87CEEB] transition-all duration-200" style={{ width: `${partnerProgress}%` }}></div>
+            <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-lg p-4 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-600 mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">パートナーの進捗</p>
+              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(partnerProgress)}%</p>
+              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-2 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
+                <div className="h-full rounded-full bg-gradient-to-r from-sky-300/90 via-sky-200/90 to-sky-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]" style={{ width: `${partnerProgress}%` }}></div>
               </div>
-              <p className="mt-1 text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              <p className="mt-1 text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                 {sessionData?.participants[partnerRole].completed ? "完了" : "回答中"}
               </p>
             </div>
           </div>
           {error && (
-            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black bg-red-100 border border-red-300 rounded-[16px] px-3 py-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 bg-red-100/90 backdrop-blur-sm border border-red-300/70 rounded-[24px] px-3 py-2 shadow-[0px_8px_24px_rgba(239,68,68,0.15),0px_4px_12px_rgba(239,68,68,0.1),inset_0px_1px_0px_rgba(255,255,255,0.6)] drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
               {error}
             </p>
           )}
           {syncing && (
-            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/50 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">同期中...</p>
+            <p className="mt-3 text-center text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-600 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">同期中...</p>
           )}
         </div>
 
@@ -475,21 +487,21 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-6 text-center shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
-          <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
+        <div className="mt-12 space-y-4 rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-8 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+          <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] text-gray-600 mb-4 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
               onClick={handleComplete}
               disabled={isSubmittingComplete}
-              className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-white px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+              className="inline-flex w-full items-center justify-center rounded-[32px] border border-white/60 bg-white/95 backdrop-blur-md px-6 py-3 text-base font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_12px_40px_rgba(0,0,0,0.12),0px_6px_20px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_16px_50px_rgba(0,0,0,0.16),0px_8px_25px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]"
             >
               {isSubmittingComplete ? "送信中..." : "回答を確定する"}
             </button>
           ) : (
-            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答すると自動で相手と同期されます。</p>
+            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">すべて回答すると自動で相手と同期されます。</p>
           )}
           {sessionData?.participants[participant].completed && !sessionData.readyForResult && (
-            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mt-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答を待っています...</p>
+            <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mt-2 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">パートナーの回答を待っています...</p>
           )}
         </div>
       </div>
@@ -498,45 +510,45 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
       <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
         <div className="rounded-[32px] border border-white/70 bg-white/85 backdrop-blur-lg p-6 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
           <div className="flex flex-row items-center justify-between mb-6">
-            <div className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-black bg-[#e2bef1] px-6 py-3 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{participant === "user" ? "あなた" : "パートナー"}</span>
-              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal bg-white px-3 py-1 rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">ID {sessionId.slice(0, 6)}</span>
+            <div className="inline-flex items-center justify-center gap-2 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-md px-6 py-3 shadow-[0px_12px_32px_rgba(255,182,193,0.3),0px_6px_16px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+              <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{participant === "user" ? "あなた" : "パートナー"}</span>
+              <span className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold bg-white/95 rounded-[20px] border border-white/80 text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)] px-3 py-1">ID {sessionId.slice(0, 6)}</span>
             </div>
             <button
               onClick={handleCopyShareLink}
-              className="rounded-[16px] border border-black bg-white px-4 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black hover:bg-gray-100 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+              className="rounded-[24px] border border-white/70 bg-white/90 backdrop-blur-md px-4 py-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 hover:bg-white/95 shadow-[0px_8px_24px_rgba(0,0,0,0.08),0px_4px_12px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] transition-all duration-300 hover:scale-105"
             >
               URLコピー
             </button>
           </div>
           <div className="grid gap-4 grid-cols-2">
-            <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたの進捗</p>
-              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(progress)}%</p>
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="h-3 w-full overflow-hidden rounded-full border border-black bg-white">
-                <div className="h-full rounded-full bg-[#FFB6C1] transition-all duration-200" style={{ width: `${progress}%` }}></div>
+            <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-600 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">あなたの進捗</p>
+              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(progress)}%</p>
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-3 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{answeredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-3 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
+                <div className="h-full rounded-full bg-gradient-to-r from-pink-300/90 via-pink-200/90 to-pink-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
-            <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの進捗</p>
-              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{Math.round(partnerProgress)}%</p>
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mb-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
-              <div className="h-3 w-full overflow-hidden rounded-full border border-black bg-white">
-                <div className="h-full rounded-full bg-[#87CEEB] transition-all duration-200" style={{ width: `${partnerProgress}%` }}></div>
+            <div className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-600 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">パートナーの進捗</p>
+              <p className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-2 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{Math.round(partnerProgress)}%</p>
+              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-3 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{partnerAnsweredCount} / {TOTAL_QUESTIONS}</p>
+              <div className="h-3 w-full overflow-hidden rounded-full border border-white/70 bg-white/80 backdrop-blur-sm">
+                <div className="h-full rounded-full bg-gradient-to-r from-sky-300/90 via-sky-200/90 to-sky-300/90 transition-all duration-300 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6)]" style={{ width: `${partnerProgress}%` }}></div>
               </div>
-              <p className="mt-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              <p className="mt-2 text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
                 {sessionData?.participants[partnerRole].completed ? "完了" : "回答中"}
               </p>
             </div>
           </div>
           {error && (
-            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black bg-red-100 border border-red-300 rounded-[16px] px-4 py-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 bg-red-100/90 backdrop-blur-sm border border-red-300/70 rounded-[24px] px-4 py-3 shadow-[0px_8px_24px_rgba(239,68,68,0.15),0px_4px_12px_rgba(239,68,68,0.1),inset_0px_1px_0px_rgba(255,255,255,0.6)] drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
               {error}
             </p>
           )}
           {syncing && (
-            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/50 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">同期中...</p>
+            <p className="mt-4 text-center text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-600 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">同期中...</p>
           )}
         </div>
 
@@ -561,21 +573,21 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-8 text-center shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
-          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性診断（54問） / セッション同期モード</p>
+        <div className="mt-12 space-y-4 rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-10 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] text-gray-600 mb-5 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
               onClick={handleComplete}
               disabled={isSubmittingComplete}
-              className="inline-flex w-full items-center justify-center rounded-[16px] border border-black bg-white px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-normal text-black disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] hover:scale-105"
+              className="inline-flex w-full items-center justify-center rounded-[32px] border border-white/60 bg-white/95 backdrop-blur-md px-8 py-4 text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 disabled:cursor-not-allowed disabled:opacity-60 shadow-[0px_12px_40px_rgba(0,0,0,0.12),0px_6px_20px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_16px_50px_rgba(0,0,0,0.16),0px_8px_25px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]"
             >
               {isSubmittingComplete ? "送信中..." : "回答を確定する"}
             </button>
           ) : (
-            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">すべて回答すると自動で相手と同期されます。</p>
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">すべて回答すると自動で相手と同期されます。</p>
           )}
           {sessionData?.participants[participant].completed && !sessionData.readyForResult && (
-            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/70 mt-3 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">パートナーの回答を待っています...</p>
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mt-3 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">パートナーの回答を待っています...</p>
           )}
         </div>
       </div>

@@ -15,15 +15,16 @@ export const StepHeader = memo(function StepHeader({
 
   return (
     <div className="text-center">
-      <div className={`inline-flex items-center rounded-[16px] border border-black bg-[#FFB6C1] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] ${isMobile ? "gap-1.5 px-3 py-1" : "gap-2 px-6 py-2"}`}>
-        <span className={`font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${isMobile ? "text-sm" : "text-lg"}`}>
+      <div className={`inline-flex items-center rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-md shadow-[0px_12px_32px_rgba(255,182,193,0.3),0px_6px_16px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)] ${isMobile ? "gap-2 px-5 py-2.5" : "gap-3 px-8 py-3"}`}>
+        <span className={`font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)] ${isMobile ? "text-sm" : "text-lg"}`}>
           {stepLabel}
         </span>
-        <span className={`font-['Coming_Soon:Regular',sans-serif] font-normal bg-white rounded-[16px] border border-black text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${isMobile ? "text-[10px] px-1.5 py-0.5" : "text-sm px-3 py-1"}`}>
+        <span className={`font-['Coming_Soon:Regular',sans-serif] font-semibold bg-white/95 rounded-[20px] border border-white/80 text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)] ${isMobile ? "text-[10px] px-2 py-0.5" : "text-sm px-3 py-1"}`}>
           {stepNumber}
         </span>
       </div>
     </div>
   );
 });
+
 

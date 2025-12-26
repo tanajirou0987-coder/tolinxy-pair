@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 // ヘッダー背景画像
-const headerBackgroundImage = "/画像が生成されました.png";
+const headerBackgroundImage = "/unnamed.jpg";
 
 const diagnostics = [
   {

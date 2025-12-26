@@ -42,7 +42,7 @@ export const LazyQuestionCard = memo(function LazyQuestionCard({
     return (
       <div
         ref={ref}
-        className="rounded-[16px] border border-black bg-white p-4 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+        className="rounded-[32px] border border-white/70 bg-white/90 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]"
         style={{ minHeight: "150px" }}
       />
     );

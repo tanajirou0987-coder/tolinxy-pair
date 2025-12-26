@@ -14,6 +14,8 @@
  */
 
 import { getRankImagePath } from "./calculate";
+import { getCharacterImagePath } from "./character-image-mapping";
+import type { PersonalityTypeCode } from "./types";
 
 // ==========================================
 // 定数定義（比率・サイズ・文言）
@@ -50,6 +52,8 @@ interface ShareImageData {
   rankImagePath: string;
   message?: string;
   shareUrl: string;
+  userTypeCode?: PersonalityTypeCode; // ユーザーのタイプコード
+  partnerTypeCode?: PersonalityTypeCode; // パートナーのタイプコード
 }
 
 /**
@@ -678,9 +682,22 @@ export async function generateShareImageBlob(data: ShareImageData): Promise<Blob
   ctx.restore();
   
   // キャラクター画像を描画（正方形にクロップ、角丸付き）
-  // プレビュー画像と同じ画像パスを使用
+  // タイプコードがあればタイプ画像を優先、なければランク画像を使用
   try {
-    const characterImagePath = data.rankImagePath || getRankCharacterImagePath(data.rankInfo.rank);
+    let characterImagePath: string;
+    
+    // タイプコードベースの画像を優先
+    if (data.userTypeCode || data.partnerTypeCode) {
+      characterImagePath = getCharacterImagePath({
+        rank: data.rankInfo.rank,
+        userTypeCode: data.userTypeCode,
+        partnerTypeCode: data.partnerTypeCode,
+      });
+    } else {
+      // フォールバック: ランク画像
+      characterImagePath = data.rankImagePath || getRankCharacterImagePath(data.rankInfo.rank);
+    }
+    
     const characterImage = await loadImage(characterImagePath);
     
     const imageDrawX = imageBgX * SCALE;
