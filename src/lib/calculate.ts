@@ -37,9 +37,40 @@ interface CompatibilityData {
  * 回答の配列から3軸のスコアを計算
  * @param answers 回答の配列
  * @param totalQuestions 総質問数（18または54）
+ * @param questions 質問データの配列（オプション、指定された場合はaxisフィールドを使用）
  * @returns 3軸のスコア
  */
-export function calculateScores(answers: Answer[], totalQuestions: number = 18): Scores {
+export function calculateScores(
+  answers: Answer[], 
+  totalQuestions: number = 18,
+  questions?: Array<{ id: number; axis: string }>
+): Scores {
+  // 質問データが提供されている場合は、axisフィールドを使用（より科学的で正確）
+  if (questions && questions.length > 0) {
+    const axisMap = new Map<number, string>();
+    questions.forEach(q => {
+      axisMap.set(q.id, q.axis);
+    });
+
+    let axis1 = 0; // communication
+    let axis2 = 0; // decision
+    let axis3 = 0; // relationship
+
+    answers.forEach(answer => {
+      const axis = axisMap.get(answer.questionId);
+      if (axis === "communication") {
+        axis1 += answer.score;
+      } else if (axis === "decision") {
+        axis2 += answer.score;
+      } else if (axis === "relationship") {
+        axis3 += answer.score;
+      }
+    });
+
+    return { axis1, axis2, axis3 };
+  }
+
+  // 後方互換性のため、質問データが提供されていない場合は質問IDの範囲で判定
   if (totalQuestions === 18) {
     // 18問の場合: 各軸6問ずつ
     // Q1-Q6の合計（communication軸）
@@ -104,27 +135,29 @@ function determineTraitsFromScores(
   totalQuestions: number = 18
 ): { communication: string; decision: string; relationship: string } {
   // 閾値を質問数に応じて調整
-  // 18問: スコア範囲 -12～+12、閾値 ±3
-  // 54問: スコア範囲 -36～+36、閾値 ±9（3倍）
-  const threshold = totalQuestions === 54 ? 9 : 3;
+  // 18問: スコア範囲 -12～+12、閾値 ±2（より均等な分布のため調整）
+  // 54問: スコア範囲 -36～+36、閾値 ±3（より均等な分布のため調整）
+  // 注意: 閾値を低くすることで、中間的なタイプの出現率を下げ、より均等な分布を実現
+  // 54問診断は質問数が多いため、より低い閾値で均等性を確保
+  const threshold = totalQuestions === 54 ? 3 : 2;
 
   // コミュニケーション軸
-  // 18問: > 3: 積極型, < -3: 受容型, それ以外: バランス型
-  // 54問: > 9: 積極型, < -9: 受容型, それ以外: バランス型
+  // 18問: >= 2: 積極型, <= -2: 受容型, それ以外: バランス型
+  // 54問: >= 3: 積極型, <= -3: 受容型, それ以外: バランス型
   const communication =
-    axis1 > threshold ? "積極型" : axis1 < -threshold ? "受容型" : "バランス型";
+    axis1 >= threshold ? "積極型" : axis1 <= -threshold ? "受容型" : "バランス型";
 
   // 意思決定軸
-  // 18問: > 3: 論理型, < -3: 感情型, それ以外: ハイブリッド型
-  // 54問: > 9: 論理型, < -9: 感情型, それ以外: ハイブリッド型
+  // 18問: >= 2: 論理型, <= -2: 感情型, それ以外: ハイブリッド型
+  // 54問: >= 3: 論理型, <= -3: 感情型, それ以外: ハイブリッド型
   const decision =
-    axis2 > threshold ? "論理型" : axis2 < -threshold ? "感情型" : "ハイブリッド型";
+    axis2 >= threshold ? "論理型" : axis2 <= -threshold ? "感情型" : "ハイブリッド型";
 
   // 関係性軸
-  // 18問: > 3: リード型, < -3: 寄り添い型, それ以外: 対等型
-  // 54問: > 9: リード型, < -9: 寄り添い型, それ以外: 対等型
+  // 18問: >= 2: リード型, <= -2: 寄り添い型, それ以外: 対等型
+  // 54問: >= 3: リード型, <= -3: 寄り添い型, それ以外: 対等型
   const relationship =
-    axis3 > threshold ? "リード型" : axis3 < -threshold ? "寄り添い型" : "対等型";
+    axis3 >= threshold ? "リード型" : axis3 <= -threshold ? "寄り添い型" : "対等型";
 
   return { communication, decision, relationship };
 }

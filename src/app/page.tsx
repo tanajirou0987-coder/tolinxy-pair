@@ -191,7 +191,7 @@ export default function Home() {
             >
               <div className="text-center mb-6 sm:mb-8">
                 <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.4em] sm:tracking-[0.5em] text-gray-600 mb-3 sm:mb-4">使い方</p>
-                <h3 className="text-3xl sm:text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.8)]">かんたん3ステップ</h3>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.8)] whitespace-nowrap">かんたん3ステップ</h3>
               </div>
               <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
                 {[

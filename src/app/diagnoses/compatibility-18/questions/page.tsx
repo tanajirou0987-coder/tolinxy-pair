@@ -57,7 +57,8 @@ export default function Compatibility18QuestionsPage() {
 
   const calculateResult = (userFinalAnswers: Answer[], partnerFinalAnswers: Answer[]) => {
     try {
-      const userScores = calculateScores(userFinalAnswers, 18);
+      // 質問データのaxisフィールドを使用してより科学的に正確に計算
+      const userScores = calculateScores(userFinalAnswers, 18, questions);
       const userType = getPersonalityType(
         userScores.axis1,
         userScores.axis2,
@@ -65,7 +66,7 @@ export default function Compatibility18QuestionsPage() {
         "18"
       );
 
-      const partnerScores = calculateScores(partnerFinalAnswers, 18);
+      const partnerScores = calculateScores(partnerFinalAnswers, 18, questions);
       const partnerType = getPersonalityType(
         partnerScores.axis1,
         partnerScores.axis2,

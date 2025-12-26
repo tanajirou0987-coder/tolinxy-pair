@@ -1,5 +1,6 @@
 import { calculateScores, getPersonalityType } from "@/lib/calculate";
-import type { Answer } from "@/lib/types";
+import type { Answer, Question } from "@/lib/types";
+import questions54Data from "../../data/diagnoses/compatibility-54/questions.json";
 
 export type ParticipantRole = "user" | "partner";
 
@@ -240,8 +241,10 @@ export function buildSessionResponse(session: MultiDeviceSession): SessionRespon
 
   let resultParams: string | undefined;
   if (ready) {
-    const userScores = calculateScores(participants.user.answers, 54);
-    const partnerScores = calculateScores(participants.partner.answers, 54);
+    // 質問データのaxisフィールドを使用してより科学的に正確に計算
+    const questions = questions54Data as Question[];
+    const userScores = calculateScores(participants.user.answers, 54, questions);
+    const partnerScores = calculateScores(participants.partner.answers, 54, questions);
 
     const userType = getPersonalityType(
       userScores.axis1,

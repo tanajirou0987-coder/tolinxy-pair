@@ -85,7 +85,8 @@ function SingleDeviceQuestions() {
 
   const calculateResult = (userFinalAnswers: Answer[], partnerFinalAnswers: Answer[]) => {
     try {
-      const userScores = calculateScores(userFinalAnswers, 54);
+      // 質問データのaxisフィールドを使用してより科学的に正確に計算
+      const userScores = calculateScores(userFinalAnswers, 54, questions);
       const userType = getPersonalityType(
         userScores.axis1,
         userScores.axis2,
@@ -93,7 +94,7 @@ function SingleDeviceQuestions() {
         "54"
       );
 
-      const partnerScores = calculateScores(partnerFinalAnswers, 54);
+      const partnerScores = calculateScores(partnerFinalAnswers, 54, questions);
       const partnerType = getPersonalityType(
         partnerScores.axis1,
         partnerScores.axis2,
