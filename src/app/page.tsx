@@ -35,65 +35,65 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-3xl"></div>
       </div>
       {/* スマホ用レイアウト */}
-      <div className="relative z-10 max-w-md mx-auto min-h-screen md:hidden py-8 px-4">
+      <div className="relative z-10 max-w-md mx-auto md:hidden py-6 px-4">
         {/* ヘッダーセクション - Soft UIスタイル強化 */}
         <motion.section
-          className="relative h-[320px] rounded-[40px] overflow-hidden mb-8 shadow-[0px_20px_60px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08)] border border-white/60"
+          className="relative h-[240px] sm:h-[280px] rounded-[32px] sm:rounded-[40px] overflow-hidden mb-6 shadow-[0px_20px_60px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08)] border border-white/60"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="absolute inset-0 overflow-hidden rounded-[40px]">
+          <div className="absolute inset-0 overflow-hidden rounded-[32px] sm:rounded-[40px]">
             <img alt="" className="absolute inset-0 w-full h-full object-cover" src={headerBackgroundImage} />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40 rounded-[40px]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40 rounded-[32px] sm:rounded-[40px]"></div>
           {/* 引用文 - Soft UIスタイル */}
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-['Inter:Extra_Bold_Italic',sans-serif] font-extrabold italic text-lg text-center text-white drop-shadow-[0px_4px_12px_rgba(0,0,0,0.4)] max-w-[280px] leading-[1.6] z-10">
+          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-['Inter:Extra_Bold_Italic',sans-serif] font-extrabold italic text-base sm:text-lg text-center text-white drop-shadow-[0px_4px_12px_rgba(0,0,0,0.4)] max-w-[260px] sm:max-w-[280px] leading-[1.5] sm:leading-[1.6] z-10 px-2">
             2人のリズム、<br />
             響き合う瞬間を。
           </p>
         </motion.section>
 
         {/* メインコンテナ - Soft UIデザインスタイル強化 */}
-        <div className="relative mb-20">
+        <div className="relative mb-12">
           {/* メインコンテンツエリア - Soft UIカード強化 */}
           <motion.div
-            className="relative bg-white/90 backdrop-blur-2xl rounded-[48px] shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)] px-8 py-10 min-h-[665px] border border-white/70"
+            className="relative bg-white/90 backdrop-blur-2xl rounded-[40px] sm:rounded-[48px] shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)] px-5 sm:px-8 py-6 sm:py-10 border border-white/70"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
             {/* ロゴ/タイトル - Soft UIスタイル強化 */}
             <motion.div
-              className="text-center mb-10 pt-4"
+              className="text-center mb-6 sm:mb-8 pt-2 sm:pt-4"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <h1 className="text-7xl sm:text-8xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.02em] mb-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">
+              <h1 className="text-5xl sm:text-6xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.02em] mb-2 sm:mb-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">
                 PAIRLY LAB
               </h1>
-              <p className="text-lg font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600 mt-2">
+              <p className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600 mt-1 sm:mt-2">
                 恋愛相性診断アプリ
               </p>
             </motion.div>
 
             {/* クイックアクションボタン - Soft UIスタイル強化 */}
             <motion.div
-              className="flex flex-col gap-4 mb-12 px-2"
+              className="flex flex-col gap-3 sm:gap-4 mb-8 sm:mb-10 px-1 sm:px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
             >
               <Link
                 href="/diagnoses/compatibility-54"
-                className="group relative px-10 py-5 text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold rounded-[32px] bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md text-gray-900 shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(255,182,193,0.5),0px_8px_25px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 border border-white/60"
+                className="group relative px-6 sm:px-8 py-3.5 sm:py-4 text-base sm:text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md text-gray-900 shadow-[0px_12px_40px_rgba(255,182,193,0.4),0px_6px_20px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(255,182,193,0.5),0px_8px_25px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 border border-white/60"
               >
                 <span className="relative z-10 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">54問でじっくり</span>
               </Link>
               <Link
                 href="/diagnoses/compatibility-18"
-                className="group relative px-10 py-5 text-xl font-['Coming_Soon:Regular',sans-serif] font-semibold rounded-[32px] bg-gradient-to-br from-sky-300/90 via-sky-200/90 to-sky-300/90 backdrop-blur-md text-gray-900 shadow-[0px_12px_40px_rgba(135,206,235,0.4),0px_6px_20px_rgba(135,206,235,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(135,206,235,0.5),0px_8px_25px_rgba(135,206,235,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 border border-white/60"
+                className="group relative px-6 sm:px-8 py-3.5 sm:py-4 text-base sm:text-lg font-['Coming_Soon:Regular',sans-serif] font-semibold rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-sky-300/90 via-sky-200/90 to-sky-300/90 backdrop-blur-md text-gray-900 shadow-[0px_12px_40px_rgba(135,206,235,0.4),0px_6px_20px_rgba(135,206,235,0.3),inset_0px_1px_0px_rgba(255,255,255,0.6)] hover:shadow-[0px_16px_50px_rgba(135,206,235,0.5),0px_8px_25px_rgba(135,206,235,0.4),inset_0px_1px_0px_rgba(255,255,255,0.8)] transition-all duration-300 transform hover:scale-[1.03] hover:-translate-y-1 border border-white/60"
               >
                 <span className="relative z-10 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">3分で試す</span>
               </Link>
@@ -101,7 +101,7 @@ export default function Home() {
 
             {/* 統計セクション - Soft UIスタイル強化 */}
             <motion.div
-              className="grid grid-cols-3 gap-5 mb-12"
+              className="grid grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -113,29 +113,29 @@ export default function Home() {
               ].map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  className="rounded-[32px] bg-white/80 backdrop-blur-lg p-5 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] border border-white/70 hover:shadow-[0px_16px_40px_rgba(0,0,0,0.12),0px_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300"
+                  className="rounded-[24px] sm:rounded-[32px] bg-white/80 backdrop-blur-lg p-3 sm:p-4 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] border border-white/70 hover:shadow-[0px_16px_40px_rgba(0,0,0,0.12),0px_8px_20px_rgba(0,0,0,0.08)] transition-all duration-300"
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.9 + i * 0.1, ease: "easeOut" }}
                   whileHover={{ scale: 1.05, y: -4 }}
                 >
-                  <div className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{stat.value}</div>
-                  <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-600">{stat.label}</div>
+                  <div className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-0.5 sm:mb-1 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">{stat.value}</div>
+                  <div className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-600">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
 
             {/* 診断モードカード - Soft UIスタイル強化 */}
-            <div className="space-y-5 mb-8">
+            <div className="space-y-4 sm:space-y-5 mb-6 sm:mb-8">
               <motion.div
-                className="text-center mb-8"
+                className="text-center mb-6 sm:mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-medium uppercase tracking-[0.4em] text-gray-500 mb-3">選べる診断</p>
-                <h2 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(0,0,0,0.08)]">
+                <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-medium uppercase tracking-[0.3em] sm:tracking-[0.4em] text-gray-500 mb-2 sm:mb-3">選べる診断</p>
+                <h2 className="text-3xl sm:text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(0,0,0,0.08)]">
                   モードを選ぶ
                 </h2>
               </motion.div>
@@ -150,7 +150,7 @@ export default function Home() {
                 >
                   <Link href={mode.href}>
                     <motion.div
-                      className="relative rounded-[36px] h-[130px] flex items-center justify-center cursor-pointer backdrop-blur-md border border-white/70 overflow-hidden group"
+                      className="relative rounded-[28px] sm:rounded-[36px] h-[110px] sm:h-[120px] flex items-center justify-center cursor-pointer backdrop-blur-md border border-white/70 overflow-hidden group"
                       style={{ 
                         background: mode.bgColor === "#FFB6C1" 
                           ? "linear-gradient(135deg, rgba(255,182,193,0.85) 0%, rgba(255,192,203,0.75) 50%, rgba(255,182,193,0.85) 100%)"
@@ -160,21 +160,21 @@ export default function Home() {
                       transition={{ duration: 0.3 }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="relative z-10 text-center px-6 max-w-[320px] mx-auto">
-                        <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] mb-2 text-gray-700 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
+                      <div className="relative z-10 text-center px-4 sm:px-6 max-w-[300px] sm:max-w-[320px] mx-auto">
+                        <div className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1.5 sm:mb-2 text-gray-700 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
                           {mode.duration}
                         </div>
-                        <h3 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-2 drop-shadow-[0px_2px_4px_rgba(255,255,255,0.9)]">
+                        <h3 className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-1.5 sm:mb-2 drop-shadow-[0px_2px_4px_rgba(255,255,255,0.9)]">
                           {mode.title}
                         </h3>
-                        <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-800 mb-1 leading-[1.5] drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
+                        <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-800 mb-0.5 sm:mb-1 leading-[1.4] sm:leading-[1.5] drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
                           {mode.description}
                         </p>
-                        <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-gray-700 leading-[1.4] drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
+                        <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-normal text-gray-700 leading-[1.3] sm:leading-[1.4] drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">
                           {mode.subtext}
                         </p>
                       </div>
-                      <div className="absolute inset-0 shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.6)] rounded-[36px] pointer-events-none"></div>
+                      <div className="absolute inset-0 shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.6)] rounded-[28px] sm:rounded-[36px] pointer-events-none"></div>
                     </motion.div>
                   </Link>
                 </motion.div>
@@ -183,17 +183,17 @@ export default function Home() {
 
             {/* 使い方セクション - Soft UIスタイル強化 */}
             <motion.section
-              className="rounded-[40px] bg-gradient-to-br from-pink-200/70 via-pink-100/70 to-pink-200/70 backdrop-blur-2xl p-10 mb-8 shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)] border border-white/70"
+              className="rounded-[32px] sm:rounded-[40px] bg-gradient-to-br from-pink-200/70 via-pink-100/70 to-pink-200/70 backdrop-blur-2xl p-6 sm:p-8 mb-6 sm:mb-8 shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)] border border-white/70"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="text-center mb-10">
-                <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.5em] text-gray-600 mb-4">使い方</p>
-                <h3 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.8)]">かんたん3ステップ</h3>
+              <div className="text-center mb-6 sm:mb-8">
+                <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.4em] sm:tracking-[0.5em] text-gray-600 mb-3 sm:mb-4">使い方</p>
+                <h3 className="text-3xl sm:text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.8)]">かんたん3ステップ</h3>
               </div>
-              <div className="grid gap-8 md:grid-cols-3">
+              <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
                 {[
                   { num: "01", title: "診断を選ぶ", desc: "気分に合わせて3分 or 7分" },
                   { num: "02", title: "質問に答える", desc: "シンプルな選択肢だけ" },
@@ -208,9 +208,9 @@ export default function Home() {
                     transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    <div className="text-6xl font-['Coming_Soon:Regular',sans-serif] font-bold text-white/50 mb-3 drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">{step.num}</div>
-                    <h4 className="text-xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-3 drop-shadow-[0px_1px_4px_rgba(255,255,255,0.8)]">{step.title}</h4>
-                    <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 leading-relaxed drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{step.desc}</p>
+                    <div className="text-5xl sm:text-6xl font-['Coming_Soon:Regular',sans-serif] font-bold text-white/50 mb-2 sm:mb-3 drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">{step.num}</div>
+                    <h4 className="text-lg sm:text-xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-2 sm:mb-3 drop-shadow-[0px_1px_4px_rgba(255,255,255,0.8)]">{step.title}</h4>
+                    <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 leading-relaxed drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{step.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -218,31 +218,31 @@ export default function Home() {
 
             {/* CTAセクション - Soft UIスタイル強化 */}
             <motion.section
-              className="mt-8 text-center mb-20"
+              className="mt-6 sm:mt-8 text-center mb-12 sm:mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="rounded-[40px] bg-gradient-to-br from-yellow-50/90 via-amber-50/90 to-yellow-50/90 backdrop-blur-2xl p-12 shadow-[0px_24px_64px_rgba(255,248,220,0.35),0px_12px_32px_rgba(255,248,220,0.25),inset_0px_1px_0px_rgba(255,255,255,0.7)] border border-white/70">
-                <h3 className="text-3xl sm:text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-6 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.9)] leading-[1.4] mx-auto max-w-[360px]">
+              <div className="rounded-[32px] sm:rounded-[40px] bg-gradient-to-br from-yellow-50/90 via-amber-50/90 to-yellow-50/90 backdrop-blur-2xl p-8 sm:p-10 shadow-[0px_24px_64px_rgba(255,248,220,0.35),0px_12px_32px_rgba(255,248,220,0.25),inset_0px_1px_0px_rgba(255,255,255,0.7)] border border-white/70">
+                <h3 className="text-2xl sm:text-3xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-4 sm:mb-6 drop-shadow-[0px_2px_8px_rgba(255,255,255,0.9)] leading-[1.4] mx-auto max-w-[340px] sm:max-w-[360px]">
                   今日の2人の温度を<br />
                   診断してみる
                 </h3>
-                <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-10 leading-[1.7] mx-auto max-w-[380px] drop-shadow-[0px_1px_4px_rgba(255,255,255,0.8)]">
+                <p className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-medium text-gray-700 mb-8 sm:mb-10 leading-[1.6] sm:leading-[1.7] mx-auto max-w-[340px] sm:max-w-[380px] drop-shadow-[0px_1px_4px_rgba(255,255,255,0.8)]">
                   気分が上がる前にサッと診断したい日も、<br />
                   じっくり語り合いたい日もOK。
                 </p>
-                <div className="flex flex-col gap-4 items-center">
+                <div className="flex flex-col gap-3 sm:gap-4 items-center">
                   <Link
                     href="/diagnoses/compatibility-54"
-                    className="px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-bold rounded-[32px] bg-white/95 backdrop-blur-md text-gray-900 shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-white/80 w-full max-w-[320px]"
+                    className="px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-['Coming_Soon:Regular',sans-serif] font-bold rounded-[28px] sm:rounded-[32px] bg-white/95 backdrop-blur-md text-gray-900 shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-white/80 w-full max-w-[300px] sm:max-w-[320px]"
                   >
                     徹底診断を始める
                   </Link>
                   <Link
                     href="/diagnoses/compatibility-18"
-                    className="px-12 py-6 text-xl font-['Coming_Soon:Regular',sans-serif] font-bold rounded-[32px] bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md text-gray-900 shadow-[0px_16px_48px_rgba(255,182,193,0.4),0px_8px_24px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.7)] hover:shadow-[0px_20px_60px_rgba(255,182,193,0.5),0px_10px_30px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.9)] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-white/70 w-full max-w-[320px]"
+                    className="px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-['Coming_Soon:Regular',sans-serif] font-bold rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md text-gray-900 shadow-[0px_16px_48px_rgba(255,182,193,0.4),0px_8px_24px_rgba(255,182,193,0.3),inset_0px_1px_0px_rgba(255,255,255,0.7)] hover:shadow-[0px_20px_60px_rgba(255,182,193,0.5),0px_10px_30px_rgba(255,182,193,0.4),inset_0px_1px_0px_rgba(255,255,255,0.9)] transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 border border-white/70 w-full max-w-[300px] sm:max-w-[320px]"
                   >
                     クイック診断
                   </Link>

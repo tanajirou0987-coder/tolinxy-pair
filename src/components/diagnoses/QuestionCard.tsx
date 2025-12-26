@@ -21,17 +21,17 @@ export const QuestionCard = memo(function QuestionCard({
   return (
     <div
       key={`${step}-${question.id}`}
-      className={`rounded-[32px] border border-white/70 p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg transition-all duration-300 hover:shadow-[0px_16px_40px_rgba(0,0,0,0.12),0px_8px_20px_rgba(0,0,0,0.08)] ${
+      className={`rounded-[24px] sm:rounded-[28px] md:rounded-[32px] border border-white/70 p-4 sm:p-5 md:p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg transition-all duration-300 hover:shadow-[0px_16px_40px_rgba(0,0,0,0.12),0px_8px_20px_rgba(0,0,0,0.08)] ${
         isAnswered 
           ? "bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90" 
           : "bg-white/90"
       }`}
     >
       <div className="mb-3 flex items-start justify-between gap-2">
-        <h2 className="text-base md:text-lg font-['Coming_Soon:Regular',sans-serif] font-normal leading-snug flex-1 text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+        <h2 className="text-sm sm:text-base md:text-lg font-['Coming_Soon:Regular',sans-serif] font-normal leading-snug flex-1 text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
           {question.text}
         </h2>
-        <span className="ml-1 flex-shrink-0 rounded-[20px] border border-white/80 bg-white/95 px-2 py-1 text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
+        <span className="ml-1 flex-shrink-0 rounded-[18px] sm:rounded-[20px] border border-white/80 bg-white/95 px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(0,0,0,0.1)]">
           {index + 1}
         </span>
       </div>

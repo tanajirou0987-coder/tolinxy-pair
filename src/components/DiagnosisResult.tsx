@@ -318,28 +318,28 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
       {/* 18問診断用レイアウト（スマホ） */}
       {diagnosisType === "18" ? (
-        <div className="flex flex-col gap-8 px-4 py-10 relative z-10 md:hidden">
+        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 relative z-10 md:hidden">
           <motion.header 
               className="text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
           >
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
-              <h1 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] sm:tracking-[0.5em] text-black/60 mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                 PAIRLY LAB
               </h1>
           </motion.header>
 
-          <main className="grid grid-cols-1 gap-6">
+          <main className="grid grid-cols-1 gap-4 sm:gap-5">
             {/* サマリーセクション */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+              <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>
@@ -362,31 +362,31 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* カップルの説明 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="text-center space-y-4">
+              <div className="text-center space-y-3 sm:space-y-4">
                 <div>
-                  <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
-                  <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+                  <h2 className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                  <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-1.5 sm:mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
                 </div>
               </div>
             </motion.div>
 
             {/* 区切り */}
-            <div className="border-t-2 border-black/20 my-4"></div>
+            <div className="border-t-2 border-black/20 my-3 sm:my-4"></div>
 
             {/* タイププロフィール */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたたちのタイプ</h3>
-              <div className="grid grid-cols-1 gap-8">
+              <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-4 sm:mb-6 text-center text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">あなたたちのタイプ</h3>
+              <div className="grid grid-cols-1 gap-6 sm:gap-8">
                 <TypeProfile type={type1} isUser={true} showCharacterImage={true} />
                 <div className="border-t-2 border-black/20"></div>
                 <TypeProfile type={type2} isUser={false} showCharacterImage={true} />
@@ -395,13 +395,13 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
 
             {/* 結果を共有 */}
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 text-center shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
-              <div className="flex flex-col gap-3">
+              <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
+              <div className="flex flex-col gap-2.5 sm:gap-3">
                 <ShareButton shareUrl={shareUrl} darkTheme={false} />
                 {compatibility && percentile !== undefined && type2 && (
                   <ShareImageButton 
@@ -421,22 +421,22 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
       ) : (
         /* 54問診断用レイアウト（スマホ） */
         <>
-        <div className="flex flex-col gap-8 px-4 py-10 relative z-10 md:hidden">
+        <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 relative z-10 md:hidden">
           <motion.header 
               className="text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
           >
-              <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
-              <h1 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+              <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] sm:tracking-[0.5em] text-black/60 mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+              <h1 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
                 PAIRLY LAB
               </h1>
           </motion.header>
 
-          <main className="grid grid-cols-1 gap-6">
+          <main className="grid grid-cols-1 gap-4 sm:gap-5">
             <motion.div 
-              className="rounded-[16px] border border-black bg-[#FFB6C1] p-6 space-y-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
+              className="rounded-[14px] sm:rounded-[16px] border border-black bg-[#FFB6C1] p-4 sm:p-5 md:p-6 space-y-4 sm:space-y-5 md:space-y-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -452,20 +452,20 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                   <TypeProfile type={type2} isUser={false} />
                 </div>
               </div>
-              <div className="text-center border-t-2 border-black/20 pt-6">
-                <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
-                <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
+              <div className="text-center border-t-2 border-black/20 pt-4 sm:pt-5 md:pt-6">
+                <h2 className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
+                <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-1.5 sm:mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
               </div>
             </motion.div>
 
             <motion.aside 
-              className="space-y-6"
+              className="space-y-4 sm:space-y-5 md:space-y-6"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="rounded-[16px] border border-black bg-white p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-                  <h3 className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+              <div className="rounded-[14px] sm:rounded-[16px] border border-black bg-white p-4 sm:p-5 md:p-6 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                  <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性ランク</span>

@@ -212,8 +212,8 @@ function SingleDeviceQuestions() {
           })}
         </div>
 
-        <div className="mt-12 space-y-4 text-center">
-          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
+        <div className="mt-8 sm:mt-10 space-y-3 sm:space-y-4 text-center">
+          <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
           <CompletionSection
             step={step}
             answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}
@@ -252,8 +252,8 @@ function SingleDeviceQuestions() {
           })}
         </div>
 
-        <div className="mt-12 space-y-4 text-center">
-          <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
+        <div className="mt-10 space-y-4 text-center">
+          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
           <CompletionSection
             step={step}
             answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}
@@ -487,8 +487,8 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-8 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
-          <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] text-gray-600 mb-4 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
+        <div className="mt-8 sm:mt-10 space-y-3 sm:space-y-4 rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-6 sm:p-8 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+          <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gray-600 mb-3 sm:mb-4 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
               onClick={handleComplete}
@@ -507,8 +507,8 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
-        <div className="rounded-[32px] border border-white/70 bg-white/85 backdrop-blur-lg p-6 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
+      <div className="hidden md:block relative z-10 mx-auto w-full max-w-7xl space-y-8">
+        <div className="rounded-[32px] border border-white/70 bg-white/85 backdrop-blur-lg p-5 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
           <div className="flex flex-row items-center justify-between mb-6">
             <div className="inline-flex items-center justify-center gap-2 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-md px-6 py-3 shadow-[0px_12px_32px_rgba(255,182,193,0.3),0px_6px_16px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
               <span className="text-base font-['Coming_Soon:Regular',sans-serif] font-semibold text-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">{participant === "user" ? "あなた" : "パートナー"}</span>
@@ -573,8 +573,8 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
           })}
         </div>
 
-        <div className="mt-12 space-y-4 rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-10 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
-          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] text-gray-600 mb-5 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
+        <div className="mt-10 space-y-4 rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-2xl p-8 text-center shadow-[0px_24px_64px_rgba(255,182,193,0.25),0px_12px_32px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
+          <p className="text-xs font-['Coming_Soon:Regular',sans-serif] font-semibold uppercase tracking-[0.3em] text-gray-600 mb-4 drop-shadow-[0px_1px_2px_rgba(255,255,255,0.8)]">相性診断（54問） / セッション同期モード</p>
           {answers.length === TOTAL_QUESTIONS ? (
             <button
               onClick={handleComplete}
