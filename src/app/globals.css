@@ -84,10 +84,13 @@
     @apply border-border outline-ring/50;
   }
   html {
-    background: #ffffff;
+    background: #ffffff !important;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+  }
+  html * {
+    box-sizing: border-box;
   }
   body {
     @apply min-h-screen text-foreground antialiased;
@@ -97,7 +100,17 @@
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
-    background: #ffffff;
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #__next {
+    background: #ffffff !important;
+    min-height: 100vh;
+    width: 100%;
+  }
+  body > div {
+    background: #ffffff !important;
   }
 
   ::selection {
