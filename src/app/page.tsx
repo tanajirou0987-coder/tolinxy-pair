@@ -253,7 +253,7 @@ export default function Home() {
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden lg:block relative z-10 max-w-7xl mx-auto px-8 py-20">
+      <div className="hidden lg:block relative z-10 w-full px-12 py-20">
         {/* ヘッダーセクション - PC用 Soft UIスタイル強化 */}
         <motion.section
           className="relative h-[450px] rounded-[48px] overflow-hidden mb-16 shadow-[0px_30px_80px_rgba(0,0,0,0.15),0px_15px_40px_rgba(0,0,0,0.1)] border border-white/60"
@@ -439,7 +439,7 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="rounded-[48px] bg-gradient-to-br from-yellow-50/95 via-amber-50/95 to-yellow-50/95 backdrop-blur-2xl p-20 shadow-[0px_30px_80px_rgba(255,248,220,0.4),0px_15px_40px_rgba(255,248,220,0.3),inset_0px_1px_0px_rgba(255,255,255,0.8)] max-w-5xl mx-auto border border-white/70">
+          <div className="rounded-[48px] bg-gradient-to-br from-yellow-50/95 via-amber-50/95 to-yellow-50/95 backdrop-blur-2xl p-20 shadow-[0px_30px_80px_rgba(255,248,220,0.4),0px_15px_40px_rgba(255,248,220,0.3),inset_0px_1px_0px_rgba(255,255,255,0.8)] mx-auto border border-white/70">
             <h3 className="text-5xl font-['Coming_Soon:Regular',sans-serif] font-bold text-gray-900 mb-8 drop-shadow-[0px_3px_10px_rgba(255,255,255,0.9)] leading-[1.4]">
               今日の2人の温度を<br />
               診断してみる

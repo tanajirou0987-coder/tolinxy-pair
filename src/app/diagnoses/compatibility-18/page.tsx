@@ -108,7 +108,7 @@ export default function Compatibility18StartPage() {
 
       {/* PC用レイアウト */}
       <div className="hidden lg:block relative z-10 min-h-screen px-8 py-16">
-        <div className="relative mx-auto w-full max-w-7xl">
+        <div className="relative mx-auto w-full px-12">
           <motion.main
             className="rounded-[48px] border border-white/70 bg-white/90 backdrop-blur-2xl p-12 shadow-[0px_30px_80px_rgba(0,0,0,0.12),0px_15px_40px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.8)]"
             initial={{ opacity: 0, y: 20 }}

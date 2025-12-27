@@ -230,7 +230,7 @@ function SingleDeviceQuestions() {
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden lg:block relative z-10 mx-auto w-full max-w-7xl space-y-10">
+      <div className="hidden lg:block relative z-10 mx-auto w-full px-12 space-y-10">
         <StepHeader step={step} variant="desktop" />
         <ProgressBar answeredCount={answeredCount} totalQuestions={TOTAL_QUESTIONS} variant="desktop" />
 
@@ -512,7 +512,7 @@ function MultiDeviceQuestions({ sessionId, participant }: { sessionId: string; p
       </div>
 
       {/* PC用レイアウト */}
-      <div className="hidden lg:block relative z-10 mx-auto w-full max-w-7xl space-y-8">
+      <div className="hidden lg:block relative z-10 mx-auto w-full px-12 space-y-8">
         <div className="rounded-[32px] border border-white/70 bg-white/85 backdrop-blur-lg p-5 shadow-[0px_16px_48px_rgba(0,0,0,0.1),0px_8px_24px_rgba(0,0,0,0.06),inset_0px_1px_0px_rgba(255,255,255,0.9)]">
           <div className="flex flex-row items-center justify-between mb-6">
             <div className="inline-flex items-center justify-center gap-2 rounded-[32px] border border-white/70 bg-gradient-to-br from-pink-200/90 via-pink-100/90 to-pink-200/90 backdrop-blur-md px-6 py-3 shadow-[0px_12px_32px_rgba(255,182,193,0.3),0px_6px_16px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]">
