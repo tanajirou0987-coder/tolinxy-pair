@@ -27,7 +27,7 @@ const diagnostics = [
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-screen overflow-hidden">
+    <div className="relative min-h-screen w-full overflow-hidden">
       {/* 背景を全画面に固定 */}
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 -z-10"></div>
       {/* 装飾的な背景要素 - Soft UIスタイル */}

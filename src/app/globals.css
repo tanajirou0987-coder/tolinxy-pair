@@ -86,6 +86,7 @@
   html {
     background: transparent;
     width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
   }
   body {
@@ -94,6 +95,7 @@
     font-feature-settings: "liga" 1, "calt" 1;
     text-rendering: optimizeLegibility;
     width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
   }
 
