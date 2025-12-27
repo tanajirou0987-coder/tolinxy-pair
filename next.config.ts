@@ -1,11 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  // Vercelデプロイ用の設定
-  output: undefined, // Vercelが自動的に最適化
-  // 必要に応じて環境変数の設定など
-  
   // 画像設定
   images: {
     remotePatterns: [
@@ -22,9 +17,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['recharts'],
   },
   
-  // Turbopack設定（Next.js 16ではTurbopackがデフォルト）
-  turbopack: {},
-  
   // WordPress統合用のヘッダー設定
   async headers() {
     return [
@@ -35,16 +27,15 @@ const nextConfig: NextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
-          // X-Frame-Optionsは削除（WordPressからiframeで埋め込むため）
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *;",
+          },
+          // WordPressからiframeで埋め込むため、X-Frame-OptionsとCSPを設定
         ],
       },
     ];
   },
-  
-  // キャッシュ設定（開発時は無効化）
-  ...(process.env.NODE_ENV === 'production' ? {} : {
-    // 開発環境ではキャッシュを無効化しない（パフォーマンスのため）
-  }),
 };
 
 export default nextConfig;
