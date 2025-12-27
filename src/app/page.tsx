@@ -75,9 +75,6 @@ export default function Home() {
               <h1 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.02em] mb-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">
                 トリンクシーのふたり診断
               </h1>
-              <p className="text-base font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600 mt-2">
-                恋愛相性診断
-              </p>
             </motion.div>
 
             {/* クイックアクションボタン - Soft UIスタイル強化 */}
@@ -289,9 +286,6 @@ export default function Home() {
               <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.03em] mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_4px_12px_rgba(0,0,0,0.1)]">
                 トリンクシーのふたり診断
               </h1>
-              <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600">
-                恋愛相性診断
-              </p>
             </motion.div>
 
             {/* クイックアクションボタン - PC用 Soft UIスタイル強化 */}
