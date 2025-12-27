@@ -25,6 +25,25 @@ const nextConfig: NextConfig = {
   // Turbopack設定（Next.js 16ではTurbopackがデフォルト）
   turbopack: {},
   
+  // WordPress統合用のヘッダー設定
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN', // iframeで埋め込む場合は 'ALLOWALL' または削除
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
+    ];
+  },
+  
   // キャッシュ設定（開発時は無効化）
   ...(process.env.NODE_ENV === 'production' ? {} : {
     // 開発環境ではキャッシュを無効化しない（パフォーマンスのため）

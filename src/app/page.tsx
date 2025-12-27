@@ -70,11 +70,11 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             >
-              <h1 className="text-5xl sm:text-6xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.02em] mb-2 sm:mb-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">
-                PAIRLY LAB
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.02em] mb-2 sm:mb-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_2px_8px_rgba(0,0,0,0.1)]">
+                トリンクシーのふたり診断
               </h1>
               <p className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600 mt-1 sm:mt-2">
-                恋愛相性診断アプリ
+                恋愛相性診断
               </p>
             </motion.div>
 
@@ -284,11 +284,11 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              <h1 className="text-9xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.03em] mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_4px_12px_rgba(0,0,0,0.1)]">
-                PAIRLY LAB
+              <h1 className="text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-['Coming_Soon:Regular',sans-serif] font-bold tracking-[-0.03em] mb-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0px_4px_12px_rgba(0,0,0,0.1)]">
+                トリンクシーのふたり診断
               </h1>
               <p className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-light text-gray-600">
-                恋愛相性診断アプリ
+                恋愛相性診断
               </p>
             </motion.div>
 

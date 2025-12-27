@@ -166,3 +166,4 @@ console.log("質問データのaxisフィールドを使用することで、よ
 console.log("計算が可能になりました。質問の順序が変わっても正しく動作します。");
 console.log("=".repeat(80));
 
+

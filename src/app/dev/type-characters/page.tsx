@@ -8,7 +8,7 @@ export default function TypeCharactersShowcase() {
         <p className="text-xs uppercase tracking-[0.4em] text-[#7bc8ba]">Character Lab</p>
         <h1 className="serif-heading mt-2 text-3xl font-semibold text-[#2f2722]">タイプ別キャラクター図鑑</h1>
         <p className="mt-2 text-sm text-[#346d63]">
-          data/diagnoses/compatibility-54/types.json にある27タイプの性格プロファイルをもとに、Pairly Labの紙っぽいトーンで
+          data/diagnoses/compatibility-54/types.json にある27タイプの性格プロファイルをもとに、トリンクシーのふたり診断の紙っぽいトーンで
           生成されるマスコットを一覧できるページです。
         </p>
       </div>

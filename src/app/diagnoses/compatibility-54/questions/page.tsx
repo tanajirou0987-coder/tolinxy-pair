@@ -213,8 +213,8 @@ function SingleDeviceQuestions() {
           })}
         </div>
 
-        <div className="mt-8 sm:mt-10 space-y-3 sm:space-y-4 text-center">
-          <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
+        <div className="mt-10 sm:mt-12 space-y-4 sm:space-y-6 text-center px-2 sm:px-0">
+          <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] mb-2">徹底診断（54問・約7分）</p>
           <CompletionSection
             step={step}
             answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}
@@ -253,8 +253,8 @@ function SingleDeviceQuestions() {
           })}
         </div>
 
-        <div className="mt-10 space-y-4 text-center">
-          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">徹底診断（54問・約7分）</p>
+        <div className="mt-12 space-y-6 text-center px-4">
+          <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-wider text-black/60 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] mb-2">徹底診断（54問・約7分）</p>
           <CompletionSection
             step={step}
             answeredCount={step === "user" ? userAnswers.length : partnerAnswers.length}

@@ -125,3 +125,4 @@ if (allTypeCodes.size === 27) {
   console.log(`\n⚠️  警告: ${27 - allTypeCodes.size}個のタイプが生成されていません`);
 }
 
+

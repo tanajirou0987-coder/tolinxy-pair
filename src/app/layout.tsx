@@ -11,22 +11,22 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: "Pairly Lab | 恋愛相性診断",
+  title: "トリンクシーのふたり診断 | 恋愛相性診断",
   description:
-    "2人のリズムを数分で診断。Pairly Labは、恋愛タイプの測定と相性分析をかんたん＆ビジュアルに届ける診断アプリです。",
+    "2人のリズムを数分で診断。トリンクシーのふたり診断は、恋愛タイプの測定と相性分析をかんたん＆ビジュアルに届ける診断アプリです。",
   openGraph: {
-    title: "Pairly Lab | 恋愛相性診断",
+    title: "トリンクシーのふたり診断 | 恋愛相性診断",
     description:
       "18問/54問の質問に答えるだけで、2人の恋愛タイプと相性をカードレポートで体験できます。",
-    url: "https://match-tune.example",
-    siteName: "Pairly Lab",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Pairly Lab" }],
+    url: "https://trinksee.example",
+    siteName: "トリンクシーのふたり診断",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "トリンクシーのふたり診断" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pairly Lab | 恋愛相性診断",
+    title: "トリンクシーのふたり診断 | 恋愛相性診断",
     description:
-      "好みも価値観も「音色」にすると分かりやすい。Pairly Labで2人のチューニングを可視化しよう。",
+      "好みも価値観も「音色」にすると分かりやすい。トリンクシーのふたり診断で2人のチューニングを可視化しよう。",
   },
 };
 

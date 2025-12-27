@@ -502,10 +502,10 @@ export function generateShareMessage(score: number, userNickname: string, partne
   
   if (isGoodCompatibility) {
     // 上位の場合は自慢できる感じで
-    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、めっちゃ相性いいかも！`;
+    return `【トリンクシーのふたり診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、めっちゃ相性いいかも！`;
   } else {
     // 下位の場合は「危険かも」みたいな感じで
-    return `【Pairly Lab診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、危険かも...？でも愛があれば大丈夫！`;
+    return `【トリンクシーのふたり診断】${userNickname} × ${partnerNickname} の相性：${score}点（${percentileDisplay}）🎵 私たち、危険かも...？でも愛があれば大丈夫！`;
   }
 }
 

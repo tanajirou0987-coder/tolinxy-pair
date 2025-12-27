@@ -68,10 +68,10 @@ const TypeProfile: React.FC<{ type: PersonalityType, isUser?: boolean, showChara
   }) : null;
 
   return (
-    <div className="flex flex-col items-center text-center space-y-3">
-      <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-          {isUser ? "あなた" : "パートナー"}
-      </div>
+  <div className="flex flex-col items-center text-center space-y-3">
+    <div className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] text-black/60 mb-1 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+        {isUser ? "あなた" : "パートナー"}
+    </div>
       {showCharacterImage && characterImagePath ? (
         <div className="relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-[16px] overflow-hidden border-2 border-black shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -84,28 +84,28 @@ const TypeProfile: React.FC<{ type: PersonalityType, isUser?: boolean, showChara
               e.currentTarget.style.display = 'none';
             }}
           />
-          {type.icon && (
+    {type.icon && (
             <div className="absolute inset-0 flex items-center justify-center bg-[#FFB6C1] text-4xl md:text-5xl">
               {type.icon}
             </div>
           )}
         </div>
       ) : type.icon ? (
-        <div className="flex items-center justify-center w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full border-2 border-black bg-[#FFB6C1] text-4xl md:text-5xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          {type.icon}
-        </div>
+      <div className="flex items-center justify-center w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full border-2 border-black bg-[#FFB6C1] text-4xl md:text-5xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+        {type.icon}
+      </div>
       ) : null}
-      <div className="text-center">
-          <h3 className="text-xl md:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.name}</h3>
-      </div>
-      <p className="text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 w-full px-4 text-center leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.description}</p>
-      <div className="flex flex-wrap gap-2 justify-center pt-2">
-          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFB6C1] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.communication}</span>
-          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#87CEEB] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.decision}</span>
-          <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFF8DC] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.relationship}</span>
-      </div>
+    <div className="text-center">
+        <h3 className="text-xl md:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.name}</h3>
     </div>
-  );
+    <p className="text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 w-full px-4 text-center leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.description}</p>
+    <div className="flex flex-wrap gap-2 justify-center pt-2">
+        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFB6C1] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.communication}</span>
+        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#87CEEB] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.decision}</span>
+        <span className="text-xs font-['Coming_Soon:Regular',sans-serif] font-normal bg-[#FFF8DC] text-black px-3 py-1 rounded-[16px] border border-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{type.traits.relationship}</span>
+    </div>
+  </div>
+);
 };
 
 const AccordionItem: React.FC<{ title: string; children: React.ReactNode, initialOpen?: boolean }> = ({ title, children, initialOpen = false }) => {
@@ -319,17 +319,17 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
       {/* 18問診断用レイアウト（スマホ） */}
       {diagnosisType === "18" ? (
         <div className="flex flex-col gap-5 sm:gap-6 px-3 sm:px-4 py-6 sm:py-8 pb-16 sm:pb-20 relative z-10 md:hidden">
-          <motion.header 
-              className="text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-          >
+        <motion.header 
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+        >
               <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] sm:tracking-[0.5em] text-black/60 mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
               <h1 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                PAIRLY LAB
-              </h1>
-          </motion.header>
+                トリンクシーのふたり診断
+            </h1>
+        </motion.header>
 
           <main className="grid grid-cols-1 gap-4 sm:gap-5">
             {/* サマリーセクション */}
@@ -367,12 +367,12 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             </motion.div>
 
             {/* カップルの説明 */}
-            <motion.div 
+          <motion.div 
               className="rounded-[32px] sm:rounded-[40px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
               <div className="text-center space-y-3 sm:space-y-4">
                 <div>
                   <h2 className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
@@ -436,7 +436,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           >
               <p className="text-[10px] sm:text-xs font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.4em] sm:tracking-[0.5em] text-black/60 mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
               <h1 className="text-4xl sm:text-5xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                PAIRLY LAB
+                トリンクシーのふたり診断
               </h1>
           </motion.header>
 
@@ -452,9 +452,9 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 <div>
                   <h2 className="text-xl sm:text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-1.5 sm:mb-2 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
                   <p className="text-xs sm:text-sm font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-xl mx-auto mt-1.5 sm:mt-2 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
-                </div>
-              </div>
-            </motion.div>
+            </div>
+            </div>
+          </motion.div>
 
             {/* サマリーセクション */}
             <motion.div 
@@ -468,7 +468,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-2xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
-                    </div>
+                  </div>
                 )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-3 border-b-2 border-black/20">
@@ -505,7 +505,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 <TypeProfile type={type1} isUser={true} showCharacterImage={true} />
                 <div className="border-t-2 border-black/20"></div>
                 <TypeProfile type={type2} isUser={false} showCharacterImage={true} />
-              </div>
+            </div>
             </motion.div>
 
             {/* 詳細分析 */}
@@ -517,12 +517,12 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black/60 mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">詳細分析</h3>
-                <AccordionItem title="二人の強み" initialOpen={true}>
+                <AccordionItem title="ふたりの強み" initialOpen={true}>
                   <ul className="list-disc pl-5 space-y-2 text-black/90">
                     {analysis.strengths.map((item, index) => <li key={index} className="leading-relaxed font-['Coming_Soon:Regular',sans-serif] font-normal">{item}</li>)}
                   </ul>
                 </AccordionItem>
-                <AccordionItem title="二人の課題">
+                <AccordionItem title="ふたりの課題">
                    <ul className="list-disc pl-5 space-y-3">
                     {analysis.challenges.map((item, index) => (
                       <li key={index} className="leading-relaxed font-['Coming_Soon:Regular',sans-serif] font-normal">
@@ -569,25 +569,25 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
             >
               <h3 className="text-sm sm:text-base font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.2em] sm:tracking-[0.3em] text-black mb-3 sm:mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
               <div className="flex flex-col gap-2.5 sm:gap-3">
-                <ShareButton shareUrl={shareUrl} darkTheme={false} />
-                {compatibility && percentile !== undefined && type2 && (
-                  <ShareImageButton 
-                    score={compatibility.total}
-                    percentile={percentile}
-                    userNickname={type1.name}
-                    partnerNickname={type2.name}
-                    message={compatibility.message}
+                  <ShareButton shareUrl={shareUrl} darkTheme={false} />
+                  {compatibility && percentile !== undefined && type2 && (
+                    <ShareImageButton 
+                      score={compatibility.total}
+                      percentile={percentile}
+                      userNickname={type1.name}
+                      partnerNickname={type2.name}
+                      message={compatibility.message}
                     userTypeCode={type1.type}
                     partnerTypeCode={type2.type}
-                  />
-                )}
-              </div>
+                    />
+                  )}
+                </div>
             </motion.div>
-          </main>
-        </div>
+        </main>
+      </div>
       </>
       )}
-      
+
       {/* PC用レイアウト */}
       {diagnosisType === "18" ? (
         /* 18問診断用レイアウト（PC） */
@@ -600,7 +600,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
           >
               <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
               <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                PAIRLY LAB
+                トリンクシーのふたり診断
               </h1>
           </motion.header>
 
@@ -700,93 +700,93 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
       ) : (
         /* 54問診断用レイアウト（PC） */
         <div className="hidden md:flex flex-col gap-12 px-8 py-16 pb-24 relative z-10 max-w-7xl mx-auto">
-          {/* PC用の装飾的なハートアイコン（背景に散りばめる） */}
-          <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-            {[...Array(15)].map((_, i) => {
-              const positions = [
-                { top: "8%", left: "3%", size: "w-12 h-12", opacity: "opacity-20" },
-                { top: "12%", right: "5%", size: "w-10 h-10", opacity: "opacity-15" },
-                { top: "20%", left: "8%", size: "w-14 h-14", opacity: "opacity-25" },
-                { top: "25%", right: "10%", size: "w-11 h-11", opacity: "opacity-18" },
-                { top: "35%", left: "2%", size: "w-13 h-13", opacity: "opacity-22" },
-                { top: "40%", right: "4%", size: "w-9 h-9", opacity: "opacity-15" },
-                { top: "50%", left: "6%", size: "w-12 h-12", opacity: "opacity-20" },
-                { top: "55%", right: "8%", size: "w-10 h-10", opacity: "opacity-18" },
-                { top: "65%", left: "10%", size: "w-11 h-11", opacity: "opacity-20" },
-                { top: "70%", right: "6%", size: "w-13 h-13", opacity: "opacity-22" },
-                { top: "80%", left: "4%", size: "w-9 h-9", opacity: "opacity-18" },
-                { top: "85%", right: "12%", size: "w-12 h-12", opacity: "opacity-20" },
-                { top: "15%", left: "50%", size: "w-8 h-8", opacity: "opacity-15" },
-                { top: "45%", right: "50%", size: "w-10 h-10", opacity: "opacity-18" },
-                { top: "75%", left: "50%", size: "w-9 h-9", opacity: "opacity-20" },
-              ];
-              const pos = positions[i] || positions[0];
-              return (
-                <motion.div
-                  key={i}
-                  className={`absolute ${pos.size} ${pos.opacity}`}
-                  style={{
-                    top: pos.top,
-                    left: pos.left || undefined,
-                    right: pos.right || undefined,
+        {/* PC用の装飾的なハートアイコン（背景に散りばめる） */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          {[...Array(15)].map((_, i) => {
+            const positions = [
+              { top: "8%", left: "3%", size: "w-12 h-12", opacity: "opacity-20" },
+              { top: "12%", right: "5%", size: "w-10 h-10", opacity: "opacity-15" },
+              { top: "20%", left: "8%", size: "w-14 h-14", opacity: "opacity-25" },
+              { top: "25%", right: "10%", size: "w-11 h-11", opacity: "opacity-18" },
+              { top: "35%", left: "2%", size: "w-13 h-13", opacity: "opacity-22" },
+              { top: "40%", right: "4%", size: "w-9 h-9", opacity: "opacity-15" },
+              { top: "50%", left: "6%", size: "w-12 h-12", opacity: "opacity-20" },
+              { top: "55%", right: "8%", size: "w-10 h-10", opacity: "opacity-18" },
+              { top: "65%", left: "10%", size: "w-11 h-11", opacity: "opacity-20" },
+              { top: "70%", right: "6%", size: "w-13 h-13", opacity: "opacity-22" },
+              { top: "80%", left: "4%", size: "w-9 h-9", opacity: "opacity-18" },
+              { top: "85%", right: "12%", size: "w-12 h-12", opacity: "opacity-20" },
+              { top: "15%", left: "50%", size: "w-8 h-8", opacity: "opacity-15" },
+              { top: "45%", right: "50%", size: "w-10 h-10", opacity: "opacity-18" },
+              { top: "75%", left: "50%", size: "w-9 h-9", opacity: "opacity-20" },
+            ];
+            const pos = positions[i] || positions[0];
+            return (
+              <motion.div
+                key={i}
+                className={`absolute ${pos.size} ${pos.opacity}`}
+                style={{
+                  top: pos.top,
+                  left: pos.left || undefined,
+                  right: pos.right || undefined,
+                }}
+                initial={{ 
+                  opacity: 0,
+                  scale: 0,
+                  rotate: -180
+                }}
+                animate={{ 
+                  opacity: [0.15, 0.25, 0.15],
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 10, -10, 0]
+                }}
+                transition={{
+                  duration: 3 + i * 0.3,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeInOut"
+                }}
+              >
+                <img 
+                  src="/heart.png" 
+                  alt="" 
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    // 画像が見つからない場合は非表示
+                    e.currentTarget.style.display = 'none';
                   }}
-                  initial={{ 
-                    opacity: 0,
-                    scale: 0,
-                    rotate: -180
-                  }}
-                  animate={{ 
-                    opacity: [0.15, 0.25, 0.15],
-                    scale: [1, 1.1, 1],
-                    rotate: [0, 10, -10, 0]
-                  }}
-                  transition={{
-                    duration: 3 + i * 0.3,
-                    repeat: Infinity,
-                    delay: i * 0.2,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <img 
-                    src="/heart.png" 
-                    alt="" 
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      // 画像が見つからない場合は非表示
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
-          <motion.header 
-              className="text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-          >
-              <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
-              <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
-                PAIRLY LAB
-              </h1>
-          </motion.header>
+                />
+              </motion.div>
+            );
+          })}
+        </div>
+        <motion.header 
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+        >
+            <p className="text-sm font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.5em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">診断結果</p>
+            <h1 className="text-7xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+                トリンクシーのふたり診断
+            </h1>
+        </motion.header>
 
           <main className="grid grid-cols-1 gap-10">
             {/* カップルの説明 */}
-            <motion.div 
+          <motion.div 
               className="rounded-[48px] border border-white/70 bg-gradient-to-br from-pink-300/90 via-pink-200/90 to-pink-300/90 backdrop-blur-md p-10 shadow-[0px_30px_80px_rgba(255,182,193,0.25),0px_15px_40px_rgba(255,182,193,0.2),inset_0px_1px_0px_rgba(255,255,255,0.6)]"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
               <div className="text-center space-y-6">
                 <div>
                   <h2 className="text-4xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.message}</h2>
                   <p className="text-xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 max-w-3xl mx-auto mt-4 leading-relaxed text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.detail}</p>
                 </div>
-              </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
             {/* サマリーセクション */}
             <motion.div 
@@ -795,12 +795,12 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
               initial="hidden"
               animate="visible"
             >
-              <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
+                <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">サマリー</h3>
                 {compatibility && (
                     <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-black/80 text-lg text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">相性スコア</span>
                         <span className="font-['Coming_Soon:Regular',sans-serif] font-normal text-3xl text-black text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">{compatibility.total}点</span>
-                    </div>
+                  </div>
                 )}
                 {rank && (
                     <div className="flex justify-between items-baseline py-4 border-b-2 border-black/20">
@@ -837,7 +837,7 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 <TypeProfile type={type1} isUser={true} showCharacterImage={true} />
                 <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-black/20 -translate-x-1/2"></div>
                 <TypeProfile type={type2} isUser={false} showCharacterImage={true} />
-              </div>
+            </div>
             </motion.div>
 
             {/* 詳細分析 */}
@@ -849,12 +849,12 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black/60 mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">詳細分析</h3>
-                <AccordionItem title="二人の強み" initialOpen={true}>
+                <AccordionItem title="ふたりの強み" initialOpen={true}>
                   <ul className="list-disc pl-5 space-y-3 text-black/90 text-base">
                     {analysis.strengths.map((item, index) => <li key={index} className="leading-relaxed font-['Coming_Soon:Regular',sans-serif] font-normal">{item}</li>)}
                   </ul>
                 </AccordionItem>
-                <AccordionItem title="二人の課題">
+                <AccordionItem title="ふたりの課題">
                    <ul className="list-disc pl-5 space-y-4">
                     {analysis.challenges.map((item, index) => (
                       <li key={index} className="leading-relaxed text-base font-['Coming_Soon:Regular',sans-serif] font-normal">
@@ -899,24 +899,24 @@ export const DiagnosisResult: React.FC<DiagnosisResultProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
-              <div className="flex flex-col gap-4">
-                <ShareButton shareUrl={shareUrl} darkTheme={false} />
-                {compatibility && percentile !== undefined && type2 && (
-                  <ShareImageButton 
-                    score={compatibility.total}
-                    percentile={percentile}
-                    userNickname={type1.name}
-                    partnerNickname={type2.name}
-                    message={compatibility.message}
+                <h3 className="text-lg font-['Coming_Soon:Regular',sans-serif] font-normal uppercase tracking-[0.3em] text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">結果を共有</h3>
+                <div className="flex flex-col gap-4">
+                  <ShareButton shareUrl={shareUrl} darkTheme={false} />
+                  {compatibility && percentile !== undefined && type2 && (
+                    <ShareImageButton 
+                      score={compatibility.total}
+                      percentile={percentile}
+                      userNickname={type1.name}
+                      partnerNickname={type2.name}
+                      message={compatibility.message}
                     userTypeCode={type1.type}
                     partnerTypeCode={type2.type}
-                  />
-                )}
-              </div>
+                    />
+                  )}
+                </div>
             </motion.div>
-          </main>
-        </div>
+        </main>
+      </div>
       )}
     </div>
   );
