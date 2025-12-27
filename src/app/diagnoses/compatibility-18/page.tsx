@@ -59,14 +59,13 @@ export default function Compatibility18StartPage() {
             <h2 className="text-2xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-4 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">測る軸</h2>
             <div className="space-y-4">
               {[
-                { title: "コミュニケーション", desc: "6問", bgColor: "#FFB6C1" },
-                { title: "意思決定", desc: "6問", bgColor: "#87CEEB" },
-                { title: "関係性", desc: "6問", bgColor: "#FFF8DC" },
+                { title: "コミュニケーション", desc: "6問" },
+                { title: "意思決定", desc: "6問" },
+                { title: "関係性", desc: "6問" },
               ].map((item, i) => (
                 <motion.div
                   key={item.title}
-                  className="rounded-[32px] border border-white/70 p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg"
-                  style={{ background: `linear-gradient(135deg, ${item.bgColor}DD 0%, ${item.bgColor}BB 100%)` }}
+                  className="rounded-[32px] border border-white/70 bg-white/80 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + i * 0.1 }}
@@ -155,14 +154,13 @@ export default function Compatibility18StartPage() {
                   <h2 className="text-3xl font-['Coming_Soon:Regular',sans-serif] font-normal text-black mb-6 text-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">測る軸</h2>
                   <div className="space-y-4">
                     {[
-                      { title: "コミュニケーション", desc: "6問", bgColor: "#e2bef1" },
-                      { title: "意思決定", desc: "6問", bgColor: "#f97b83" },
-                      { title: "関係性", desc: "6問", bgColor: "#f9ded7" },
+                      { title: "コミュニケーション", desc: "6問" },
+                      { title: "意思決定", desc: "6問" },
+                      { title: "関係性", desc: "6問" },
                     ].map((item, i) => (
                       <motion.div
                         key={item.title}
-                        className="rounded-[32px] border border-white/70 p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)] backdrop-blur-lg"
-                        style={{ background: `linear-gradient(135deg, ${item.bgColor}DD 0%, ${item.bgColor}BB 100%)` }}
+                        className="rounded-[32px] border border-white/70 bg-white/80 backdrop-blur-lg p-6 shadow-[0px_12px_32px_rgba(0,0,0,0.08),0px_6px_16px_rgba(0,0,0,0.05),inset_0px_1px_0px_rgba(255,255,255,0.9)]"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 + i * 0.1 }}
