@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning className={lato.variable}>
       <body className={`${lato.className} antialiased`}>
-        <div className="relative min-h-screen w-full overflow-hidden text-foreground bg-white" style={{ backgroundColor: '#ffffff' }}>
+        <div className="relative min-h-screen w-full overflow-hidden text-foreground bg-white" style={{ backgroundColor: '#ffffff', width: '100%', margin: 0, padding: 0 }}>
           <div className="pointer-events-none fixed inset-0 -z-10">
             <div className="absolute top-0 left-1/4 h-[600px] w-[600px] rounded-full bg-[#ff006e] opacity-15 blur-[200px] animate-pulse" />
             <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] rounded-full bg-[#00f5ff] opacity-15 blur-[200px] animate-pulse" style={{ animationDelay: "1s" }} />
