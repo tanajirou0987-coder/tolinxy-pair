@@ -501,19 +501,18 @@ export default function SharePreview({
         throw new Error("画像の生成に失敗しました");
       }
       
-      // iPhoneでは直接画像を新しいタブで開いて、長押しで保存できるようにする
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      // 画像のダウンロードまたは共有
       const filename = `pairlylab-${userNickname}-${partnerNickname}-${rankInfo.rank}.png`;
       
-      if (isIOS) {
-        // iOSでは、画像を新しいタブで開いて、ユーザーが長押しで保存できるようにする
-        downloadImage(blob, filename);
-      } else {
-        // その他のデバイスでは、Web Share APIまたは通常のダウンロード
+      try {
         await shareOrDownloadImage(blob, filename, {
           title: `${userNickname} × ${partnerNickname} の相性診断結果`,
           text: `${rankInfo.tier} - ${percentileDisplay}`,
         });
+      } catch (error) {
+        console.error("画像の共有/ダウンロードに失敗しました:", error);
+        // フォールバック: 直接ダウンロードを試みる
+        downloadImage(blob, filename);
       }
       
     } catch (error) {
