@@ -6,7 +6,7 @@ import { PersonalityType, Compatibility } from '@/lib/types';
 import { CompatibilityRank, getRankImagePath, getCompatibilityRank } from '@/lib/calculate';
 import type { DetailedCompatibilityAnalysis } from '@/lib/compatibility-analysis';
 import { ShareButton } from './ShareButton';
-import SharePreview from './SharePreview';
+import SharePreview, { ShareImageCard } from './SharePreview';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { getCharacterImagePath } from '@/lib/character-image-mapping';
@@ -168,7 +168,7 @@ const RankImage: React.FC<{ rank: CompatibilityRank }> = ({ rank }) => {
   );
 };
 
-// 画像共有ボタンコンポーネント（モーダルでプレビュー）
+// 画像共有コンポーネント（常にプレビュー表示）
 const ShareImageButton: React.FC<{
   score: number;
   percentile: number;
@@ -178,28 +178,177 @@ const ShareImageButton: React.FC<{
   userTypeCode: string;
   partnerTypeCode: string;
 }> = ({ score, percentile, userNickname, partnerNickname, message, userTypeCode, partnerTypeCode }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const roundedPercentile = Math.round(percentile);
+  const displayPercentile = roundedPercentile;
+  const percentileDisplay = `上位${displayPercentile}%`;
+  const rankInfo = getCompatibilityRank(displayPercentile);
+  const rankImagePath = getRankImagePath(rankInfo.rank);
+  const isMobile = typeof window !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  const handleDownloadImage = async () => {
+    if (!cardRef.current) {
+      alert("画像の生成に失敗しました。");
+      return;
+    }
+
+    try {
+      setIsDownloading(true);
+      
+      // フォントの読み込みを待つ
+      await document.fonts.ready;
+      
+      // 画像の読み込みを確実に待つ
+      const images = cardRef.current.querySelectorAll('img');
+      const imagePromises = Array.from(images).map((img) => {
+        return new Promise<void>((resolve) => {
+          if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+            setTimeout(() => resolve(), 200);
+            return;
+          }
+          
+          let resolved = false;
+          const resolveOnce = () => {
+            if (!resolved) {
+              resolved = true;
+              setTimeout(() => resolve(), 200);
+            }
+          };
+          
+          img.onload = () => {
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+              resolveOnce();
+            }
+          };
+          
+          img.onerror = () => {
+            console.warn("画像の読み込みエラー:", img.src);
+            resolveOnce();
+          };
+          
+          setTimeout(() => {
+            if (!resolved) {
+              console.warn("画像の読み込みタイムアウト:", img.src);
+              resolveOnce();
+            }
+          }, 10000);
+          
+          if (img.complete) {
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+              setTimeout(() => resolveOnce(), 200);
+            } else {
+              setTimeout(() => {
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                  resolveOnce();
+                } else {
+                  console.warn("画像が読み込み済みですがサイズが0です:", img.src);
+                  resolveOnce();
+                }
+              }, 1000);
+            }
+          }
+        });
+      });
+      
+      await Promise.all(imagePromises);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const allImagesLoaded = Array.from(images).every(img => {
+        const isLoaded = img.complete && img.naturalWidth > 0 && img.naturalHeight > 0;
+        if (!isLoaded) {
+          console.warn("画像がまだ読み込まれていません:", img.src);
+        }
+        return isLoaded;
+      });
+      
+      if (!allImagesLoaded) {
+        console.warn("一部の画像が読み込まれていませんが、続行します");
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
+      // プレビュー画像のDOM要素をそのまま画像化
+      const pixelRatio = isMobile ? 1 : 2;
+      const { toBlob } = await import('html-to-image');
+      const { shareOrDownloadImage, downloadImage } = await import('@/lib/share-image-generator');
+      
+      let blob: Blob | null = null;
+      try {
+        blob = await toBlob(cardRef.current, {
+          pixelRatio: pixelRatio,
+          quality: 1.0,
+          cacheBust: true,
+        });
+      } catch (toBlobError) {
+        console.error("toBlob error:", toBlobError);
+        try {
+          blob = await toBlob(cardRef.current, {
+            pixelRatio: 1,
+            quality: 0.95,
+            cacheBust: true,
+          });
+        } catch (retryError) {
+          console.error("toBlob retry error:", retryError);
+          throw new Error(`画像の生成に失敗しました: ${retryError instanceof Error ? retryError.message : String(retryError)}`);
+        }
+      }
+      
+      if (!blob) {
+        throw new Error("画像の生成に失敗しました（blobがnull）");
+      }
+      
+      const filename = `pairlylab-${userNickname}-${partnerNickname}-${rankInfo.rank}.png`;
+      
+      try {
+        await shareOrDownloadImage(blob, filename, {
+          title: `${userNickname} × ${partnerNickname} の相性診断結果`,
+          text: `${rankInfo.tier} - ${percentileDisplay}`,
+        });
+      } catch (error) {
+        console.error("画像の共有/ダウンロードに失敗しました:", error);
+        downloadImage(blob, filename);
+      }
+      
+    } catch (error) {
+      console.error("Failed to generate share image", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      alert(`画像の生成に失敗しました。\n\nエラー: ${errorMessage}\n\nもう一度お試しください。`);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
+      {/* プレビュー画像（常に表示） */}
+      <div className="w-full flex items-center justify-center">
+        <div className="relative w-full max-w-[350px]" style={{ aspectRatio: "700 / 1080" }}>
+          <div ref={cardRef} className="absolute inset-0 h-full w-full">
+            <ShareImageCard
+              score={score}
+              percentileDisplay={percentileDisplay}
+              userNickname={userNickname}
+              partnerNickname={partnerNickname}
+              rankInfo={rankInfo}
+              rankImagePath={rankImagePath}
+              message={message}
+              userTypeCode={userTypeCode}
+              partnerTypeCode={partnerTypeCode}
+              className="h-full w-full"
+            />
+          </div>
+        </div>
+      </div>
+      
+      {/* ダウンロードボタン */}
       <button
-        onClick={() => setIsOpen(true)}
-        className="rounded-[28px] sm:rounded-[32px] border border-white/70 bg-white/95 backdrop-blur-md px-6 py-3 text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-white shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] text-shadow-[0px_1px_2px_rgba(255,255,255,0.8)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1"
+        onClick={handleDownloadImage}
+        disabled={isDownloading}
+        className="rounded-[28px] sm:rounded-[32px] border border-white/70 bg-white/95 backdrop-blur-md px-6 py-3 text-sm md:text-base font-['Coming_Soon:Regular',sans-serif] font-normal text-black transition hover:bg-white shadow-[0px_16px_48px_rgba(0,0,0,0.12),0px_8px_24px_rgba(0,0,0,0.08),inset_0px_1px_0px_rgba(255,255,255,0.9)] text-shadow-[0px_1px_2px_rgba(255,255,255,0.8)] hover:shadow-[0px_20px_60px_rgba(0,0,0,0.16),0px_10px_30px_rgba(0,0,0,0.12),inset_0px_1px_0px_rgba(255,255,255,1)] transform hover:scale-105 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed"
       >
-        画像をダウンロード
+        {isDownloading ? "生成中..." : "画像をダウンロード"}
       </button>
-      <SharePreview
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        score={score}
-        percentile={percentile}
-        userNickname={userNickname}
-        partnerNickname={partnerNickname}
-        message={message}
-        userTypeCode={userTypeCode}
-        partnerTypeCode={partnerTypeCode}
-      />
-    </>
+    </div>
   );
 };
 
