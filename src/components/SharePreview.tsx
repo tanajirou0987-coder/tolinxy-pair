@@ -495,7 +495,6 @@ export default function SharePreview({
         pixelRatio: 2, // 高解像度
         quality: 1.0,
         cacheBust: true,
-        useCORS: true, // CORSを有効化
       });
       
       if (!blob) {
