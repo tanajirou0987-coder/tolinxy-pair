@@ -487,24 +487,25 @@ export default function SharePreview({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
             <motion.div
-              className="relative w-full max-w-md max-h-[95vh] overflow-y-auto rounded-2xl"
+              className="relative w-full max-w-md my-auto rounded-2xl bg-black/90"
               initial={{ scale: 0.95, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.95, y: 20, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex flex-col items-center gap-3 py-6">
+              <div className="flex flex-col items-center gap-3 py-6 px-4">
                   <p className="text-xs uppercase tracking-[0.45em] text-white/70">Share Card Preview</p>
                   <h3 className="text-2xl font-semibold text-white sm:text-3xl">シェア画像</h3>
                 </div>
-              <div className="w-full max-w-[350px] mx-auto">
+              <div className="w-full max-w-[350px] mx-auto px-4">
                 <div className="relative w-full" style={{ aspectRatio: "700 / 1080" }}>
                   {/* プレビュー表示用（このDOMを直接画像化） */}
                   <div ref={cardRef} className="absolute inset-0 h-full w-full">
@@ -523,7 +524,7 @@ export default function SharePreview({
                   </div>
                 </div>
               </div>
-              <div className="my-6 flex items-center justify-center gap-3">
+              <div className="my-6 flex items-center justify-center gap-3 px-4 pb-4">
                 <Button
                   type="button"
                   onClick={handleDownloadImage}
@@ -536,7 +537,7 @@ export default function SharePreview({
               </div>
               <button
                   onClick={onClose}
-                  className="absolute top-0 right-0 m-4 rounded-full bg-black/50 p-2 text-white/80 shadow-md hover:bg-black/70"
+                  className="absolute top-0 right-0 m-4 rounded-full bg-black/50 p-2 text-white/80 shadow-md hover:bg-black/70 z-10"
                   aria-label="シェア画面を閉じる"
                 >
                   <X className="h-5 w-5" />
