@@ -192,11 +192,8 @@ const ShareImageButton: React.FC<{
     try {
       setIsDownloading(true);
       
-      // 要素を一時的に表示（画像生成のため）
-      const originalStyle = cardRef.current.style.cssText;
-      // 画面内に配置して完全に表示（画像化のため、transformで画面外に移動）
-      cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 1; z-index: 9999; pointer-events: none; overflow: hidden; transform: translateX(-100%);';
-      
+      // 要素は既に表示されているので、そのまま使用
+      // ただし、画像生成前にレンダリングを確実にする
       const roundedPercentile = Math.round(percentile);
       const displayPercentile = roundedPercentile;
       const percentileDisplay = `上位${displayPercentile}%`;
@@ -290,11 +287,6 @@ const ShareImageButton: React.FC<{
         cacheBust: true,
       });
       
-      // 要素を再度非表示に戻す
-      if (cardRef.current) {
-        cardRef.current.style.cssText = originalStyle;
-      }
-      
       if (!blob) {
         throw new Error("画像の生成に失敗しました");
       }
@@ -313,10 +305,6 @@ const ShareImageButton: React.FC<{
       
     } catch (error) {
       console.error("Failed to generate share image", error);
-      // エラー時も要素を非表示に戻す
-      if (cardRef.current) {
-        cardRef.current.style.cssText = 'position: fixed; left: -9999px; top: 0; width: 700px; height: 1080px; visibility: hidden; z-index: -1; pointer-events: none; opacity: 0;';
-      }
       alert("画像の生成に失敗しました。\n\nもう一度お試しください。");
     } finally {
       setIsDownloading(false);
@@ -331,17 +319,20 @@ const ShareImageButton: React.FC<{
 
   return (
     <>
-      {/* 非表示のプレビュー画像（ダウンロード用） */}
+      {/* プレビュー画像（ダウンロード用、常に表示して画面外に配置） */}
       <div 
         ref={cardRef} 
         className="fixed pointer-events-none" 
         style={{ 
           width: '700px', 
           height: '1080px', 
-          left: '-9999px', 
+          left: '0', 
           top: '0',
-          visibility: 'hidden',
-          zIndex: -1
+          visibility: 'visible',
+          opacity: 1,
+          zIndex: 9999,
+          transform: 'translateX(-100%)',
+          overflow: 'hidden'
         }}
       >
         <ShareImageCard
