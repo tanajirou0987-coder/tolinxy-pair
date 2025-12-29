@@ -194,8 +194,8 @@ const ShareImageButton: React.FC<{
       
       // 要素を一時的に表示（画像生成のため）
       const originalStyle = cardRef.current.style.cssText;
-      // 画面内に配置しつつ、見えないようにする（opacity: 0で画像化可能にする）
-      cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 0; z-index: 9999; pointer-events: none; overflow: hidden;';
+      // 画面内に配置して完全に表示（画像化のため、transformで画面外に移動）
+      cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 1; z-index: 9999; pointer-events: none; overflow: hidden; transform: translateX(-100%);';
       
       const roundedPercentile = Math.round(percentile);
       const displayPercentile = roundedPercentile;
@@ -208,6 +208,9 @@ const ShareImageButton: React.FC<{
       
       // レンダリングを待つ（要素が表示されるまで）
       await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // requestAnimationFrameでレンダリングを確実にする
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       
       // 画像の読み込みを確実に待つ
       const images = cardRef.current.querySelectorAll('img');
