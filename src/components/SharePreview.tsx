@@ -437,58 +437,101 @@ export default function SharePreview({
       // フォントの読み込みを待つ
       await document.fonts.ready;
       
-      // 画像の読み込みを確実に待つ（より長いタイムアウトと再試行）
+      // 画像の読み込みを確実に待つ
       const images = cardRef.current.querySelectorAll('img');
-      await Promise.all(
-        Array.from(images).map((img) => {
+      const imagePromises = Array.from(images).map((img) => {
+        return new Promise<void>((resolve) => {
           // 既に読み込み済みで有効な画像の場合
           if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
-            return Promise.resolve();
+            // さらに少し待ってから解決（レンダリングを確実にする）
+            setTimeout(() => resolve(), 200);
+            return;
           }
           
-          // 画像の読み込みを待つ
-          return new Promise<void>((resolve) => {
-            let resolved = false;
-            
-            const resolveOnce = () => {
-              if (!resolved) {
-                resolved = true;
-                resolve();
-              }
-            };
-            
-            // 読み込み成功
-            img.onload = () => {
-              // 画像が実際に読み込まれたか確認
-              if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-                resolveOnce();
-              }
-            };
-            
-            // エラーでも続行（フォールバック画像が表示される）
-            img.onerror = () => {
-              console.warn("画像の読み込みエラー:", img.src);
-              resolveOnce();
-            };
-            
-            // タイムアウト（5秒に延長）
-            setTimeout(() => {
-              if (!resolved) {
-                console.warn("画像の読み込みタイムアウト:", img.src);
-                resolveOnce();
-              }
-            }, 5000);
-            
-            // 画像が既に読み込み済みの場合
-            if (img.complete) {
-              setTimeout(() => resolveOnce(), 100);
+          let resolved = false;
+          
+          const resolveOnce = () => {
+            if (!resolved) {
+              resolved = true;
+              // 画像が読み込まれた後、少し待ってから解決
+              setTimeout(() => resolve(), 200);
             }
-          });
-        })
-      );
+          };
+          
+          // 読み込み成功
+          img.onload = () => {
+            // 画像が実際に読み込まれたか確認
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+              resolveOnce();
+            } else {
+              // 画像サイズが0の場合は再試行
+              setTimeout(() => {
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                  resolveOnce();
+                } else {
+                  console.warn("画像のサイズが0です:", img.src);
+                  resolveOnce(); // エラーでも続行
+                }
+              }, 500);
+            }
+          };
+          
+          // エラーでも続行（フォールバック画像が表示される）
+          img.onerror = () => {
+            console.warn("画像の読み込みエラー:", img.src);
+            resolveOnce();
+          };
+          
+          // タイムアウト（10秒に延長）
+          setTimeout(() => {
+            if (!resolved) {
+              console.warn("画像の読み込みタイムアウト:", img.src);
+              resolveOnce();
+            }
+          }, 10000);
+          
+          // 画像が既に読み込み済みの場合でも、サイズを確認
+          if (img.complete) {
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+              setTimeout(() => resolveOnce(), 200);
+            } else {
+              // サイズが0の場合は、読み込みイベントを待つ
+              setTimeout(() => {
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                  resolveOnce();
+                } else {
+                  console.warn("画像が読み込み済みですがサイズが0です:", img.src);
+                  resolveOnce(); // エラーでも続行
+                }
+              }, 1000);
+            }
+          }
+        });
+      });
       
-      // レンダリング完了を待つ（より長い待機時間）
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await Promise.all(imagePromises);
+      
+      // レンダリング完了を待つ（画像が確実に表示されるまで）
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // 画像が実際に表示されているか確認
+      const allImagesLoaded = Array.from(images).every(img => {
+        const isLoaded = img.complete && img.naturalWidth > 0 && img.naturalHeight > 0;
+        if (!isLoaded) {
+          console.warn("画像がまだ読み込まれていません:", img.src, {
+            complete: img.complete,
+            naturalWidth: img.naturalWidth,
+            naturalHeight: img.naturalHeight
+          });
+        }
+        return isLoaded;
+      });
+      
+      if (!allImagesLoaded) {
+        console.warn("一部の画像が読み込まれていませんが、続行します");
+        // さらに1秒待つ
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       
       // プレビュー画像のDOM要素をそのまま画像化
       const blob = await toBlob(cardRef.current, {
