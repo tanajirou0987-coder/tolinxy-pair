@@ -194,8 +194,8 @@ const ShareImageButton: React.FC<{
       
       // 要素を一時的に表示（画像生成のため）
       const originalStyle = cardRef.current.style.cssText;
-      // 画面外に配置しつつ、visibility: visibleにして画像化可能にする
-      cardRef.current.style.cssText = 'position: fixed; left: -9999px; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 1; z-index: 9999; pointer-events: none;';
+      // 画面内に配置しつつ、見えないようにする（opacity: 0で画像化可能にする）
+      cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 0; z-index: 9999; pointer-events: none; overflow: hidden;';
       
       const roundedPercentile = Math.round(percentile);
       const displayPercentile = roundedPercentile;
@@ -207,7 +207,7 @@ const ShareImageButton: React.FC<{
       await document.fonts.ready;
       
       // レンダリングを待つ（要素が表示されるまで）
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // 画像の読み込みを確実に待つ
       const images = cardRef.current.querySelectorAll('img');
@@ -312,7 +312,7 @@ const ShareImageButton: React.FC<{
       console.error("Failed to generate share image", error);
       // エラー時も要素を非表示に戻す
       if (cardRef.current) {
-        cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: hidden; z-index: -1; pointer-events: none;';
+        cardRef.current.style.cssText = 'position: fixed; left: -9999px; top: 0; width: 700px; height: 1080px; visibility: hidden; z-index: -1; pointer-events: none; opacity: 0;';
       }
       alert("画像の生成に失敗しました。\n\nもう一度お試しください。");
     } finally {
