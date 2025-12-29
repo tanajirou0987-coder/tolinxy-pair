@@ -192,6 +192,10 @@ const ShareImageButton: React.FC<{
     try {
       setIsDownloading(true);
       
+      // 要素を一時的に表示（画像生成のため）
+      const originalStyle = cardRef.current.style.cssText;
+      cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: visible; opacity: 1; z-index: 9999; pointer-events: none;';
+      
       const roundedPercentile = Math.round(percentile);
       const displayPercentile = roundedPercentile;
       const percentileDisplay = `上位${displayPercentile}%`;
@@ -200,6 +204,9 @@ const ShareImageButton: React.FC<{
       
       // フォントの読み込みを待つ
       await document.fonts.ready;
+      
+      // レンダリングを待つ
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       // 画像の読み込みを確実に待つ
       const images = cardRef.current.querySelectorAll('img');
@@ -279,6 +286,11 @@ const ShareImageButton: React.FC<{
         cacheBust: true,
       });
       
+      // 要素を再度非表示に戻す
+      if (cardRef.current) {
+        cardRef.current.style.cssText = originalStyle;
+      }
+      
       if (!blob) {
         throw new Error("画像の生成に失敗しました");
       }
@@ -297,6 +309,10 @@ const ShareImageButton: React.FC<{
       
     } catch (error) {
       console.error("Failed to generate share image", error);
+      // エラー時も要素を非表示に戻す
+      if (cardRef.current) {
+        cardRef.current.style.cssText = 'position: fixed; left: 0; top: 0; width: 700px; height: 1080px; visibility: hidden; z-index: -1; pointer-events: none;';
+      }
       alert("画像の生成に失敗しました。\n\nもう一度お試しください。");
     } finally {
       setIsDownloading(false);
@@ -312,7 +328,18 @@ const ShareImageButton: React.FC<{
   return (
     <>
       {/* 非表示のプレビュー画像（ダウンロード用） */}
-      <div ref={cardRef} className="absolute opacity-0 pointer-events-none" style={{ width: '700px', height: '1080px', left: '-9999px', top: '-9999px' }}>
+      <div 
+        ref={cardRef} 
+        className="fixed pointer-events-none" 
+        style={{ 
+          width: '700px', 
+          height: '1080px', 
+          left: '0', 
+          top: '0',
+          visibility: 'hidden',
+          zIndex: -1
+        }}
+      >
         <ShareImageCard
           score={score}
           percentileDisplay={percentileDisplay}
